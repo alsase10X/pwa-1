@@ -65,22 +65,20 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .fu{opacity:0;transform:translateY(12px);animation:fade .6s cubic-bezier(.16,.84,.44,1) forwards;}
 .fu.d1{animation-delay:.05s;}.fu.d2{animation-delay:.12s;}.fu.d3{animation-delay:.19s;}
 
-/* ===== PORTADA ===== */
-.cover{position:relative;width:100%;}
-.cover img{display:block;width:100%;height:auto;max-height:60vh;object-fit:cover;}
-@media(min-width:480px){.cover img{max-height:480px;}}
-.home-body{padding:30px 24px 10px;}
+/* ===== PORTADA editorial ===== */
 .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
-.home-title{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:44px;line-height:1.02;letter-spacing:-.02em;margin-top:14px;}
-.home-artist{font-size:17px;font-weight:600;margin-top:14px;}
-.home-meta{color:var(--text-mut);font-size:13.5px;line-height:1.7;margin-top:10px;}
-.home-meta b{color:var(--text);font-weight:600;}
-.home-intro{font-size:16px;line-height:1.62;margin-top:22px;color:var(--text);}
-.enter{width:100%;margin-top:30px;padding:17px;border:none;cursor:pointer;background:var(--accent);color:var(--accent-ink);
-  font:inherit;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s;}
-.enter:active{transform:scale(.985);}
-.textlink{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:none;border:none;cursor:pointer;
-  color:var(--text);font:inherit;font-weight:600;font-size:14px;border-bottom:1.5px solid var(--text-dim);padding:0 0 2px;}
+.cover-ed{position:relative;width:100%;height:100dvh;overflow:hidden;}
+@media(min-width:480px){.cover-ed{height:884px;}}
+.cover-ed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+.cover-ed-grad{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(12,12,13,.45) 0%,transparent 28%,transparent 38%,rgba(12,12,13,.72) 60%,var(--bg) 83%);}
+.cover-ed-body{position:absolute;bottom:0;left:0;right:0;padding:0 24px 88px;}
+.cover-ed-kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:14px;}
+.cover-ed-title{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:58px;line-height:.97;letter-spacing:-.025em;color:#fff;margin-bottom:18px;}
+.cover-ed-byline{color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.55;margin-bottom:28px;}
+.cover-ed-byline b{color:rgba(255,255,255,.9);font-weight:600;}
+.cover-ed-cta{width:100%;padding:16px;border:none;cursor:pointer;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s;}
+.cover-ed-cta:active{transform:scale(.985);}
+.cover-ed-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.45);font:inherit;font-size:13px;border-bottom:1px solid rgba(255,255,255,.2);padding:0 0 2px;}
 
 /* ===== Page head ===== */
 .page-head{padding:14px 24px 22px;}
@@ -123,7 +121,7 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .story-wrap .story-body p+p{margin-top:14px;}
 .story-wrap.ph .story-body{color:var(--text-mut);}
 .story-more{display:inline;background:none;border:none;color:var(--text);font:inherit;font-weight:600;font-size:inherit;line-height:inherit;cursor:pointer;padding:0;margin:0 0 0 .2em;border-bottom:1.5px solid var(--text-dim);white-space:nowrap;}
-.home-intro,.sec p,.cartela,.home-meta,.react p,.contact p{font-family:var(--font-sans);}
+.sec p,.cartela,.react p,.contact p{font-family:var(--font-sans);}
 
 /* Audio */
 .voice{margin:36px 24px 0;padding:20px 18px 22px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
@@ -437,18 +435,19 @@ function render(){
 /* ===================== TEMPLATES ===================== */
 function tplHome(){
   return `<div class="view">
-    <div class="cover fu"><img src="${EXPO.cover}" alt=""></div>
-    <div class="home-body">
-      <div class="kicker fu d1">${EXPO.kicker}</div>
-      <h1 class="home-title fu d1">${EXPO.title}</h1>
-      <div class="home-artist fu d2">${EXPO.artist}</div>
-      <div class="home-meta fu d2"><b>${EXPO.dates}</b><br>${EXPO.sala} · ${EXPO.city}</div>
-      <p class="home-intro fu d3">${EXPO.intro}</p>
-      <button class="enter fu d3" data-act="goObras">Ver las obras
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-      <br><button class="textlink fu d3" data-act="goSobre">Sobre la exposición</button>
-      <div style="height:30px"></div>
-    </div></div>`;
+    <div class="cover-ed">
+      <img src="${EXPO.cover}" alt="${EXPO.title}">
+      <div class="cover-ed-grad"></div>
+      <div class="cover-ed-body">
+        <div class="cover-ed-kicker fu d1">${EXPO.kicker}</div>
+        <h1 class="cover-ed-title fu d2">${EXPO.title}</h1>
+        <div class="cover-ed-byline fu d2"><b>${EXPO.artist}</b><br>${EXPO.dates} · ${EXPO.sala}, ${EXPO.city}</div>
+        <button class="cover-ed-cta fu d3" data-act="goObras">Ver las obras
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        <br><button class="cover-ed-link fu d3" data-act="goSobre">Bio del artista</button>
+      </div>
+    </div>
+  </div>`;
 }
 function tplObras(){
   return `<div class="view">
