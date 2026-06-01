@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Andoni Euba — Aretxaga · Miribilla</title>
+<style>
+/* ===== FUENTES LOCALES (carpeta fonts/) ===== */
+@font-face{font-family:'IvyPresto Display';src:url('fonts/subset-IvyPrestoDisplay-LightItalic.woff2') format('woff2');font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:'IvyPresto Display';src:url('fonts/subset-IvyPrestoDisplay-ThinItalic.woff2') format('woff2');font-weight:100;font-style:italic;font-display:swap}
+@font-face{font-family:'Söhne Breit';src:url('fonts/subset-SohneBreit-Leicht.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+/* Cuando tengas Söhne de texto, descomenta:
+@font-face{font-family:'Söhne';src:url('fonts/soehne-buch.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Söhne';src:url('fonts/soehne-kraeftig.woff2') format('woff2');font-weight:600;font-display:swap} */
+
+/* ===== TOKENS ===== */
+:root,[data-theme="dark"]{
+  --bg:#0c0c0d;--surface:#161618;--surface-2:#202023;
+  --text:#f1f1ef;--text-mut:#9a9a97;--text-dim:#5f5f5e;
+  --border:#242427;--accent:#f1f1ef;--accent-ink:#0c0c0d;--live:#8d9b89;--danger:#bb8a80;
+  --font-sans:'Söhne',system-ui,sans-serif;
+  --font-display:'Söhne Breit',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#fbfbf9;--surface:#fff;--surface-2:#f1f1ee;
+  --text:#16161a;--text-mut:#5b5b58;--text-dim:#8b8b88;
+  --border:#e7e7e2;--accent:#16161a;--accent-ink:#fff;--live:#5d6c58;--danger:#a35f50;
+}
+.app[data-display="serif"]{--font-display:'IvyPresto Display',Georgia,serif;}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthesis:none;
+  display:flex;justify-content:center;align-items:flex-start;}
+.app{width:100%;max-width:412px;height:100vh;height:100dvh;background:var(--bg);
+  position:relative;overflow:hidden;display:flex;flex-direction:column;}
+@media(min-width:480px){
+  body{padding:26px 0;align-items:center;background:#070707;}
+  .app{height:884px;border-radius:40px;box-shadow:0 50px 100px -30px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.04);}
+}
+
+/* Top bar */
+.topbar{position:absolute;top:0;left:0;right:0;z-index:30;height:56px;display:flex;align-items:center;gap:4px;
+  padding:0 10px;background:linear-gradient(to bottom,var(--bg) 35%,transparent);transition:background .3s;}
+.topbar.clear{background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent);}
+.topbar .sp{flex:1;}
+.brand{font-family:var(--font-display);font-weight:300;font-size:15px;letter-spacing:.02em;padding-left:8px;opacity:0;transition:opacity .3s;}
+.brand.show{opacity:1;}
+.ico{width:42px;height:42px;border-radius:50%;border:none;background:transparent;color:var(--text);cursor:pointer;
+  display:grid;place-items:center;transition:opacity .2s,transform .15s;}
+.ico:active{transform:scale(.9);}.ico:hover{opacity:.7;}
+.ico.hidden{display:none;}.ico.on path{fill:var(--danger);stroke:var(--danger);}
+.topbar.clear .ico{color:#fff;}
+
+/* Scroll + views */
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:74px;}
+.scroll.has-mini{padding-bottom:140px;}
+.scroll::-webkit-scrollbar{width:0;}
+.view{animation:fade .4s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.fu{opacity:0;transform:translateY(12px);animation:fade .6s cubic-bezier(.16,.84,.44,1) forwards;}
+.fu.d1{animation-delay:.05s;}.fu.d2{animation-delay:.12s;}.fu.d3{animation-delay:.19s;}
+
+/* ===== PORTADA ===== */
+.cover{position:relative;width:100%;}
+.cover img{display:block;width:100%;height:auto;max-height:60vh;object-fit:cover;}
+@media(min-width:480px){.cover img{max-height:480px;}}
+.home-body{padding:30px 24px 10px;}
+.kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
+.home-title{font-family:var(--font-display);font-weight:300;font-size:40px;line-height:1.02;letter-spacing:-.02em;margin-top:14px;}
+.app[data-display="serif"] .home-title{font-style:italic;font-size:44px;}
+.home-artist{font-size:17px;font-weight:600;margin-top:14px;}
+.home-meta{color:var(--text-mut);font-size:13.5px;line-height:1.7;margin-top:10px;}
+.home-meta b{color:var(--text);font-weight:600;}
+.home-intro{font-size:16px;line-height:1.62;margin-top:22px;color:var(--text);}
+.enter{width:100%;margin-top:30px;padding:17px;border:none;cursor:pointer;background:var(--accent);color:var(--accent-ink);
+  font:inherit;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s;}
+.enter:active{transform:scale(.985);}
+.textlink{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:none;border:none;cursor:pointer;
+  color:var(--text);font:inherit;font-weight:600;font-size:14px;border-bottom:1.5px solid var(--text-dim);padding:0 0 2px;}
+
+/* ===== Page head ===== */
+.page-head{padding:14px 24px 22px;}
+.page-head h1{font-family:var(--font-display);font-weight:300;font-size:34px;letter-spacing:-.02em;margin-top:10px;}
+.app[data-display="serif"] .page-head h1{font-style:italic;}
+
+/* ===== Grid de obras ===== */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 16px;padding:0 24px;}
+.card{cursor:pointer;}
+.card .ph{width:100%;aspect-ratio:4/5;overflow:hidden;background:var(--surface-2);border:1px solid var(--border);transition:transform .25s;}
+.card .ph img{width:100%;height:100%;object-fit:cover;display:block;}
+.card:active .ph{transform:scale(.97);}
+.card .ct{font-size:14.5px;font-weight:600;margin-top:11px;line-height:1.2;}
+.card .cy{color:var(--text-mut);font-size:12.5px;margin-top:3px;}
+.card .au{display:inline-flex;align-items:center;gap:5px;color:var(--text-dim);font-size:11px;margin-top:6px;}
+.card .au svg{width:11px;height:11px;}
+
+/* ===== OBRA ===== */
+.hero{position:relative;padding:56px 0 0;}
+.art{position:relative;width:100%;display:flex;justify-content:center;cursor:zoom-in;}
+.art img{display:block;width:100%;height:auto;max-height:64vh;object-fit:contain;}
+@media(min-width:480px){.art img{max-height:540px;}}
+.cue{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);font-size:11px;letter-spacing:.06em;
+  color:rgba(255,255,255,.85);background:rgba(0,0,0,.32);backdrop-filter:blur(6px);padding:6px 12px;border-radius:99px;
+  display:flex;align-items:center;gap:6px;transition:opacity .4s;pointer-events:none;}
+.cue.gone{opacity:0;}
+.head{padding:30px 24px 0;}
+.title{font-family:var(--font-display);font-weight:300;font-size:34px;line-height:1.06;letter-spacing:-.02em;}
+.app[data-display="serif"] .title{font-style:italic;font-size:38px;}
+.cartela{margin-top:14px;font-size:13px;color:var(--text-mut);}
+.cartela b{color:var(--text-dim);font-weight:400;margin:0 7px;}
+.author{display:inline-flex;align-items:center;gap:12px;margin-top:22px;cursor:pointer;background:none;border:none;padding:0;font:inherit;color:var(--text);}
+.author .av{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid var(--border);filter:grayscale(1) contrast(1.03);}
+.author .av img{width:100%;height:100%;object-fit:cover;}
+.author .nm{font-weight:600;font-size:15px;border-bottom:1.5px solid transparent;transition:border-color .2s;}
+.author:hover .nm{border-color:var(--text-dim);}
+.author .cv{color:var(--text-dim);display:grid;place-items:center;}
+.story{padding:30px 24px 0;font-size:16px;line-height:1.66;color:var(--text);}
+.story.clamp p{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;}
+.story.ph p{color:var(--text-mut);font-style:italic;}
+.more{background:none;border:none;color:var(--text);font:inherit;font-weight:600;font-size:14px;cursor:pointer;margin-top:10px;padding:0;border-bottom:1.5px solid var(--text-dim);}
+
+/* Audio */
+.voice{margin:36px 24px 0;padding-top:26px;border-top:1px solid var(--border);display:flex;align-items:center;gap:16px;}
+.voice .play{width:52px;height:52px;border-radius:50%;border:none;flex-shrink:0;cursor:pointer;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;transition:transform .15s;}
+.voice .play:active{transform:scale(.9);}
+.voice .b{flex:1;min-width:0;}
+.voice .lab{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px;}
+.voice .sub{font-size:12.5px;color:var(--text-mut);margin-top:2px;}
+.voice .dur{font-size:13px;color:var(--text-mut);font-variant-numeric:tabular-nums;}
+.vprog{margin:16px 24px 0;display:flex;align-items:center;gap:11px;max-height:0;opacity:0;overflow:hidden;transition:max-height .35s,opacity .3s,margin .35s;}
+.vprog.show{max-height:60px;opacity:1;margin-top:18px;}
+.vprog .track{flex:1;height:3px;background:var(--surface-2);position:relative;cursor:pointer;}
+.vprog .fill{position:absolute;inset:0 auto 0 0;width:0;background:var(--accent);}
+.vprog .t{font-size:12px;color:var(--text-mut);font-variant-numeric:tabular-nums;min-width:34px;}
+.trans{display:block;margin:14px 24px 0;background:none;border:none;color:var(--text-mut);font:inherit;font-size:13px;cursor:pointer;text-align:left;text-decoration:underline;text-underline-offset:3px;}
+.eq{display:inline-flex;align-items:flex-end;gap:2px;height:10px;}
+.eq i{width:2.5px;background:var(--live);border-radius:2px;height:30%;}
+.eq.on i{animation:eq .9s ease-in-out infinite;}
+.eq i:nth-child(2){animation-delay:.2s;}.eq i:nth-child(3){animation-delay:.4s;}
+@keyframes eq{0%,100%{height:30%;}50%{height:100%;}}
+
+/* Reaccionar + contacto */
+.react{margin:40px 24px 0;padding:26px 0;border-top:1px solid var(--border);}
+.react h3{font-family:var(--font-display);font-weight:300;font-size:22px;letter-spacing:-.02em;}
+.app[data-display="serif"] .react h3{font-style:italic;}
+.react p{color:var(--text-mut);font-size:14.5px;line-height:1.55;margin-top:9px;}
+.react .btn,.contact .btn{margin-top:16px;display:inline-flex;align-items:center;gap:9px;background:none;border:1px solid var(--border);color:var(--text);cursor:pointer;font:inherit;font-weight:600;font-size:14.5px;padding:13px 20px;transition:border-color .2s;}
+.react .btn:hover,.contact .btn:hover{border-color:var(--text-dim);}
+.contact{margin:8px 24px 0;padding:26px 0;border-top:1px solid var(--border);}
+.contact h3{font-size:13px;letter-spacing:.04em;font-weight:600;}
+.contact p{color:var(--text-mut);font-size:13.5px;line-height:1.55;margin-top:8px;}
+.contact .btn{width:100%;justify-content:center;background:var(--accent);color:var(--accent-ink);border:none;padding:16px;margin-top:18px;}
+
+/* Recorrido */
+.next{margin:32px 0 0;padding:24px 24px 44px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.next .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);}
+.next .nm{font-family:var(--font-display);font-weight:300;font-size:18px;margin-top:4px;}
+.app[data-display="serif"] .next .nm{font-style:italic;}
+.next .cv{color:var(--text-dim);}
+
+/* ===== SOBRE ===== */
+.sec{padding:0 24px;}
+.sec+.sec{margin-top:34px;padding-top:30px;border-top:1px solid var(--border);}
+.sec h2{font-family:var(--font-display);font-weight:300;font-size:24px;letter-spacing:-.02em;margin-bottom:16px;}
+.app[data-display="serif"] .sec h2{font-style:italic;}
+.sec p{color:var(--text);font-size:15.5px;line-height:1.7;}
+.sec p+p{margin-top:14px;}
+.bio-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.bio-head .av{width:54px;height:54px;border-radius:50%;overflow:hidden;border:1px solid var(--border);filter:grayscale(1);}
+.bio-head .av img{width:100%;height:100%;object-fit:cover;}
+.bio-head .nm{font-weight:600;font-size:16px;}
+.bio-head .rl{color:var(--text-mut);font-size:13px;margin-top:2px;}
+.info-row{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--border);font-size:14px;}
+.info-row:last-child{border-bottom:none;}
+.info-row .k{color:var(--text-mut);}.info-row .v{text-align:right;font-weight:500;}
+.extlink{display:inline-flex;align-items:center;gap:8px;margin-top:8px;color:var(--text);font:inherit;font-weight:600;font-size:14px;background:none;border:none;cursor:pointer;border-bottom:1.5px solid var(--text-dim);padding:0 0 2px;}
+
+/* ===== NAV ===== */
+.nav{position:absolute;bottom:0;left:0;right:0;height:64px;z-index:40;display:flex;
+  background:var(--bg);border-top:1px solid var(--border);}
+.nav button{flex:1;background:none;border:none;cursor:pointer;color:var(--text-dim);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:inherit;font-size:10px;letter-spacing:.04em;}
+.nav button.on{color:var(--text);}
+.nav svg{width:21px;height:21px;}
+
+/* ===== Mini-player ===== */
+.mini{position:absolute;left:0;right:0;bottom:64px;z-index:39;background:var(--surface);border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;padding:10px 14px;transform:translateY(140%);transition:transform .35s cubic-bezier(.16,.84,.44,1);}
+.mini.show{transform:none;}
+.mini .th{width:42px;height:42px;overflow:hidden;flex-shrink:0;background:var(--surface-2);cursor:pointer;}
+.mini .th img{width:100%;height:100%;object-fit:cover;}
+.mini .mb{flex:1;min-width:0;cursor:pointer;}
+.mini .mt{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mini .ma{font-size:11.5px;color:var(--text-mut);}
+.mini .mp{width:40px;height:40px;border-radius:50%;border:none;background:var(--accent);color:var(--accent-ink);cursor:pointer;display:grid;place-items:center;flex-shrink:0;}
+.mini .mx{width:34px;height:34px;border:none;background:none;color:var(--text-dim);cursor:pointer;display:grid;place-items:center;flex-shrink:0;}
+.mini .mfill{position:absolute;top:0;left:0;height:2px;background:var(--accent);width:0;}
+
+/* ===== Lightbox ===== */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(8,8,9,.97);display:none;place-items:center;opacity:0;transition:opacity .3s;}
+.lb.show{display:grid;opacity:1;}
+.lb img{max-width:100%;max-height:100%;transform-origin:center;transition:transform .25s;touch-action:none;}
+.lb.zoomed img{transition:none;cursor:grab;}
+.lb .x{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(8px);}
+
+/* ===== Nota (pantalla completa) ===== */
+.compose{position:fixed;inset:0;z-index:110;background:var(--bg);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,.84,.44,1);}
+.compose.show{transform:none;}
+@media(min-width:480px){.compose{max-width:412px;height:884px;left:50%;top:50%;transform:translate(-50%,-50%) translateY(110%);border-radius:40px;}.compose.show{transform:translate(-50%,-50%);}}
+.compose-bar{height:56px;display:flex;align-items:center;padding:0 10px;flex-shrink:0;}
+.compose-body{flex:1;overflow-y:auto;padding:8px 24px 24px;}
+.compose-body h2{font-family:var(--font-display);font-weight:300;font-size:28px;letter-spacing:-.02em;}
+.compose .note{color:var(--text-mut);font-size:14px;line-height:1.55;margin-top:12px;}
+.compose textarea{width:100%;margin-top:22px;background:transparent;border:none;outline:none;color:var(--text);font:inherit;font-size:18px;line-height:1.55;min-height:150px;resize:none;}
+.compose .name{margin-top:8px;padding-top:18px;border-top:1px solid var(--border);}
+.compose input{width:100%;background:transparent;border:none;outline:none;color:var(--text);font:inherit;font-size:15px;}
+.compose-foot{flex-shrink:0;padding:16px 24px;border-top:1px solid var(--border);}
+.compose .send{width:100%;border:none;cursor:pointer;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;font-size:15px;padding:16px;}
+.compose .done{padding:40px 24px;text-align:center;margin:auto 0;}
+.compose .done .ok{font-family:var(--font-display);font-weight:300;font-size:28px;}
+.compose .done .msg{color:var(--text-mut);font-size:15px;line-height:1.6;margin-top:14px;}
+
+/* Toast */
+.toast{position:absolute;left:50%;bottom:84px;transform:translate(-50%,80px);background:var(--surface-2);color:var(--text);
+  border:1px solid var(--border);padding:13px 18px;font-size:14px;z-index:60;opacity:0;
+  transition:transform .4s cubic-bezier(.16,.84,.44,1),opacity .3s;max-width:84%;text-align:center;}
+.toast.show{transform:translate(-50%,0);opacity:1;}
+
+/* Demo */
+.demo{position:fixed;left:16px;bottom:80px;z-index:200;display:flex;gap:8px;font-family:system-ui,sans-serif;}
+.demo button{background:rgba(20,20,22,.82);color:#f1f1ef;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 13px;font-size:12px;font-weight:600;cursor:pointer;backdrop-filter:blur(10px);}
+@media(min-width:480px){.demo{left:calc(50% - 206px + 14px);bottom:96px;}}
+</style>
+</head>
+<body>
+<div class="app" data-theme="dark">
+
+  <header class="topbar" id="topbar">
+    <button class="ico hidden" id="back" aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
+    <span class="brand" id="brand">Aretxaga · Miribilla</span>
+    <div class="sp"></div>
+    <button class="ico hidden" id="like" aria-label="Guardar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+    <button class="ico" id="share" aria-label="Compartir"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><polyline points="8 7 12 3 16 7"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg></button>
+  </header>
+
+  <div class="scroll" id="scroll"><div id="view"></div></div>
+
+  <div class="mini" id="mini">
+    <div class="mfill" id="mfill"></div>
+    <div class="th" id="miniThumb"><img id="miniImg" src="" alt=""></div>
+    <div class="mb" id="miniMeta"><div class="mt" id="miniTitle"></div><div class="ma">Andoni Euba · voz del artista</div></div>
+    <button class="mp" id="miniPlay"><svg id="miniIco" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    <button class="mx" id="miniClose"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+
+  <nav class="nav" id="nav">
+    <button data-nav="home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>Portada</button>
+    <button data-nav="obras"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Obras</button>
+    <button data-nav="sobre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="8" r=".6" fill="currentColor"/></svg>Sobre</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<div class="lb" id="lb"><button class="x" id="lbClose"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><img id="lbImg" src="" alt=""></div>
+
+<div class="compose" id="compose">
+  <div class="compose-bar"><button class="ico" id="compClose"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="compose-body" id="composeBody">
+    <h2 id="compTitle">Una nota para Andoni</h2>
+    <div class="note" id="compNote"></div>
+    <textarea id="ta" placeholder="Comparte una reflexión, o algo que te haya pasado al ver esta obra…"></textarea>
+    <div class="name"><input id="nm" type="text" placeholder="Tu nombre (opcional)"></div>
+  </div>
+  <div class="compose-foot" id="composeFoot"><button class="send" id="send">Enviárselo a Andoni</button></div>
+</div>
+
+<div class="demo">
+  <button id="tTheme">◐ Tema</button>
+  <button id="tFont">Aa Tipografía</button>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const app=document.querySelector('.app');
+
+/* ===================== DATOS ===================== */
+const EXPO={
+  kicker:"Galería Juan Manuel Lumbreras · Bilbao",
+  title:"Aretxaga · Miribilla",
+  artist:"Andoni Euba",
+  dates:"29 abr — 12 jun 2026",
+  sala:"Galería Juan Manuel Lumbreras",
+  city:"Bilbao",
+  more:"https://galerialumbreras.com/artistas/andoni-euba-2/",
+  cover:"images/andoni_euba.jpg",
+  intro:"Un proyecto de lugar, desde 2018. Una selección de siete cuadros de los doce realizados hasta ahora.",
+  statement:[
+    "Un día, al salir del estudio, pude ver que la calle estaba siendo convertida en peatonal. Sentí un impulso para actuar y convertir ese espacio exterior en el contexto de mi siguiente trabajo como pintor. La idea era crear un proyecto para hacer un lugar y darle un nombre.",
+    "Con financiación del Ayuntamiento de Bilbao, a través de su oficina de barrio, se empezó cambiando las persianas por paredes, para completar un tríptico de 15 m de lado. En la pared central, un mural permanente pintado al óleo sobre esa pared. En la pared de la izquierda, un texto descriptivo del proyecto. En la otra pared se instala un cuadro nuevo cada seis meses.",
+    "Los cuadros que fueron generadores del proyecto, actuando de uno en uno, ahora son su consecuencia. Se han agrupado y cambiado el contexto de su presencia: de pintados en el interior del estudio, a instalados en el exterior para curarse al aire de la calle, y ahora presentados en un espacio privado con apertura pública.",
+    "Una selección de 7 cuadros, de los 12 hechos hasta el momento, componen la exposición. En ella conviven distintas sensibilidades a la hora de afrontar el trabajo como artista: desde la investigación en el comportamiento de los recursos físicos y lingüísticos de la pintura, hasta una apertura para conectar con otras realidades características del siglo XXI en el arte."
+  ]
+};
+const ARTIST={
+  name:"Andoni Euba",
+  role:"Pintura · Bilbao",
+  avatar:"images/descarga.jpg",
+  bio:"Andoni Euba desarrolla en Bilbao el proyecto «Aretxaga–Miribilla», un proyecto de lugar iniciado en 2018 a partir de la peatonalización de la calle frente a su estudio. (Biografía ampliada pendiente — más información en la galería.)"
+};
+/* Obras: títulos, técnica, medidas y año son PLACEHOLDER hasta tener los datos reales. */
+const WORKS=[
+  {id:'w1',title:'Aretxaga · Miribilla I',year:'2018',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-01',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false},
+  {id:'w2',title:'Aretxaga · Miribilla II',year:'2019',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-02',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128},
+  {id:'w3',title:'Aretxaga · Miribilla III',year:'2020',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-03',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false},
+  {id:'w4',title:'Aretxaga · Miribilla IV',year:'2021',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-04',img:'images/ANDONI-EUBA-04.jpg',hasAudio:false},
+  {id:'w5',title:'Aretxaga · Miribilla V',year:'2022',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-05',img:'images/ANDONI-EUBA-05.jpg',hasAudio:true,audioDur:152},
+  {id:'w6',title:'Aretxaga · Miribilla VI',year:'2023',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-06',img:'images/ANDONI-EUBA-06.jpg',hasAudio:false},
+  {id:'w7',title:'Aretxaga · Miribilla VII',year:'2024',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-07',img:'images/ANDONI-EUBA-07.jpg',hasAudio:false}
+];
+const PH_DESC="Texto de sala pendiente. Aquí irá el comentario sobre esta obra —su lugar dentro del proyecto, la técnica o el contexto— que aporte el artista o la galería.";
+const workById=id=>WORKS.find(w=>w.id===id);
+
+/* ===================== ROUTER ===================== */
+let view='home',currentWork=null,histStack=[];
+function go(v,p={},push=true){
+  if(push&&view) histStack.push({view,currentWork});
+  view=v; if(p.work)currentWork=p.work;
+  render(); $('scroll').scrollTop=0;
+}
+function back(){const s=histStack.pop(); if(s){view=s.view;currentWork=s.currentWork;render();}else go('home',{},false);}
+
+function render(){
+  let html='';
+  if(view==='home')html=tplHome();
+  else if(view==='obras')html=tplObras();
+  else if(view==='obra')html=tplObra();
+  else if(view==='sobre')html=tplSobre();
+  $('view').innerHTML=html;
+
+  const onHome=view==='home';
+  $('back').classList.toggle('hidden',histStack.length===0);
+  $('like').classList.toggle('hidden',view!=='obra');
+  $('brand').classList.toggle('show',!onHome);
+  $('topbar').classList.toggle('clear',view==='obra');
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===view||(view==='obra'&&b.dataset.nav==='obras')));
+  bindView(); updateInline();
+}
+
+/* ===================== TEMPLATES ===================== */
+function tplHome(){
+  return `<div class="view">
+    <div class="cover fu"><img src="${EXPO.cover}" alt=""></div>
+    <div class="home-body">
+      <div class="kicker fu d1">${EXPO.kicker}</div>
+      <h1 class="home-title fu d1">${EXPO.title}</h1>
+      <div class="home-artist fu d2">${EXPO.artist}</div>
+      <div class="home-meta fu d2"><b>${EXPO.dates}</b><br>${EXPO.sala} · ${EXPO.city}</div>
+      <p class="home-intro fu d3">${EXPO.intro}</p>
+      <button class="enter fu d3" data-act="goObras">Ver las obras
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      <br><button class="textlink fu d3" data-act="goSobre">Sobre la exposición</button>
+      <div style="height:30px"></div>
+    </div></div>`;
+}
+function tplObras(){
+  return `<div class="view"><div class="page-head fu"><div class="kicker">${EXPO.artist} · ${EXPO.dates}</div><h1>Obras</h1></div>
+    <div class="grid">${WORKS.map((w,i)=>`
+      <div class="card fu d${(i%3)+1}" data-work="${w.id}">
+        <div class="ph"><img src="${w.img}" alt="${w.title}"></div>
+        <div class="ct">${w.title}</div>
+        <div class="cy">${w.year}${w.hasAudio?' · audio':''}</div>
+      </div>`).join('')}</div><div style="height:30px"></div></div>`;
+}
+function tplObra(){
+  const w=workById(currentWork);
+  const idx=WORKS.findIndex(x=>x.id===w.id), nx=WORKS[(idx+1)%WORKS.length];
+  const audio = w.hasAudio ? `
+    <div class="voice fu" id="voice">
+      <button class="play" id="playBtn" aria-label="Reproducir"><svg id="playIco" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+      <div class="b"><div class="lab">Voz del artista <span class="eq" id="inlineEq"><i></i><i></i><i></i></span></div><div class="sub">Grabado por Andoni</div></div>
+      <span class="dur">${fmt(w.audioDur)}</span>
+    </div>
+    <div class="vprog" id="vprog"><span class="t" id="cur">0:00</span><div class="track" id="track"><div class="fill" id="fill"></div></div><span class="t">${fmt(w.audioDur)}</span></div>
+    <button class="trans" data-act="trans">Leer la transcripción</button>` : '';
+  return `<div class="view">
+    <div class="hero">
+      <div class="art" id="art" data-act="zoom"><img src="${w.img}" alt="${w.title}">
+        <div class="cue" id="cue"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>Toca para acercarte</div>
+      </div>
+    </div>
+    <div class="head fu">
+      <h1 class="title">${w.title}</h1>
+      <div class="cartela">${w.technique}<b>·</b>${w.dim}<b>·</b>${w.year}</div>
+      <button class="author" data-act="goSobre"><span class="av"><img src="${ARTIST.avatar}" alt=""></span><span class="nm">${ARTIST.name}</span><span class="cv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></button>
+    </div>
+    <div class="story clamp ph fu" id="story"><p>${PH_DESC}</p></div>
+    ${audio}
+    <div class="react fu">
+      <h3>¿Qué te ha dejado esta obra?</h3>
+      <p>Puedes dejarle unas palabras a Andoni. Las recibe él, sin más: una nota, no una conversación.</p>
+      <button class="btn" data-act="note"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4Z"/></svg>Dejar una nota</button>
+    </div>
+    <div class="contact">
+      <h3>¿Te interesa esta obra?</h3>
+      <p>La Galería Juan Manuel Lumbreras gestiona el contacto sobre las obras de la exposición.</p>
+      <button class="btn" data-act="contact">Contactar con la galería</button>
+    </div>
+    <div class="next" data-work="${nx.id}"><div><div class="lab">Siguiente obra</div><div class="nm">${nx.title}</div></div>
+      <span class="cv"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></div>
+  </div>`;
+}
+function tplSobre(){
+  return `<div class="view"><div class="page-head fu"><div class="kicker">La exposición</div><h1>Sobre</h1></div>
+    <div class="sec fu">${EXPO.statement.map(p=>`<p>${p}</p>`).join('')}</div>
+    <div class="sec fu">
+      <div class="bio-head"><span class="av"><img src="${ARTIST.avatar}" alt=""></span><div><div class="nm">${ARTIST.name}</div><div class="rl">${ARTIST.role}</div></div></div>
+      <p>${ARTIST.bio}</p>
+      <button class="extlink" data-act="more"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Más info en la galería</button>
+    </div>
+    <div class="sec fu">
+      <h2>Datos</h2>
+      <div class="info-row"><span class="k">Fechas</span><span class="v">${EXPO.dates}</span></div>
+      <div class="info-row"><span class="k">Sala</span><span class="v">${EXPO.sala}</span></div>
+      <div class="info-row"><span class="k">Lugar</span><span class="v">${EXPO.city}</span></div>
+      <div class="info-row"><span class="k">Obras</span><span class="v">${WORKS.length} de 12</span></div>
+    </div><div style="height:30px"></div></div>`;
+}
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+
+/* ===================== BIND ===================== */
+function bindView(){
+  const acts={
+    goObras:()=>go('obras'),
+    goSobre:()=>go('sobre'),
+    zoom:openLb,
+    note:openCompose,
+    contact:()=>showToast('Solicitud enviada. La galería te contactará.'),
+    trans:()=>showToast('(Abriría la transcripción del audio)'),
+    more:()=>showToast('Enlace externo: '+EXPO.more)
+  };
+  document.querySelectorAll('[data-work]').forEach(el=>el.onclick=()=>go('obra',{work:el.dataset.work}));
+  document.querySelectorAll('[data-act]').forEach(el=>{const a=el.dataset.act;if(acts[a])el.onclick=acts[a];});
+  const st=$('story'); if(st) st.onclick=()=>{st.classList.toggle('clamp');};
+  const pb=$('playBtn'); if(pb) pb.onclick=()=>playWork(currentWork);
+  const tr=$('track'); if(tr) tr.onclick=e=>{const r=tr.getBoundingClientRect();seek((e.clientX-r.left)/r.width);};
+  const sc=$('scroll'); sc.onscroll=()=>{const c=$('cue');if(c)c.classList.add('gone');};
+}
+
+/* ===================== AUDIO ===================== */
+let nowPlaying=null,timer=null;
+const PLAY='<path d="M8 5v14l11-7z"/>',PAUSE='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+function playWork(id){if(nowPlaying&&nowPlaying.workId===id){togglePlay();return;}nowPlaying={workId:id,t:0,playing:true};startTimer();refreshAudio();}
+function togglePlay(){if(!nowPlaying)return;nowPlaying.playing=!nowPlaying.playing;nowPlaying.playing?startTimer():stopTimer();refreshAudio();}
+function seek(f){if(!nowPlaying)return;const w=workById(nowPlaying.workId);nowPlaying.t=Math.max(0,Math.min(1,f))*w.audioDur;refreshAudio();}
+function startTimer(){stopTimer();timer=setInterval(()=>{const w=workById(nowPlaying.workId);nowPlaying.t++;if(nowPlaying.t>=w.audioDur){nowPlaying.t=w.audioDur;togglePlay();}refreshAudio();},1000);}
+function stopTimer(){if(timer){clearInterval(timer);timer=null;}}
+function closeAudio(){stopTimer();nowPlaying=null;refreshAudio();}
+function refreshAudio(){updateMini();updateInline();}
+function updateMini(){
+  const mini=$('mini'),sc=$('scroll');
+  if(!nowPlaying){mini.classList.remove('show');sc.classList.remove('has-mini');return;}
+  const w=workById(nowPlaying.workId);
+  mini.classList.add('show');sc.classList.add('has-mini');
+  $('miniImg').src=w.img;$('miniTitle').textContent=w.title;$('miniIco').innerHTML=nowPlaying.playing?PAUSE:PLAY;
+  $('mfill').style.width=(nowPlaying.t/w.audioDur*100)+'%';
+}
+function updateInline(){
+  if(view!=='obra')return;const v=$('voice');if(!v)return;
+  const playing=nowPlaying&&nowPlaying.workId===currentWork;
+  const eq=$('inlineEq');if(eq)eq.classList.toggle('on',!!(playing&&nowPlaying.playing));
+  const ico=$('playIco');if(ico)ico.innerHTML=(playing&&nowPlaying.playing)?PAUSE:PLAY;
+  if(playing){const w=workById(currentWork);$('vprog').classList.add('show');$('fill').style.width=(nowPlaying.t/w.audioDur*100)+'%';$('cur').textContent=fmt(nowPlaying.t);}
+}
+$('miniPlay').onclick=togglePlay;
+$('miniClose').onclick=closeAudio;
+$('miniThumb').onclick=()=>go('obra',{work:nowPlaying.workId});
+$('miniMeta').onclick=()=>go('obra',{work:nowPlaying.workId});
+
+/* ===================== NAV / BACK / TOP ===================== */
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{const n=b.dataset.nav;histStack.length=0;go(n,{},false);});
+$('back').onclick=back;
+$('like').onclick=e=>{e.currentTarget.classList.toggle('on');showToast(e.currentTarget.classList.contains('on')?'Guardada en tus obras':'Quitada de tus obras');};
+$('share').onclick=()=>showToast('Enlace copiado para compartir');
+
+/* ===================== LIGHTBOX ===================== */
+const lb=$('lb'),lbImg=$('lbImg');let z=1,px=0,py=0,drag=false,sx=0,sy=0;
+function applyT(){lbImg.style.transform=`translate(${px}px,${py}px) scale(${z})`;}
+function openLb(){const w=workById(currentWork);lbImg.src=w.img;lb.classList.add('show');z=1;px=0;py=0;applyT();lb.classList.remove('zoomed');}
+$('lbClose').onclick=()=>lb.classList.remove('show','zoomed');
+lb.onclick=e=>{if(e.target===lb)lb.classList.remove('show','zoomed');};
+lbImg.onclick=e=>{e.stopPropagation();if(z===1){z=2.4;lb.classList.add('zoomed');}else{z=1;px=0;py=0;lb.classList.remove('zoomed');}applyT();};
+lbImg.addEventListener('pointerdown',e=>{if(z===1)return;drag=true;sx=e.clientX-px;sy=e.clientY-py;lbImg.setPointerCapture(e.pointerId);});
+lbImg.addEventListener('pointermove',e=>{if(!drag)return;px=e.clientX-sx;py=e.clientY-sy;applyT();});
+lbImg.addEventListener('pointerup',()=>drag=false);
+
+/* ===================== NOTA ===================== */
+function openCompose(){const w=workById(currentWork);
+  $('compNote').textContent=`Va directo a Andoni Euba, sobre «${w.title}». Puede que no te conteste, y está bien: es para él.`;
+  $('compose').classList.add('show');setTimeout(()=>$('ta').focus(),440);}
+function closeCompose(){$('compose').classList.remove('show');$('ta').blur();
+  setTimeout(()=>{$('composeBody').innerHTML=`<h2 id="compTitle">Una nota para Andoni</h2><div class="note" id="compNote"></div><textarea id="ta" placeholder="Comparte una reflexión, o algo que te haya pasado al ver esta obra…"></textarea><div class="name"><input id="nm" type="text" placeholder="Tu nombre (opcional)"></div>`;$('composeFoot').style.display='';},420);}
+$('compClose').onclick=closeCompose;
+$('send').onclick=()=>{$('composeBody').innerHTML='<div class="done"><div class="ok">Enviado</div><div class="msg">Andoni lo recibirá en su móvil. Gracias por dejárselo.</div></div>';$('composeFoot').style.display='none';setTimeout(closeCompose,2000);};
+
+/* ===================== MISC ===================== */
+let toastT=null;
+function showToast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+$('tTheme').onclick=()=>{app.dataset.theme=app.dataset.theme==='light'?'dark':'light';};
+$('tFont').onclick=()=>{app.dataset.display=app.dataset.display==='serif'?'sans':'serif';};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){lb.classList.remove('show','zoomed');closeCompose();}});
+
+render();
+</script>
+</body>
+</html>
