@@ -76,6 +76,7 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .cover-ed-title{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:58px;line-height:.97;letter-spacing:-.025em;color:#fff;margin-bottom:18px;}
 .cover-ed-byline{color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.55;margin-bottom:28px;}
 .cover-ed-byline b{color:rgba(255,255,255,.9);font-weight:600;}
+.cover-ed-dates{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:17px;color:rgba(255,255,255,.85);display:block;margin-top:4px;letter-spacing:.01em;}
 .cover-ed-cta{width:100%;padding:16px;border:none;cursor:pointer;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s;}
 .cover-ed-cta:active{transform:scale(.985);}
 .cover-ed-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.45);font:inherit;font-size:13px;border-bottom:1px solid rgba(255,255,255,.2);padding:0 0 2px;}
@@ -297,7 +298,7 @@ const EXPO={
   sala:"Galería Juan Manuel Lumbreras",
   city:"Bilbao",
   more:"https://galerialumbreras.com/artistas/andoni-euba-2/",
-  cover:"images/andoni_euba.jpg",
+  cover:"images/ANDONI-EUBA-04.jpg",
   intro:"Un proyecto de lugar, desde 2018. Una selección de siete cuadros de los doce realizados hasta ahora.",
   statement:[
     "Un día, al salir del estudio, pude ver que la calle estaba siendo convertida en peatonal. Sentí un impulso para actuar y convertir ese espacio exterior en el contexto de mi siguiente trabajo como pintor. La idea era crear un proyecto para hacer un lugar y darle un nombre.",
@@ -441,10 +442,13 @@ function tplHome(){
       <div class="cover-ed-body">
         <div class="cover-ed-kicker fu d1">${EXPO.kicker}</div>
         <h1 class="cover-ed-title fu d2">${EXPO.title}</h1>
-        <div class="cover-ed-byline fu d2"><b>${EXPO.artist}</b><br>${EXPO.dates} · ${EXPO.sala}, ${EXPO.city}</div>
+        <div class="cover-ed-byline fu d2"><b>${EXPO.artist}</b><span class="cover-ed-dates">${EXPO.dates} · ${EXPO.sala}</span></div>
         <button class="cover-ed-cta fu d3" data-act="goObras">Ver las obras
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-        <br><button class="cover-ed-link fu d3" data-act="goSobre">Bio del artista</button>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
+          <button class="cover-ed-link fu d3" data-act="goSobre">Bio del artista</button>
+          <button class="cover-ed-link fu d3" data-act="share"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><polyline points="8 7 12 3 16 7"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg>Compartir</button>
+        </div>
       </div>
     </div>
   </div>`;
@@ -735,6 +739,7 @@ function bindView(){
     zoom:openLb,
     note:openCompose,
     contact:()=>showToast('Solicitud enviada. La galería te contactará.'),
+    share:sharePage,
     more:()=>showToast('Enlace externo: '+EXPO.more)
   };
   document.querySelectorAll('[data-work]').forEach(el=>el.onclick=()=>go('obra',{work:el.dataset.work}));
