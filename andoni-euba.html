@@ -43,11 +43,10 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 
 /* Top bar */
 .topbar{position:absolute;top:0;left:0;right:0;z-index:30;height:56px;display:flex;align-items:center;gap:4px;
-  padding:0 10px;background:rgba(12,12,13,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  transition:background .25s,box-shadow .25s;}
-.topbar.clear{background:linear-gradient(180deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.55) 50%,rgba(12,12,13,.35) 100%);}
-.topbar.scrolled{background:var(--bg);box-shadow:0 1px 0 var(--border);}
-.topbar.clear.scrolled{background:rgba(12,12,13,.97);}
+  padding:0 10px;background:linear-gradient(to bottom,var(--bg) 35%,transparent);transition:background .25s,box-shadow .25s,backdrop-filter .25s;}
+.topbar.clear{background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent);}
+.topbar.scrolled{background:var(--bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--border);}
+.topbar.clear.scrolled{background:rgba(12,12,13,.96);}
 .topbar .sp{flex:1;}
 .brand{font-family:var(--font-display);font-weight:300;font-size:15px;letter-spacing:.02em;padding-left:8px;opacity:0;transition:opacity .3s;}
 .brand.show{opacity:1;}
@@ -307,15 +306,14 @@ const ARTIST={
   avatar:"images/descarga.jpg",
   bio:"Andoni Euba desarrolla en Bilbao el proyecto «Aretxaga–Miribilla», un proyecto de lugar iniciado en 2018 a partir de la peatonalización de la calle frente a su estudio. (Biografía ampliada pendiente — más información en la galería.)"
 };
-/* Obras: títulos, técnica, medidas y año son PLACEHOLDER hasta tener los datos reales. */
 const WORKS=[
-  {id:'w1',title:'Aretxaga · Miribilla I',year:'2018',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-01',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false},
+  {id:'w1',title:'Kai sumergido con las crocs de pintar',year:'2018',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-01',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false},
   {id:'w2',title:'Kai flotando en poca agua',year:'2019',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-02',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128,desc:`<p>Subiéndome a una roca alta, capturé esta imagen donde la figura de un joven flota suspendida.</p><p>El pecho de la figura y la esquina superior derecha, están pintadas con color muy denso, seco y agrisado. Su luminosidad contrasta con ese gran fondo de agua, que une perceptivamente lo que está en sombra con lo que está mojado.</p><p>Flotar en poca profundidad es un ejercicio de equilibrio que involucra a todo el cuerpo. Tensión y relajación simultáneamente, para alcanzar una concentración en el hecho de hacerse flotar.</p>`},
-  {id:'w3',title:'Aretxaga · Miribilla III',year:'2020',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-03',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false},
-  {id:'w4',title:'Aretxaga · Miribilla IV',year:'2021',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-04',img:'images/ANDONI-EUBA-04.jpg',hasAudio:false},
-  {id:'w5',title:'Aretxaga · Miribilla V',year:'2022',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-05',img:'images/ANDONI-EUBA-05.jpg',hasAudio:true,audioDur:152},
-  {id:'w6',title:'Aretxaga · Miribilla VI',year:'2023',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-06',img:'images/ANDONI-EUBA-06.jpg',hasAudio:false},
-  {id:'w7',title:'Aretxaga · Miribilla VII',year:'2024',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-07',img:'images/ANDONI-EUBA-07.jpg',hasAudio:false}
+  {id:'w3',title:'Kai paseando entre los hechos y los helechos',year:'2020',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-03',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false},
+  {id:'w4',title:'Las vacaciones del faquir en Arlés',year:'2021',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-04',img:'images/ANDONI-EUBA-04.jpg',hasAudio:false},
+  {id:'w5',title:'Nagore',year:'2022',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',ref:'AE-05',img:'images/ANDONI-EUBA-05.jpg',hasAudio:true,audioDur:152},
+  {id:'w6',title:'Cierra la ventana que hay corriente. De Mondrian a Van Doesburg en un soplo',year:'2023',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',ref:'AE-06',img:'images/ANDONI-EUBA-06.jpg',hasAudio:false},
+  {id:'w7',title:'Retrato de familia',year:'2024',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',ref:'AE-07',img:'images/ANDONI-EUBA-07.jpg',hasAudio:false}
 ];
 const PH_DESC="Texto de sala pendiente. Aquí irá el comentario sobre esta obra —su lugar dentro del proyecto, la técnica o el contexto— que aporte el artista o la galería.";
 const workById=id=>WORKS.find(w=>w.id===id);
