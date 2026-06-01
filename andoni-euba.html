@@ -8,29 +8,27 @@
 /* ===== FUENTES LOCALES (carpeta fonts/) ===== */
 @font-face{font-family:'IvyPresto Display';src:url('fonts/subset-IvyPrestoDisplay-LightItalic.woff2') format('woff2');font-weight:300;font-style:italic;font-display:swap}
 @font-face{font-family:'IvyPresto Display';src:url('fonts/subset-IvyPrestoDisplay-ThinItalic.woff2') format('woff2');font-weight:100;font-style:italic;font-display:swap}
-@font-face{font-family:'Söhne Breit';src:url('fonts/subset-SohneBreit-Leicht.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
-/* Cuando tengas Söhne de texto, descomenta:
 @font-face{font-family:'Söhne';src:url('fonts/soehne-buch.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Söhne';src:url('fonts/soehne-kraeftig.woff2') format('woff2');font-weight:600;font-display:swap} */
+@font-face{font-family:'Söhne';src:url('fonts/soehne-kraeftig.woff2') format('woff2');font-weight:600;font-display:swap}
 
 /* ===== TOKENS ===== */
-:root,[data-theme="dark"]{
+:root{
   --bg:#0c0c0d;--surface:#161618;--surface-2:#202023;
   --text:#f1f1ef;--text-mut:#9a9a97;--text-dim:#5f5f5e;
   --border:#242427;--accent:#f1f1ef;--accent-ink:#0c0c0d;--live:#8d9b89;--danger:#bb8a80;
   --font-sans:'Söhne',system-ui,sans-serif;
-  --font-display:'Söhne Breit',system-ui,sans-serif;
+  --font-display:'IvyPresto Display',Georgia,serif;
+  --font-body:var(--font-display);
 }
-[data-theme="light"]{
-  --bg:#fbfbf9;--surface:#fff;--surface-2:#f1f1ee;
-  --text:#16161a;--text-mut:#5b5b58;--text-dim:#8b8b88;
-  --border:#e7e7e2;--accent:#16161a;--accent-ink:#fff;--live:#5d6c58;--danger:#a35f50;
+:root.light-mode{
+  --bg:#f9f9f7;--surface:#ffffff;--surface-2:#efefeb;
+  --text:#1a1a1a;--text-mut:#666663;--text-dim:#999995;
+  --border:#e6e6e3;--accent:#0c0c0d;--accent-ink:#f1f1ef;
 }
-.app[data-display="serif"]{--font-display:'IvyPresto Display',Georgia,serif;}
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;}
-body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthesis:none;
+body{background:#000;font-family:var(--font-body);color:var(--text);font-synthesis:none;
   display:flex;justify-content:center;align-items:flex-start;}
 .app{width:100%;max-width:412px;height:100vh;height:100dvh;background:var(--bg);
   position:relative;overflow:hidden;display:flex;flex-direction:column;}
@@ -42,6 +40,18 @@ body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthes
 /* Top bar */
 .topbar{position:absolute;top:0;left:0;right:0;z-index:30;height:56px;display:flex;align-items:center;gap:4px;
   padding:0 10px;background:linear-gradient(to bottom,var(--bg) 35%,transparent);transition:background .3s;}
+.theme-menu{position:relative;margin-left:auto;}
+.theme-toggle{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;
+  display:grid;place-items:center;transition:opacity .2s,transform .15s;font-size:12px;font-weight:600;}
+.theme-toggle:active{transform:scale(.9);}
+.theme-toggle:hover{opacity:.7;}
+.theme-dropdown{position:absolute;top:100%;right:-10px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;min-width:130px;
+  display:none;gap:4px;flex-direction:column;z-index:50;margin-top:4px;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+.theme-menu.open .theme-dropdown{display:flex;}
+.theme-dropdown button{background:transparent;border:1px solid transparent;color:var(--text-mut);cursor:pointer;font-size:12px;
+  padding:6px 8px;border-radius:4px;font:inherit;text-align:left;transition:all .2s;}
+.theme-dropdown button:hover{background:var(--surface-2);color:var(--text);}
+.theme-dropdown button.active{background:var(--accent);color:var(--accent-ink);}
 .topbar.clear{background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent);}
 .topbar .sp{flex:1;}
 .brand{font-family:var(--font-display);font-weight:300;font-size:15px;letter-spacing:.02em;padding-left:8px;opacity:0;transition:opacity .3s;}
@@ -67,8 +77,7 @@ body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthes
 @media(min-width:480px){.cover img{max-height:480px;}}
 .home-body{padding:30px 24px 10px;}
 .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
-.home-title{font-family:var(--font-display);font-weight:300;font-size:40px;line-height:1.02;letter-spacing:-.02em;margin-top:14px;}
-.app[data-display="serif"] .home-title{font-style:italic;font-size:44px;}
+.home-title{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:44px;line-height:1.02;letter-spacing:-.02em;margin-top:14px;}
 .home-artist{font-size:17px;font-weight:600;margin-top:14px;}
 .home-meta{color:var(--text-mut);font-size:13.5px;line-height:1.7;margin-top:10px;}
 .home-meta b{color:var(--text);font-weight:600;}
@@ -81,8 +90,7 @@ body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthes
 
 /* ===== Page head ===== */
 .page-head{padding:14px 24px 22px;}
-.page-head h1{font-family:var(--font-display);font-weight:300;font-size:34px;letter-spacing:-.02em;margin-top:10px;}
-.app[data-display="serif"] .page-head h1{font-style:italic;}
+.page-head h1{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:34px;letter-spacing:-.02em;margin-top:10px;}
 
 /* ===== Grid de obras ===== */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 16px;padding:0 24px;}
@@ -105,8 +113,7 @@ body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthes
   display:flex;align-items:center;gap:6px;transition:opacity .4s;pointer-events:none;}
 .cue.gone{opacity:0;}
 .head{padding:30px 24px 0;}
-.title{font-family:var(--font-display);font-weight:300;font-size:34px;line-height:1.06;letter-spacing:-.02em;}
-.app[data-display="serif"] .title{font-style:italic;font-size:38px;}
+.title{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:38px;line-height:1.06;letter-spacing:-.02em;}
 .cartela{margin-top:14px;font-size:13px;color:var(--text-mut);}
 .cartela b{color:var(--text-dim);font-weight:400;margin:0 7px;}
 .author{display:inline-flex;align-items:center;gap:12px;margin-top:22px;cursor:pointer;background:none;border:none;padding:0;font:inherit;color:var(--text);}
@@ -142,10 +149,9 @@ body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthes
 
 /* Reaccionar + contacto */
 .react{margin:40px 24px 0;padding:26px 0;border-top:1px solid var(--border);}
-.react h3{font-family:var(--font-display);font-weight:300;font-size:22px;letter-spacing:-.02em;}
-.app[data-display="serif"] .react h3{font-style:italic;}
+.react h3{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:22px;letter-spacing:-.02em;}
 .react p{color:var(--text-mut);font-size:14.5px;line-height:1.55;margin-top:9px;}
-.react .btn,.contact .btn{margin-top:16px;display:inline-flex;align-items:center;gap:9px;background:none;border:1px solid var(--border);color:var(--text);cursor:pointer;font:inherit;font-weight:600;font-size:14.5px;padding:13px 20px;transition:border-color .2s;}
+.react .btn,.contact .btn{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;background:none;border:1px solid var(--border);color:var(--text);cursor:pointer;font:inherit;font-weight:600;font-size:14.5px;padding:13px 20px;transition:border-color .2s;width:100%;}
 .react .btn:hover,.contact .btn:hover{border-color:var(--text-dim);}
 .contact{margin:8px 24px 0;padding:26px 0;border-top:1px solid var(--border);}
 .contact h3{font-size:13px;letter-spacing:.04em;font-weight:600;}
@@ -155,15 +161,13 @@ body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthes
 /* Recorrido */
 .next{margin:32px 0 0;padding:24px 24px 44px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
 .next .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);}
-.next .nm{font-family:var(--font-display);font-weight:300;font-size:18px;margin-top:4px;}
-.app[data-display="serif"] .next .nm{font-style:italic;}
+.next .nm{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:18px;margin-top:4px;}
 .next .cv{color:var(--text-dim);}
 
 /* ===== SOBRE ===== */
 .sec{padding:0 24px;}
 .sec+.sec{margin-top:34px;padding-top:30px;border-top:1px solid var(--border);}
-.sec h2{font-family:var(--font-display);font-weight:300;font-size:24px;letter-spacing:-.02em;margin-bottom:16px;}
-.app[data-display="serif"] .sec h2{font-style:italic;}
+.sec h2{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:24px;letter-spacing:-.02em;margin-bottom:16px;}
 .sec p{color:var(--text);font-size:15.5px;line-height:1.7;}
 .sec p+p{margin-top:14px;}
 .bio-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
@@ -227,19 +231,24 @@ body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthes
   transition:transform .4s cubic-bezier(.16,.84,.44,1),opacity .3s;max-width:84%;text-align:center;}
 .toast.show{transform:translate(-50%,0);opacity:1;}
 
-/* Demo */
-.demo{position:fixed;left:16px;bottom:80px;z-index:200;display:flex;gap:8px;font-family:system-ui,sans-serif;}
-.demo button{background:rgba(20,20,22,.82);color:#f1f1ef;border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 13px;font-size:12px;font-weight:600;cursor:pointer;backdrop-filter:blur(10px);}
-@media(min-width:480px){.demo{left:calc(50% - 206px + 14px);bottom:96px;}}
 </style>
 </head>
 <body>
-<div class="app" data-theme="dark">
+<div class="app">
 
   <header class="topbar" id="topbar">
     <button class="ico hidden" id="back" aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
     <span class="brand" id="brand">Aretxaga · Miribilla</span>
     <div class="sp"></div>
+    <div class="theme-menu" id="themeMenu">
+      <button class="theme-toggle" id="themeToggle" aria-label="Ajustes">Aa</button>
+      <div class="theme-dropdown" id="themeDropdown">
+        <button id="themeLight">☀️ Claro</button>
+        <button id="themeDark" class="active">🌙 Oscuro</button>
+        <button id="typeSans">Sans</button>
+        <button id="typeSerif" class="active">Serif</button>
+      </div>
+    </div>
     <button class="ico hidden" id="like" aria-label="Guardar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
     <button class="ico" id="share" aria-label="Compartir"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><polyline points="8 7 12 3 16 7"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg></button>
   </header>
@@ -276,11 +285,6 @@ body{background:#000;font-family:var(--font-sans);color:var(--text);font-synthes
   <div class="compose-foot" id="composeFoot"><button class="send" id="send">Enviárselo a Andoni</button></div>
 </div>
 
-<div class="demo">
-  <button id="tTheme">◐ Tema</button>
-  <button id="tFont">Aa Tipografía</button>
-</div>
-
 <script>
 const $=id=>document.getElementById(id);
 const app=document.querySelector('.app');
@@ -312,7 +316,7 @@ const ARTIST={
 /* Obras: títulos, técnica, medidas y año son PLACEHOLDER hasta tener los datos reales. */
 const WORKS=[
   {id:'w1',title:'Aretxaga · Miribilla I',year:'2018',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-01',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false},
-  {id:'w2',title:'Aretxaga · Miribilla II',year:'2019',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-02',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128},
+  {id:'w2',title:'Aretxaga · Miribilla II',year:'2019',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-02',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128,desc:`<p>Subiéndome a una roca alta, capturé esta imagen donde la figura de un joven flota suspendida.</p><p>El pecho de la figura y la esquina superior derecha, están pintadas con color muy denso, seco y agrisado. Su luminosidad contrasta con ese gran fondo de agua, que une perceptivamente lo que está en sombra con lo que está mojado.</p><p>Flotar en poca profundidad es un ejercicio de equilibrio que involucra a todo el cuerpo. Tensión y relajación simultáneamente, para alcanzar una concentración en el hecho de hacerse flotar.</p>`},
   {id:'w3',title:'Aretxaga · Miribilla III',year:'2020',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-03',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false},
   {id:'w4',title:'Aretxaga · Miribilla IV',year:'2021',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-04',img:'images/ANDONI-EUBA-04.jpg',hasAudio:false},
   {id:'w5',title:'Aretxaga · Miribilla V',year:'2022',technique:'Óleo sobre lienzo',dim:'[medidas]',ref:'AE-05',img:'images/ANDONI-EUBA-05.jpg',hasAudio:true,audioDur:152},
@@ -395,7 +399,7 @@ function tplObra(){
       <div class="cartela">${w.technique}<b>·</b>${w.dim}<b>·</b>${w.year}</div>
       <button class="author" data-act="goSobre"><span class="av"><img src="${ARTIST.avatar}" alt=""></span><span class="nm">${ARTIST.name}</span><span class="cv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></button>
     </div>
-    <div class="story clamp ph fu" id="story"><p>${PH_DESC}</p></div>
+    <div class="story clamp ph fu" id="story">${w.desc || `<p>${PH_DESC}</p>`}</div>
     ${audio}
     <div class="react fu">
       <h3>¿Qué te ha dejado esta obra?</h3>
@@ -507,9 +511,31 @@ $('send').onclick=()=>{$('composeBody').innerHTML='<div class="done"><div class=
 /* ===================== MISC ===================== */
 let toastT=null;
 function showToast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
-$('tTheme').onclick=()=>{app.dataset.theme=app.dataset.theme==='light'?'dark':'light';};
-$('tFont').onclick=()=>{app.dataset.display=app.dataset.display==='serif'?'sans':'serif';};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){lb.classList.remove('show','zoomed');closeCompose();}});
+
+/* ===================== THEME & TYPOGRAPHY ===================== */
+const themeState={mode:'dark',font:'serif'};
+function loadTheme(){const s=localStorage.getItem('theme');if(s)Object.assign(themeState,JSON.parse(s));applyTheme();}
+function applyTheme(){
+  document.documentElement.classList.toggle('light-mode',themeState.mode==='light');
+  document.documentElement.style.setProperty('--font-body',themeState.font==='serif'?'var(--font-display)':'var(--font-sans)');
+  updateThemeButtons();
+  localStorage.setItem('theme',JSON.stringify(themeState));
+}
+function updateThemeButtons(){
+  document.querySelectorAll('#themeDropdown button').forEach(b=>b.classList.remove('active'));
+  const mode=themeState.mode==='light'?'#themeLight':'#themeDark';
+  const font=themeState.font==='serif'?'#typeSerif':'#typeSans';
+  document.querySelector(mode).classList.add('active');
+  document.querySelector(font).classList.add('active');
+}
+$('themeToggle').onclick=e=>{e.stopPropagation();$('themeMenu').classList.toggle('open');};
+document.addEventListener('click',e=>{if(!$('themeMenu').contains(e.target))$('themeMenu').classList.remove('open');});
+$('themeDark').onclick=()=>{themeState.mode='dark';applyTheme();};
+$('themeLight').onclick=()=>{themeState.mode='light';applyTheme();};
+$('typeSerif').onclick=()=>{themeState.font='serif';applyTheme();};
+$('typeSans').onclick=()=>{themeState.font='sans';applyTheme();};
+loadTheme();
 
 render();
 </script>
