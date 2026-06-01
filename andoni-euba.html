@@ -93,7 +93,7 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .card .ph::before{content:'';position:absolute;inset:-18%;background:var(--card-glow,transparent);filter:blur(28px);opacity:.55;z-index:0;transition:background .5s ease;}
 .card .ph img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block;}
 .card:active .ph{transform:scale(.97);}
-.card .ct{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:16.5px;margin-top:11px;line-height:1.2;text-align:center;padding:0 8px;letter-spacing:-.02em;}
+.card .ct{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:16.5px;margin-top:11px;line-height:1.2;text-align:left;padding:0 2px;letter-spacing:-.02em;}
 .card .cy{color:var(--text-mut);font-size:12.5px;margin-top:3px;}
 .card .au{display:inline-flex;align-items:center;gap:5px;color:var(--text-dim);font-size:11px;margin-top:6px;}
 .card .au svg{width:11px;height:11px;}
@@ -226,6 +226,26 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .compose .done .ok{font-family:var(--font-display);font-weight:300;font-size:28px;}
 .compose .done .msg{color:var(--text-mut);font-size:15px;line-height:1.6;margin-top:14px;}
 
+/* ===== BIO editorial ===== */
+.bio-hero{width:100%;overflow:hidden;}
+.bio-hero img{display:block;width:100%;height:auto;max-height:55vh;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06);}
+@media(min-width:480px){.bio-hero img{max-height:420px;}}
+.bio-name-block{padding:26px 24px 0;text-align:center;}
+.bio-name{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:38px;letter-spacing:-.02em;line-height:1.05;margin-top:8px;}
+.bio-born{color:var(--text-mut);font-size:14px;margin-top:6px;font-style:italic;}
+.bio-intro{padding:26px 24px 0;font-size:15.5px;line-height:1.7;color:var(--text);}
+.bio-intro p+p{margin-top:14px;}
+.bio-intro p:first-child::first-letter{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:64px;line-height:.76;float:left;margin:3px 7px 0 -2px;}
+.bio-block{padding:28px 24px 0;}
+.bio-block+.bio-block{margin-top:26px;padding-top:26px;border-top:1px solid var(--border);}
+.bio-block h3{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:22px;letter-spacing:-.02em;margin-bottom:14px;}
+.bio-item{display:grid;grid-template-columns:66px 1fr;gap:0 10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.55;}
+.bio-item:last-child{border-bottom:none;}
+.bio-item .yr{color:var(--text-dim);font-variant-numeric:tabular-nums;}
+.bio-item .tx{color:var(--text-mut);}
+.bio-plain{padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mut);line-height:1.55;}
+.bio-plain:last-child{border-bottom:none;}
+
 /* Toast */
 .toast{position:absolute;left:50%;bottom:84px;transform:translate(-50%,80px);background:var(--surface-2);color:var(--text);
   border:1px solid var(--border);padding:13px 18px;font-size:14px;z-index:60;opacity:0;
@@ -258,7 +278,7 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
   <nav class="nav" id="nav">
     <button data-nav="home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>Portada</button>
     <button data-nav="obras"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Obras</button>
-    <button data-nav="sobre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="8" r=".6" fill="currentColor"/></svg>Sobre</button>
+    <button data-nav="sobre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="8" r=".6" fill="currentColor"/></svg>Bio</button>
   </nav>
 
   <div class="toast" id="toast"></div>
@@ -302,8 +322,91 @@ const EXPO={
 const ARTIST={
   name:"Andoni Euba",
   role:"Pintura · Bilbao",
-  avatar:"images/descarga.jpg",
-  bio:"Andoni Euba desarrolla en Bilbao el proyecto «Aretxaga–Miribilla», un proyecto de lugar iniciado en 2018 a partir de la peatonalización de la calle frente a su estudio. (Biografía ampliada pendiente — más información en la galería.)"
+  avatar:"images/descarga.jpg"
+};
+const BIO={
+  intro:[
+    "Andoni Euba nació en Bilbao en 1962 y se formó en la Facultad de Bellas Artes de la Universidad del País Vasco, donde se especializó en pintura. Desde el inicio de su carrera, en los años 80, su obra ha transitado entre lo abstracto y lo figurativo, entre lo orgánico y lo inorgánico, generando una tensión visual que mantiene al espectador en un estado de intriga permanente. Su pintura no ofrece certezas: las distancias se confunden, lo descomunal se confunde con lo imperceptible, y lo artificial compite con lo natural con la misma intensidad que la luz compite con la sombra.",
+    "En 1994 tomó una decisión que marcaría profundamente su trayectoria: trasladarse a San Francisco, donde vivió y trabajó durante una década. Ese período de inmersión en la escena artística norteamericana amplió su mirada y consolidó una voz pictórica singular, reconocida en galerías de Nueva York, París, México y Frankfurt. Al regresar a Bilbao en 2005, Euba continuó explorando las posibilidades del medio pictórico, incorporando proyectos murales de carácter itinerante y efímero que sitúan el arte en el espacio urbano."
+  ],
+  timeline:[
+    {year:"1962",text:"Bilbao."},
+    {year:"1980–85",text:"Licenciado en Bellas Artes, Universidad del País Vasco, Bilbao."},
+    {year:"1994–04",text:"Vive y trabaja en San Francisco."},
+    {year:"2005",text:"Vive y trabaja en Bilbao."},
+    {year:"2007",text:"Imparte seminario en Bilbao Arte."}
+  ],
+  individual:[
+    {year:"2018–20",text:"Aretxaga-Miribilla."},
+    {year:"2016",text:"Rho Easel Machine."},
+    {year:"2014",text:"«In Perpetuum Mobile». Pabellón 6, Bilbao."},
+    {year:"2010",text:"«Perpendicular». Galería Metta, Madrid. — «Conversación de ellos». Galería Kur, San Sebastián."},
+    {year:"2007",text:"«Paisajes con heridas». Galería Metta, Madrid. — Galería Carreras-Múgica, Bilbao. — «Parcour 1987–2007». Museo de Guethary, Francia."},
+    {year:"2006",text:"Galería Bacelos, Vigo."},
+    {year:"2004",text:"Parque Tecnológico de Álava, Vitoria."},
+    {year:"2003",text:"«Spine». Catharine Clark Gallery, San Francisco. — Galería Almirante, Madrid."},
+    {year:"2002",text:"«La Espina Dorsal». Galería Altxerri, San Sebastián."},
+    {year:"2001",text:"«Guadalupanas y Coleccionables». Jay Grimm Gallery, Nueva York. — Galería Carreras Múgica, Bilbao. — Galería Bacelos, Vigo."},
+    {year:"2000",text:"«Screen». Catharine Clark Gallery, San Francisco. — Galería Almirante, Madrid."},
+    {year:"1998",text:"«Internegativo». Galería Carreras Múgica, Bilbao. — Galería AD HOC, Vigo."},
+    {year:"1997",text:"«Protecciones». Rekalde Area 2, Bilbao."},
+    {year:"1994",text:"«Lifting». Museo de San Telmo, San Sebastián."},
+    {year:"1993",text:"Galería AD Hoc, Vigo. — Galería Almirante, Madrid."},
+    {year:"1990",text:"«Cabaret de Invierno». Galería Almirante, Madrid."},
+    {year:"1989",text:"«Cartografías». Fundación BBK, Bilbao."},
+    {year:"1988",text:"«Murallas». Galería Vanguardia, Bilbao. — Museo de Guethary, Francia."},
+    {year:"1987",text:"«Molinos». Fundación BBK, Bilbao. — Casa de Cultura, Basauri. — Museo de Arte e Historia, Durango."},
+    {year:"1986",text:"Sala de Cultura, Barakaldo."}
+  ],
+  collective:[
+    {year:"2014",text:"Memoria de la diversidad. Sala Rekalde, Bilbao."},
+    {year:"2013",text:"Bienal de Cerveira, Portugal."},
+    {year:"2011",text:"Art Contemporain Basque. Saint Jean de Luz. — Ibilarte 2011, Bilbao. — Colección Ipiña Bidaurrazaga, Museo Artium, Vitoria-Gasteiz. — Silent Running. Galería Metta, Madrid."},
+    {year:"2008",text:"ArteBa, Buenos Aires. Galería Metta. — ArteSantander. Galería Metta. — Ibilarte, Bilbao."},
+    {year:"2007",text:"ARCO '07. Galería Bacelos, Madrid. — ArteLisboa. Galería Metta, Madrid. — El Quijote, Bilbao. — Ibilarte, Bilbao."},
+    {year:"2006",text:"ARCO '06. Galería Carreras Múgica, Madrid."},
+    {year:"2005",text:"ARCO '05. Galería Bacelos, Madrid."},
+    {year:"2004",text:"ARCO '04. Galería Carreras Múgica, Madrid."},
+    {year:"2003",text:"«Grisaille». JG Gallery, Nueva York. — ARCO '03. Galería Almirante, Madrid. — ART Frankfurt. Galería Colón XVI."},
+    {year:"2002",text:"Museo de Bellas Artes, Bilbao. — Jay Grimm Gallery, Nueva York. — «Cien X Cien». Galería Almirante, Madrid. — ARCO 2002."},
+    {year:"2001",text:"Museo de las Encartaciones, Bizkaia. — ARCO 2001. Galería Colón XVI, Madrid."},
+    {year:"2000",text:"San Francisco Art Fair. Catharine Clark Gallery. — ARCO 2000. Galería AD HOC y Galería Carreras Múgica, Madrid."},
+    {year:"1999",text:"Miami Art Fair. Galería Almirante. — ARCO 99. Galería AD HOC, Madrid. — Jay Grimm Gallery, Nueva York."},
+    {year:"1998",text:"ARCO 98. Galería AD HOC. — EXPO ARTE. Galería Almirante, Guadalajara, México. — FIAC. Galería Carreras Múgica, París. — «Surface». Catharine Clark Gallery, San Francisco."},
+    {year:"1997",text:"EXPO ARTE. Galería AD HOC, Guadalajara, México. — Becarios de la Diputación, Sala Rekalde, Bilbao."},
+    {year:"1996",text:"«Gabinete de un coleccionista». Galería AD HOC, Vigo. — Foro Atlántico, Galería AD HOC, Oporto. — Pintores Vascos, Colección BBK. — TRITON Art Fair. David Raymond Fine Art, San Francisco."},
+    {year:"1993",text:"ARCO 93. Galería AD HOC, Madrid. — Certamen «Endesa», La Coruña. — Colección de Arte Contemporáneo del Museo de Navarra."},
+    {year:"1992",text:"«Un Placer» / «Cualquiera, Todos, Ninguno». Arteleku, San Sebastián. — Certamen de Pintura, Banco Central Hispano."},
+    {year:"1991",text:"IX Premio Internacional «Festivales de Navarra». — ARTE 80, Museo de San Telmo. — «Ibérico 2 MIL». Galería Maeght, Barcelona. — VII Premio L'Oréal, Casa de Velázquez, Madrid."},
+    {year:"1990",text:"Glasgow Art Center, Gran Bretaña. — VI Premio de Pintura L'Oréal, Madrid. — «Batera». BBK, Bilbao."},
+    {year:"1989",text:"Exposición Internacional de Pintura, Osaka. — Joven Pintura Española. Bruselas, Niza, Münster, Salzburgo, Estocolmo, Helsinki."},
+    {year:"1988",text:"Bizkaiko Artea, Bilbao. — ARCO 88. Galería Vanguardia. — III Certamen de Artes Plásticas de Euskadi. — «Gure Artea». — III Bienal de Arte Vasco, Amorebieta."},
+    {year:"1987",text:"«Artea Gernikan», Gernika 1937–1987. — «Arte Bizkaia». Sala Rekalde. — «La Generación de los 80». Fondos de Arte Contemporáneo. — «Gure Artea»."},
+    {year:"1986",text:"«Nervión». Fundación BBK, Bilbao. — «Arte Joven 85», itinerante. — «Muestra de Arte Joven», Círculo de Bellas Artes, Madrid. — Bienal de Artes Plásticas de Vitoria."},
+    {year:"1985",text:"«Una Corbata para el domingo». Fundación BBK, Bilbao. — «Gure Artea». — I Certamen de Artes Plásticas de Euskadi."},
+    {year:"1984",text:"Galería Windsor, Bilbao. — I Bienal de Arte Vasco, Amorebieta."}
+  ],
+  awards:[
+    {year:"1991",text:"Premio-adquisición, IX Premio Internacional de Pintura «Festivales de Navarra», Pamplona."},
+    {year:"1989",text:"Segundo Premio, Villa de Bilbao."},
+    {year:"1988",text:"Tercer premio, Bizkaiko Artea, Diputación de Vizcaya. — Accésit Gure Artea 88, Gobierno Vasco. — Mención del Jurado, Bienal de Artes Plásticas de Vitoria."},
+    {year:"1987",text:"Beca de creación artística, Gobierno Vasco. — Primer Premio de Dibujo, III Certamen de Artes Plásticas de Euskadi. — Accésit Gure Artea."},
+    {year:"1986",text:"Beca de creación artística, Diputación de Vizcaya."},
+    {year:"1985",text:"Tercer premio «Gure Artea», Gobierno Vasco. — Primer Premio, I Certamen de Artes Plásticas de Euskadi."}
+  ],
+  museums:[
+    "Artium. Museo Vasco de Arte Contemporáneo, Vitoria-Gasteiz.",
+    "Museo de Bellas Artes, Bilbao.",
+    "Museo de San Telmo, Donostia-San Sebastián.",
+    "Museo de Navarra, Pamplona.",
+    "Museo de Arte e Historia, Durango.",
+    "Museo de Guethary, Francia.",
+    "Colección de la Diputación de Vizcaya.",
+    "Fundación BBK.",
+    "Juntas Generales de Bizkaia.",
+    "Colección del Ayuntamiento de Bilbao.",
+    "Colección del Gobierno Vasco."
+  ]
 };
 const WORKS=[
   {id:'w1',title:'Kai sumergido con las crocs de pintar',year:'2018',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-01',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false},
@@ -360,7 +463,13 @@ function tplHome(){
     </div></div>`;
 }
 function tplObras(){
-  return `<div class="view"><div class="page-head fu"><div class="kicker">${EXPO.artist} · ${EXPO.dates}</div><h1>Obras</h1></div>
+  return `<div class="view">
+    <div class="page-head fu" style="padding-bottom:0"><div class="kicker">${EXPO.artist} · ${EXPO.dates}</div></div>
+    <div class="sec fu" style="margin-top:32px">
+      <h2 style="font-size:34px">Texto de sala</h2>
+      <div class="story-wrap ph" id="statementWrap" style="padding:0"><div class="story-body">${EXPO.statement.map(p=>`<p>${p}</p>`).join('')}</div></div>
+    </div>
+    <div class="page-head fu" style="padding-top:36px"><h1>Obras</h1></div>
     <div class="grid">${WORKS.map((w,i)=>`
       <div class="card fu d${(i%3)+1}" data-work="${w.id}">
         <div class="ph"><img src="${w.img}" alt="${w.title}"></div>
@@ -413,20 +522,23 @@ function tplObra(){
   </div>`;
 }
 function tplSobre(){
-  return `<div class="view"><div class="page-head fu"><div class="kicker">La exposición</div><h1>Sobre</h1></div>
-    <div class="sec fu">${EXPO.statement.map(p=>`<p>${p}</p>`).join('')}</div>
-    <div class="sec fu">
-      <div class="bio-head"><span class="av"><img src="${ARTIST.avatar}" alt=""></span><div><div class="nm">${ARTIST.name}</div><div class="rl">${ARTIST.role}</div></div></div>
-      <p>${ARTIST.bio}</p>
-      <button class="extlink" data-act="more"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Más info en la galería</button>
+  const row=a=>a.map(i=>`<div class="bio-item"><span class="yr">${i.year}</span><span class="tx">${i.text}</span></div>`).join('');
+  return `<div class="view">
+    <div class="bio-hero fu"><img src="${ARTIST.avatar}" alt="${ARTIST.name}"></div>
+    <div class="bio-name-block fu">
+      <div class="kicker">El artista</div>
+      <h1 class="bio-name">${ARTIST.name}</h1>
+      <div class="bio-born">Bilbao, 1962</div>
     </div>
-    <div class="sec fu">
-      <h2>Datos</h2>
-      <div class="info-row"><span class="k">Fechas</span><span class="v">${EXPO.dates}</span></div>
-      <div class="info-row"><span class="k">Sala</span><span class="v">${EXPO.sala}</span></div>
-      <div class="info-row"><span class="k">Lugar</span><span class="v">${EXPO.city}</span></div>
-      <div class="info-row"><span class="k">Obras</span><span class="v">${WORKS.length} de 12</span></div>
-    </div><div style="height:30px"></div></div>`;
+    <div class="bio-intro fu">${BIO.intro.map(p=>`<p>${p}</p>`).join('')}</div>
+    <div class="bio-block fu">${row(BIO.timeline)}</div>
+    <div class="bio-block fu"><h3>Exposiciones individuales</h3>${row(BIO.individual)}</div>
+    <div class="bio-block fu"><h3>Exposiciones colectivas</h3>${row(BIO.collective)}</div>
+    <div class="bio-block fu"><h3>Premios y becas</h3>${row(BIO.awards)}</div>
+    <div class="bio-block fu"><h3>Museos y colecciones</h3>${BIO.museums.map(m=>`<div class="bio-plain">${m}</div>`).join('')}</div>
+    <div style="padding:24px 24px 0"><button class="extlink" data-act="more"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Más info en la galería</button></div>
+    <div style="height:40px"></div>
+  </div>`;
 }
 const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
 
@@ -595,19 +707,19 @@ function buildStoryPreview(body,fullHtml,maxH){
   }finally{(meas._shell||meas).remove();}
 }
 
-function setupStoryExpand(){
-  const wrap=$('storyWrap'),body=wrap?.querySelector('.story-body');
+function setupStoryExpand(wrap, previewLines=STORY_PREVIEW_LINES){
+  const body=wrap?.querySelector('.story-body');
   if(!wrap||!body)return;
   const fullHtml=wrap.dataset.fullHtml||body.innerHTML.trim();
   wrap.dataset.fullHtml=fullHtml;
-  const maxH=storyLineHeight(body)*STORY_PREVIEW_LINES;
+  const maxH=storyLineHeight(body)*previewLines;
 
   if(wrap.dataset.expanded==='1'){
     body.innerHTML=fullHtml;
     const last=body.querySelector('p:last-of-type')||body;
     const btn=document.createElement('button');
     btn.type='button';btn.className='story-more story-less';btn.textContent=' Leer menos';
-    btn.onclick=e=>{e.stopPropagation();wrap.dataset.expanded='0';setupStoryExpand();};
+    btn.onclick=e=>{e.stopPropagation();wrap.dataset.expanded='0';setupStoryExpand(wrap,previewLines);};
     last.appendChild(btn);
     return;
   }
@@ -621,7 +733,7 @@ function setupStoryExpand(){
     if(!last)return;
     const btn=document.createElement('button');
     btn.type='button';btn.className='story-more';btn.textContent='Leer más →';
-    btn.onclick=e=>{e.stopPropagation();wrap.dataset.expanded='1';setupStoryExpand();};
+    btn.onclick=e=>{e.stopPropagation();wrap.dataset.expanded='1';setupStoryExpand(wrap,previewLines);};
     last.appendChild(document.createTextNode(' '));
     last.appendChild(btn);
   };
@@ -642,7 +754,8 @@ function bindView(){
   };
   document.querySelectorAll('[data-work]').forEach(el=>el.onclick=()=>go('obra',{work:el.dataset.work}));
   document.querySelectorAll('[data-act]').forEach(el=>{const a=el.dataset.act;if(acts[a])el.onclick=acts[a];});
-  setupStoryExpand();
+  setupStoryExpand($('storyWrap'));
+  setupStoryExpand($('statementWrap'), 8);
   const pb=$('playBtn'); if(pb) pb.onclick=()=>playWork(currentWork);
   const tr=$('track'); if(tr) tr.onclick=e=>{const r=tr.getBoundingClientRect();seek((e.clientX-r.left)/r.width);};
   const sc=$('scroll');
