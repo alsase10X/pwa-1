@@ -16,7 +16,7 @@
 :root{
   --bg:#0c0c0d;--surface:#161618;--surface-2:#202023;
   --text:#f1f1ef;--text-mut:#9a9a97;--text-dim:#5f5f5e;
-  --border:#242427;--accent:#f1f1ef;--accent-ink:#0c0c0d;--live:#8d9b89;--danger:#bb8a80;
+  --border:#242427;--accent:#f1f1ef;--accent-ink:#0c0c0d;--live:#8d9b89;
   --font-sans:'Inter',system-ui,sans-serif;
   --font-display:'IvyPresto Display',Georgia,serif;
   --font-body:var(--font-sans);
@@ -95,8 +95,6 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .card:active .ph{transform:scale(.97);}
 .card .ct{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:16.5px;margin-top:11px;line-height:1.2;text-align:left;padding:0 2px;letter-spacing:-.02em;}
 .card .cy{color:var(--text-mut);font-size:12.5px;margin-top:3px;}
-.card .au{display:inline-flex;align-items:center;gap:5px;color:var(--text-dim);font-size:11px;margin-top:6px;}
-.card .au svg{width:11px;height:11px;}
 
 /* ===== OBRA ===== */
 .hero{position:relative;padding:56px 0 0;}
@@ -125,7 +123,6 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .story-wrap .story-body p+p{margin-top:14px;}
 .story-wrap.ph .story-body{color:var(--text-mut);}
 .story-more{display:inline;background:none;border:none;color:var(--text);font:inherit;font-weight:600;font-size:inherit;line-height:inherit;cursor:pointer;padding:0;margin:0 0 0 .2em;border-bottom:1.5px solid var(--text-dim);white-space:nowrap;}
-.story-more.story-less{border-bottom-color:var(--text-dim);}
 .home-intro,.sec p,.cartela,.home-meta,.react p,.contact p{font-family:var(--font-sans);}
 
 /* Audio */
@@ -142,7 +139,6 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .voice-prog .track{flex:1;height:3px;background:var(--surface-2);position:relative;cursor:pointer;border-radius:2px;}
 .voice-prog .fill{position:absolute;inset:0 auto 0 0;width:0;background:var(--accent);border-radius:2px;}
 .voice-prog .t{font-size:12px;color:var(--text-mut);font-variant-numeric:tabular-nums;min-width:34px;}
-.trans{display:block;margin:14px 24px 0;background:none;border:none;color:var(--text-mut);font:inherit;font-size:13px;cursor:pointer;text-align:left;text-decoration:underline;text-underline-offset:3px;}
 .eq{display:inline-flex;align-items:flex-end;gap:2px;height:10px;}
 .eq i{width:2.5px;background:var(--live);border-radius:2px;height:30%;}
 .eq.on i{animation:eq .9s ease-in-out infinite;}
@@ -171,14 +167,6 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .sec h2{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:24px;letter-spacing:-.02em;margin-bottom:16px;}
 .sec p{color:var(--text);font-size:15.5px;line-height:1.7;}
 .sec p+p{margin-top:14px;}
-.bio-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
-.bio-head .av{width:54px;height:54px;border-radius:50%;overflow:hidden;border:1px solid var(--border);filter:grayscale(1);}
-.bio-head .av img{width:100%;height:100%;object-fit:cover;}
-.bio-head .nm{font-weight:600;font-size:16px;}
-.bio-head .rl{color:var(--text-mut);font-size:13px;margin-top:2px;}
-.info-row{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--border);font-size:14px;}
-.info-row:last-child{border-bottom:none;}
-.info-row .k{color:var(--text-mut);}.info-row .v{text-align:right;font-weight:500;}
 .extlink{display:inline-flex;align-items:center;gap:8px;margin-top:8px;color:var(--text);font:inherit;font-weight:600;font-size:14px;background:none;border:none;cursor:pointer;border-bottom:1.5px solid var(--text-dim);padding:0 0 2px;}
 
 /* ===== NAV ===== */
@@ -227,11 +215,12 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .compose .done .msg{color:var(--text-mut);font-size:15px;line-height:1.6;margin-top:14px;}
 
 /* ===== BIO editorial ===== */
-.bio-hero{width:100%;overflow:hidden;}
-.bio-hero img{display:block;width:100%;height:auto;max-height:55vh;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06);}
-@media(min-width:480px){.bio-hero img{max-height:420px;}}
+.bio-hero{width:100%;padding:20px 20px 0;position:relative;}
+.bio-hero img{display:block;width:100%;height:auto;max-height:54vh;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06);}
+@media(min-width:480px){.bio-hero img{max-height:400px;}}
+.bio-hero-grad{position:absolute;left:20px;right:20px;bottom:0;height:130px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;}
 .bio-name-block{padding:26px 24px 0;text-align:center;}
-.bio-name{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:38px;letter-spacing:-.02em;line-height:1.05;margin-top:8px;}
+.bio-name{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:46px;letter-spacing:-.02em;line-height:1.05;margin-top:8px;}
 .bio-born{color:var(--text-mut);font-size:14px;margin-top:6px;font-style:italic;}
 .bio-intro{padding:26px 24px 0;font-size:15.5px;line-height:1.7;color:var(--text);}
 .bio-intro p+p{margin-top:14px;}
@@ -321,7 +310,6 @@ const EXPO={
 };
 const ARTIST={
   name:"Andoni Euba",
-  role:"Pintura · Bilbao",
   avatar:"images/descarga.jpg"
 };
 const BIO={
@@ -409,13 +397,13 @@ const BIO={
   ]
 };
 const WORKS=[
-  {id:'w1',title:'Kai sumergido con las crocs de pintar',year:'2018',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-01',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false},
-  {id:'w2',title:'Kai flotando en poca agua',year:'2019',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-02',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128,desc:`<p>Subiéndome a una roca alta, capturé esta imagen donde la figura de un joven flota suspendida.</p><p>El pecho de la figura y la esquina superior derecha, están pintadas con color muy denso, seco y agrisado. Su luminosidad contrasta con ese gran fondo de agua, que une perceptivamente lo que está en sombra con lo que está mojado.</p><p>Flotar en poca profundidad es un ejercicio de equilibrio que involucra a todo el cuerpo. Tensión y relajación simultáneamente, para alcanzar una concentración en el hecho de hacerse flotar.</p>`},
-  {id:'w3',title:'Kai paseando entre los hechos y los helechos',year:'2020',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-03',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false},
-  {id:'w4',title:'Las vacaciones del faquir en Arlés',year:'2021',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',ref:'AE-04',img:'images/ANDONI-EUBA-04.jpg',hasAudio:false},
-  {id:'w5',title:'Nagore',year:'2022',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',ref:'AE-05',img:'images/ANDONI-EUBA-05.jpg',hasAudio:true,audioDur:152},
-  {id:'w6',title:'Cierra la ventana que hay corriente. De Mondrian a Van Doesburg en un soplo',year:'2023',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',ref:'AE-06',img:'images/ANDONI-EUBA-06.jpg',hasAudio:false},
-  {id:'w7',title:'Retrato de familia',year:'2024',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',ref:'AE-07',img:'images/ANDONI-EUBA-07.jpg',hasAudio:false}
+  {id:'w1',title:'Kai sumergido con las crocs de pintar',year:'2018',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false},
+  {id:'w2',title:'Kai flotando en poca agua',year:'2019',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128,desc:`<p>Subiéndome a una roca alta, capturé esta imagen donde la figura de un joven flota suspendida.</p><p>El pecho de la figura y la esquina superior derecha, están pintadas con color muy denso, seco y agrisado. Su luminosidad contrasta con ese gran fondo de agua, que une perceptivamente lo que está en sombra con lo que está mojado.</p><p>Flotar en poca profundidad es un ejercicio de equilibrio que involucra a todo el cuerpo. Tensión y relajación simultáneamente, para alcanzar una concentración en el hecho de hacerse flotar.</p>`},
+  {id:'w3',title:'Kai paseando entre los hechos y los helechos',year:'2020',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false},
+  {id:'w4',title:'Las vacaciones del faquir en Arlés',year:'2021',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-04.jpg',hasAudio:false},
+  {id:'w5',title:'Nagore',year:'2022',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-05.jpg',hasAudio:true,audioDur:152},
+  {id:'w6',title:'Cierra la ventana que hay corriente. De Mondrian a Van Doesburg en un soplo',year:'2023',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-06.jpg',hasAudio:false},
+  {id:'w7',title:'Retrato de familia',year:'2024',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-07.jpg',hasAudio:false}
 ];
 const PH_DESC="Texto de sala pendiente. Aquí irá el comentario sobre esta obra —su lugar dentro del proyecto, la técnica o el contexto— que aporte el artista o la galería.";
 const workById=id=>WORKS.find(w=>w.id===id);
@@ -524,7 +512,7 @@ function tplObra(){
 function tplSobre(){
   const row=a=>a.map(i=>`<div class="bio-item"><span class="yr">${i.year}</span><span class="tx">${i.text}</span></div>`).join('');
   return `<div class="view">
-    <div class="bio-hero fu"><img src="${ARTIST.avatar}" alt="${ARTIST.name}"></div>
+    <div class="bio-hero fu"><img src="${ARTIST.avatar}" alt="${ARTIST.name}"><div class="bio-hero-grad"></div></div>
     <div class="bio-name-block fu">
       <div class="kicker">El artista</div>
       <h1 class="bio-name">${ARTIST.name}</h1>
@@ -609,7 +597,6 @@ function sampleImg(img,cb,fallback){
 function initAmbient(){
   clearAmbient();
   if(view==='obra'){
-    const w=workById(currentWork);
     const img=$('view')?.querySelector('.art img');
     if(!img)return;
     sampleImg(img,pal=>{if(view==='obra')applyAmbient(pal);},DEFAULT_PALETTE);
@@ -749,7 +736,6 @@ function bindView(){
     zoom:openLb,
     note:openCompose,
     contact:()=>showToast('Solicitud enviada. La galería te contactará.'),
-    trans:()=>showToast('(Abriría la transcripción del audio)'),
     more:()=>showToast('Enlace externo: '+EXPO.more)
   };
   document.querySelectorAll('[data-work]').forEach(el=>el.onclick=()=>go('obra',{work:el.dataset.work}));
