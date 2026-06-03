@@ -43,18 +43,12 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 
 /* Top bar */
 .topbar{position:absolute;top:0;left:0;right:0;z-index:30;height:56px;display:flex;align-items:center;gap:4px;
-  padding:0 10px;background:linear-gradient(to bottom,var(--bg) 35%,transparent);transition:background .25s,box-shadow .25s,backdrop-filter .25s;}
-.topbar.clear{background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent);}
-.topbar.scrolled{background:var(--bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--border);}
-.topbar.clear.scrolled{background:rgba(12,12,13,.96);}
+  padding:0 10px;background:transparent;}
 .topbar .sp{flex:1;}
-.brand{font-family:var(--font-display);font-weight:300;font-size:15px;letter-spacing:.02em;padding-left:8px;opacity:0;transition:opacity .3s;}
-.brand.show{opacity:1;}
 .ico{width:42px;height:42px;border-radius:50%;border:none;background:transparent;color:var(--text);cursor:pointer;
   display:grid;place-items:center;transition:opacity .2s,transform .15s;}
 .ico:active{transform:scale(.9);}.ico:hover{opacity:.7;}
 .ico.hidden{display:none;}
-.topbar.clear .ico{color:#fff;}
 
 /* Scroll + views */
 .scroll{position:relative;z-index:1;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:74px;background:transparent;}
@@ -250,7 +244,6 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 
   <header class="topbar" id="topbar">
     <button class="ico hidden" id="back" aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
-    <span class="brand" id="brand">Aretxaga · Miribilla</span>
     <div class="sp"></div>
     <button class="ico" id="share" aria-label="Compartir"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><polyline points="8 7 12 3 16 7"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg></button>
   </header>
@@ -431,9 +424,6 @@ function render(){
   $('mini').style.bottom=onHome?'0':'';
   $('topbar').style.display=onHome?'none':'';
   $('back').classList.toggle('hidden',histStack.length===0);
-  $('brand').classList.toggle('show',!onHome);
-  $('topbar').classList.toggle('clear',view==='obra');
-  updateTopbar();
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===view||(view==='obra'&&b.dataset.nav==='obras')));
   bindView(); updateInline(); initAmbient();
 }
@@ -754,10 +744,7 @@ function bindView(){
   const pb=$('playBtn'); if(pb) pb.onclick=()=>playWork(currentWork);
   const tr=$('track'); if(tr) tr.onclick=e=>{const r=tr.getBoundingClientRect();seek((e.clientX-r.left)/r.width);};
   const sc=$('scroll');
-  sc.onscroll=()=>{
-    const c=$('cue');if(c)c.classList.add('gone');
-    updateTopbar();
-  };
+  sc.onscroll=()=>{const c=$('cue');if(c)c.classList.add('gone');};
 }
 
 /* ===================== AUDIO ===================== */
@@ -795,11 +782,6 @@ $('miniMeta').onclick=()=>go('obra',{work:nowPlaying.workId});
 /* ===================== NAV / BACK / TOP ===================== */
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{const n=b.dataset.nav;histStack.length=0;go(n,{},false);});
 $('back').onclick=back;
-
-function updateTopbar(){
-  const tb=$('topbar'),sc=$('scroll');
-  if(tb&&sc)tb.classList.toggle('scrolled',sc.scrollTop>10);
-}
 
 async function sharePage(){
   const url=location.href;
