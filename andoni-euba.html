@@ -204,9 +204,11 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .compose-body{flex:1;overflow-y:auto;padding:8px 24px 24px;}
 .compose-body h2{font-family:var(--font-display);font-weight:300;font-size:28px;letter-spacing:-.02em;}
 .compose .note{color:var(--text-mut);font-size:14px;line-height:1.55;margin-top:12px;}
-.compose textarea{width:100%;margin-top:22px;background:transparent;border:none;outline:none;color:var(--text);font:inherit;font-size:18px;line-height:1.55;min-height:150px;resize:none;}
+.compose textarea{width:100%;margin-top:22px;background:transparent;border:none;border-bottom:1.5px solid var(--text-dim);outline:none;color:var(--text);font:inherit;font-size:18px;line-height:1.55;min-height:150px;resize:none;padding-bottom:10px;transition:border-color .2s;}
+.compose textarea:focus{border-bottom-color:var(--text);}
 .compose .name{margin-top:8px;padding-top:18px;border-top:1px solid var(--border);}
-.compose input{width:100%;background:transparent;border:none;outline:none;color:var(--text);font:inherit;font-size:15px;}
+.compose input{width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--text-dim);outline:none;color:var(--text);font:inherit;font-size:15px;padding-bottom:8px;transition:border-color .2s;}
+.compose input:focus{border-bottom-color:var(--text);}
 .compose-foot{flex-shrink:0;padding:16px 24px;border-top:1px solid var(--border);}
 .compose .send{width:100%;border:none;cursor:pointer;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;font-size:15px;padding:16px;}
 .compose .done{padding:40px 24px;text-align:center;margin:auto 0;}
@@ -215,8 +217,8 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 
 /* ===== BIO editorial ===== */
 .bio-hero{width:100%;padding:20px 20px 0;position:relative;}
-.bio-hero img{display:block;width:100%;height:auto;max-height:54vh;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06);}
-@media(min-width:480px){.bio-hero img{max-height:400px;}}
+.bio-hero img{display:block;width:100%;height:auto;max-height:38vh;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06);}
+@media(min-width:480px){.bio-hero img{max-height:280px;}}
 .bio-hero-grad{position:absolute;left:20px;right:20px;bottom:0;height:130px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;}
 .bio-name-block{padding:26px 24px 0;text-align:center;}
 .bio-name{font-family:var(--font-display);font-weight:300;font-style:italic;font-size:46px;letter-spacing:-.02em;line-height:1.05;margin-top:8px;}
@@ -425,6 +427,9 @@ function render(){
   $('view').innerHTML=html;
 
   const onHome=view==='home';
+  $('nav').style.display=onHome?'none':'';
+  $('mini').style.bottom=onHome?'0':'';
+  $('topbar').style.display=onHome?'none':'';
   $('back').classList.toggle('hidden',histStack.length===0);
   $('brand').classList.toggle('show',!onHome);
   $('topbar').classList.toggle('clear',view==='obra');
@@ -722,7 +727,7 @@ function setupStoryExpand(wrap, previewLines=STORY_PREVIEW_LINES){
     const last=body.querySelector('p:last-of-type');
     if(!last)return;
     const btn=document.createElement('button');
-    btn.type='button';btn.className='story-more';btn.textContent='Leer más →';
+    btn.type='button';btn.className='story-more';btn.textContent='Leer más';
     btn.onclick=e=>{e.stopPropagation();wrap.dataset.expanded='1';setupStoryExpand(wrap,previewLines);};
     last.appendChild(document.createTextNode(' '));
     last.appendChild(btn);
