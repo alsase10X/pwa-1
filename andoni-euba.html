@@ -62,17 +62,18 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 /* ===== PORTADA editorial ===== */
 .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
 .home-view{height:100dvh;overflow:hidden;display:flex;flex-direction:column;}
-.home-header{padding:20px 22px 0;display:flex;align-items:center;flex-shrink:0;}
+.home-header{padding:20px 22px 14px;display:flex;align-items:center;flex-shrink:0;}
 .home-logo{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:17px;color:var(--text-mut);letter-spacing:.01em;}
-.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:28px 13% 0;scroll-padding:0 13%;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0;align-items:center;position:relative;}
+.carousel-wrap{position:relative;flex-shrink:0;}
+.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:28px 13% 0;scroll-padding:0 13%;-webkit-overflow-scrolling:touch;scrollbar-width:none;align-items:center;}
 .carousel::-webkit-scrollbar{display:none;}
 .carousel-slide{flex-shrink:0;width:74%;scroll-snap-align:center;overflow:hidden;cursor:pointer;transform:scale(.80);opacity:.5;transition:transform .45s cubic-bezier(.16,.84,.44,1),opacity .45s ease;}
 .carousel-slide.active{transform:scale(1.06);opacity:1;}
 .carousel-slide img{display:block;width:100%;height:auto;}
-.home-content{flex:1;min-height:0;display:flex;flex-direction:column;padding:10px 24px 0;}
-.home-label{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:24px;color:var(--text);position:absolute;bottom:12px;left:calc(13% + 6px);line-height:1;pointer-events:none;z-index:2;}
-.home-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:clamp(58px,18vw,82px);line-height:.91;letter-spacing:-.03em;color:var(--text);flex-shrink:0;}
-.home-sub{color:var(--text-dim);font-size:13.5px;line-height:1.6;margin-top:12px;flex-shrink:0;}
+.home-content{flex:1;min-height:0;display:flex;flex-direction:column;padding:10px 16px 0;}
+.home-label{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:28px;color:var(--text);position:absolute;bottom:14px;left:calc(13% + 6px);line-height:1;pointer-events:none;z-index:2;}
+.home-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:clamp(88px,26vw,116px);line-height:.89;letter-spacing:-.035em;color:var(--text);flex-shrink:0;}
+.home-sub{color:var(--text-dim);font-size:13.5px;line-height:1.6;margin-top:14px;flex-shrink:0;}
 .home-actions{display:flex;margin-top:auto;padding-bottom:24px;}
 .home-action{flex:1;background:none;border:none;cursor:pointer;color:var(--text-mut);font:inherit;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:16px 0;text-align:center;transition:color .2s;}
 .home-action:hover{color:var(--text);}
@@ -446,7 +447,10 @@ function tplHome(){
     <div class="home-header fu">
       <div class="home-logo">Galería Lumbreras</div>
     </div>
-    <div class="carousel fu">${slides}<div class="home-label">Exposición</div></div>
+    <div class="carousel-wrap fu">
+      <div class="carousel">${slides}</div>
+      <div class="home-label">Exposición</div>
+    </div>
     <div class="home-content">
       <h1 class="home-title fu d1">Aretxaga<br>Miribilla</h1>
       <p class="home-sub fu d2">${EXPO.artist} — ${EXPO.dates}<br>${EXPO.sala}</p>
