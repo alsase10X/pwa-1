@@ -62,11 +62,11 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 /* ===== PORTADA editorial ===== */
 .kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
 .home-view{display:flex;flex-direction:column;min-height:calc(100dvh - 64px);}
-.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:8px;padding:18px 13% 0;scroll-padding:18px 13%;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0;}
+.carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:48px 13% 0;scroll-padding:0 13%;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0;align-items:center;}
 .carousel::-webkit-scrollbar{display:none;}
-.carousel-slide{flex-shrink:0;width:74%;scroll-snap-align:center;overflow:hidden;cursor:pointer;position:relative;}
-.carousel-slide img{display:block;width:100%;height:52vh;object-fit:cover;object-position:center top;}
-@media(min-width:480px){.carousel-slide img{height:370px;}}
+.carousel-slide{flex-shrink:0;width:74%;scroll-snap-align:center;overflow:hidden;cursor:pointer;transform:scale(.80);opacity:.5;transition:transform .45s cubic-bezier(.16,.84,.44,1),opacity .45s ease;}
+.carousel-slide.active{transform:scale(1.06);opacity:1;}
+.carousel-slide img{display:block;width:100%;height:auto;}
 .home-content{padding:0 24px 32px;flex:1;display:flex;flex-direction:column;justify-content:flex-end;}
 .home-label{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:26px;color:var(--text-mut);margin-bottom:4px;margin-top:16px;}
 .home-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:clamp(66px,20vw,88px);line-height:.91;letter-spacing:-.03em;color:var(--text);}
@@ -298,9 +298,9 @@ const EXPO={
   more:"https://galerialumbreras.com/artistas/andoni-euba-2/",
   cover:"images/ANDONI-EUBA-07.jpg",
   slides:[
-    {img:'images/ANDONI-EUBA-04.jpg',work:'w5'},
-    {img:'images/ANDONI-EUBA-06.jpg',work:'w6'},
-    {img:'images/ANDONI-EUBA-07.jpg',work:'w7'}
+    {img:'images/ANDONI-EUBA-02.jpg',work:'w2'},
+    {img:'images/ANDONI-EUBA-03.jpg',work:'w3'},
+    {img:'images/ANDONI-EUBA-01.jpg',work:'w1'}
   ],
   intro:"Un proyecto de lugar, desde 2018. Una selección de siete cuadros de los doce realizados hasta ahora.",
   statement:[
@@ -737,6 +737,49 @@ function setupStoryExpand(wrap, previewLines=STORY_PREVIEW_LINES){
   if(document.fonts?.ready)document.fonts.ready.then(run);
 }
 
+/* ===================== CAROUSEL ===================== */
+function initCarousel(){
+  const car=document.querySelector('.carousel');
+  if(!car)return;
+  const slides=[...car.querySelectorAll('.carousel-slide')];
+  if(!slides.length)return;
+
+  function slideCenter(s){return s.offsetLeft+s.offsetWidth/2;}
+  function scrollToSlide(s,smooth){
+    const left=s.offsetLeft-(car.offsetWidth-s.offsetWidth)/2;
+    car.scrollTo({left,behavior:smooth?'smooth':'instant'});
+  }
+  function update(){
+    const cx=car.scrollLeft+car.offsetWidth/2;
+    let closest=slides[0],minD=Infinity;
+    slides.forEach(s=>{const d=Math.abs(slideCenter(s)-cx);if(d<minD){minD=d;closest=s;}});
+    slides.forEach(s=>s.classList.toggle('active',s===closest));
+  }
+
+  // Arrancar en el segundo slide sin animación
+  requestAnimationFrame(()=>{
+    scrollToSlide(slides[1]||slides[0],false);
+    update();
+  });
+
+  car.addEventListener('scroll',update,{passive:true});
+
+  // Autoplay: avanza cada 4s, para al tocar, reanuda 2s después
+  let ap=null;
+  function startAp(){
+    clearInterval(ap);
+    ap=setInterval(()=>{
+      const cx=car.scrollLeft+car.offsetWidth/2;
+      let ci=0,minD=Infinity;
+      slides.forEach((s,i)=>{const d=Math.abs(slideCenter(s)-cx);if(d<minD){minD=d;ci=i;}});
+      scrollToSlide(slides[(ci+1)%slides.length],true);
+    },4000);
+  }
+  car.addEventListener('touchstart',()=>clearInterval(ap),{passive:true});
+  car.addEventListener('touchend',()=>setTimeout(startAp,2500),{passive:true});
+  startAp();
+}
+
 /* ===================== BIND ===================== */
 function bindView(){
   const acts={
@@ -750,6 +793,7 @@ function bindView(){
   };
   document.querySelectorAll('[data-work]').forEach(el=>el.onclick=()=>go('obra',{work:el.dataset.work}));
   document.querySelectorAll('[data-act]').forEach(el=>{const a=el.dataset.act;if(acts[a])el.onclick=acts[a];});
+  if(view==='home')initCarousel();
   setupStoryExpand($('storyWrap'));
   setupStoryExpand($('statementWrap'), 8);
   const pb=$('playBtn'); if(pb) pb.onclick=()=>playWork(currentWork);
