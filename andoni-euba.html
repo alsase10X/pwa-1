@@ -244,23 +244,26 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .bio-plain:last-child{border-bottom:none;}
 
 /* ===== PROYECTO ===== */
-.proy-hero{width:100%;overflow:hidden;}
-.proy-hero img{display:block;width:100%;height:56vh;object-fit:cover;object-position:center;}
-@media(min-width:480px){.proy-hero img{height:420px;}}
+.proy-img-wrap{width:100%;position:relative;}
+.proy-img-wrap img{display:block;width:100%;height:auto;}
+.proy-img-wrap.no-img{background:var(--surface-2);aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;}
+.proy-img-wrap.no-img img{display:none;}
+.proy-img-wrap.no-img::after{content:attr(data-slot);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);}
 .proy-head{padding:30px 24px 0;}
 .proy-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
 .proy-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:40px;line-height:1.02;letter-spacing:-.025em;margin-top:10px;}
 .proy-block{padding:32px 24px 0;}
-.proy-block-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;margin-bottom:14px;}
-.proy-block-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:24px;letter-spacing:-.02em;color:var(--text-mut);margin-bottom:16px;}
+.proy-block-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;margin-bottom:16px;}
 .proy-text{font-size:15.5px;line-height:1.72;color:var(--text-mut);}
 .proy-text p+p{margin-top:14px;}
-.proy-img{margin:28px 0 0;position:relative;}
-.proy-img img{display:block;width:100%;height:auto;}
-.proy-img-cap{font-size:11px;color:var(--text-dim);margin-top:8px;font-style:italic;padding:0 24px;}
-.proy-quote{padding:36px 24px;}
-.proy-quote-text{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:30px;line-height:1.1;letter-spacing:-.02em;color:var(--text);border-left:1.5px solid var(--text-dim);padding-left:20px;}
-.proy-subtitle{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:28px;letter-spacing:-.02em;margin-bottom:16px;}
+.proy-img-inner{margin:20px 0 0;}
+.proy-fold{border-top:1px solid var(--border);margin-top:24px;}
+.proy-fold summary{list-style:none;cursor:pointer;padding:14px 0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);display:flex;align-items:center;gap:8px;transition:color .2s;}
+.proy-fold summary::-webkit-details-marker{display:none;}
+.proy-fold summary::after{content:'↓';font-size:10px;transition:transform .25s;}
+.proy-fold[open] summary{color:var(--text-mut);}
+.proy-fold[open] summary::after{transform:rotate(180deg);}
+.proy-fold-body{padding-bottom:24px;}
 .proy-close{padding:44px 24px 12px;text-align:center;font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-dim);}
 
 /* Toast */
@@ -421,43 +424,48 @@ const BIO={
   ]
 };
 const PROYECTO={
-  hero:'images/ANDONI-EUBA-06.jpg',
-  img2:'images/ANDONI-EUBA-03.jpg',
-  blocks:[
+  hero:{src:'images/proyecto/proyecto-hero.jpg',alt:'Pared con el título del proyecto rotulado en la calle'},
+  eyebrow:'Proyecto · 2018 — en curso',
+  titulo:'Una calle como estudio',
+  intro:'Un día, al salir del estudio, vi que la calle estaba siendo convertida en peatonal. Sentí el impulso de actuar: convertir ese espacio exterior en el contexto de mi siguiente trabajo. La idea era hacer un lugar y darle un nombre.',
+  marco:'El proyecto es un tríptico de quince metros de fachada en la calle Miribilla. Tres paredes —donde antes solo había dos persianas sin propósito—. Resultaba paradójico: para abrirme al exterior, lo primero que tuve que hacer fue construir unos muros.',
+  paredes:[
     {
-      label:'Bloque 1 — El origen',
-      text:[
-        'Un día, al salir del estudio, el asfalto estaba siendo convertido en zona peatonal. Surgió el impulso de actuar: convertir el exterior en el contexto del siguiente trabajo. Era 2018.',
-        'El cruce de las calles Aretxaga y Miribilla no tenía nombre reconocible. Para dárselo, hubo que convencer a Úbeda, el dueño del bar contiguo, de ceder su fachada para pintar el título del proyecto en lugar del nombre de su local. Resultaba paradójico: para abrirse al exterior, el primer paso fue construir muros. Un tríptico de quince metros nacía en la calle.'
-      ]
+      titulo:'Pared 1 — El nombre',
+      img:{src:'images/proyecto/pared-1-nombre.jpg',alt:'El cruce de Aretxaga y Miribilla con gente en la calle'},
+      espina:'Aretxaga y Miribilla es un cruce de dos calles pequeñas que no tenía un nombre reconocible. Para dárselo, la primera pared lleva el título del proyecto rotulado al óleo, crema sobre negro brillante, en lugar del nombre del bar de al lado. Tuve que convencer a Úbeda, su dueño, para que cediera su fachada; tras meditarlo, lleno de generosidad, aceptó. Ahora hasta los taxistas se han aprendido el nombre de la calle. Está escrito en la pared.',
+      pliegue:'Aretxaga conecta el estudio con la ría y tiene mucha vida; Miribilla era una calle desconocida que dio nombre al barrio nuevo pero mantuvo su anonimato. Aspira a concretarse en la memoria como un lugar, un pequeño reflejo de cruces como el legendario Haight-Ashbury de San Francisco. El proyecto necesitaba financiación —según mi añorado amigo Javier San Martín, el artista tiene que buscarla, no hay excusas— y la presenté en la oficina de barrio del Ayuntamiento de Bilbao, que respondió con entusiasmo.'
     },
     {
-      label:'Bloque 2 — El mecanismo',
-      quote:'Los cuadros actuaron de uno en uno. Ahora son su consecuencia.',
-      text:[
-        'La estructura exigía un cuadro nuevo cada seis meses, instalado a la intemperie. Pintados en el interior, maduraban al aire de la calle, convirtiéndose en testigos de la vida del barrio —como la aparición de una terraza que antes no existía—.',
-        'El sol y el clima ponían a prueba la materia. La calle revelaba la naturaleza de la pintura: el color seco y agrisado se volvía asombrosamente luminoso al repeler la luz, mientras que las sombras, para sentirse profundas, exigían ser húmedas, brillantes y fluidas. La intemperie no solo exponía la obra; la curaba.'
-      ]
+      titulo:'Pared 2 — El mural permanente',
+      img:{src:'images/proyecto/pared-2-mural.jpg',alt:'Mural permanente con cuatro águilas y cuatro drones'},
+      espina:'La pared central lleva un mural permanente. Necesitaba una imagen que concretara su tiempo. Oí que en las minas a cielo abierto de América, donde comparten espacio las águilas y los drones de vigilancia, las águilas atacan y derriban a esos huéspedes mecánicos. Era 2017 y apenas se empezaba a oír hablar de drones: una imagen posible solo a partir de su tiempo. Pinté cuatro águilas y cuatro drones compartiendo un espacio. Naturalezas distintas en un espacio común.',
+      pliegueImg:{src:'images/proyecto/pared-2-proceso.jpg',alt:'El mural siendo pintado sobre la pared'},
+      pliegue:'No hay una sola lectura: los drones aparecen simpáticos, retro; las águilas, como la madre sabia que reflexiona ante la escena. Banksy hizo una serigrafía de una sopa de marca blanca, eco inevitable de las Campbell\'s de Warhol en un tiempo sin marcas blancas. Como ellos, fijar en una imagen el tiempo que uno respira.'
     },
     {
-      label:'Bloque 3 — El desenlace',
-      subtitle:'Siete de doce',
-      text:[
-        'El proyecto supone un cambio de contexto radical. Las obras nacieron en la intimidad del estudio, se curtieron en el asfalto y, finalmente, se agrupan en este espacio privado con apertura pública.',
-        'Esta exposición reúne siete de los doce cuadros creados hasta el momento. En ellos conviven la investigación rigurosa de los límites físicos de la pintura y una apertura total a conectar con las realidades e imprevistos del siglo XXI.'
-      ]
+      titulo:'Pared 3 — Los cuadros-murales',
+      img:{src:'images/proyecto/pared-3-escala.jpg',alt:'Un cuadro-mural instalado en la calle, con una persona al lado'},
+      espina:'La tercera pared acoge un cuadro pintado en el estudio que se instala en el exterior. Cada seis meses se cambia, y al salir a la calle se convierte por un tiempo en cuadro-mural. Esa salida le permite empaparse de ella, ser testigo de la vida a su alrededor —como el nacimiento de una terraza que hace ocho años no hacía falta y ahora es imprescindible—. Y el sol pone a prueba la materia: el color seco y agrisado se vuelve asombrosamente luminoso al repeler la luz; las sombras, para sentirse profundas, exigen ser húmedas y fluidas. La intemperie no solo exponía la obra: la curaba.',
+      pliegue:'Contenido pendiente — reparto con las descripciones de obra.'
     }
   ],
-  close:'2018 — en curso.'
+  cierre:{
+    img:{src:'images/proyecto/cierre-proceso.jpg',alt:'Andoni Euba pintando la parte alta de un cuadro'},
+    titulo:'El porqué',
+    espina:'Cuando empecé el primero de los doce cuadros no llegaba a la parte alta. Até un carbón a un palo largo y, al dibujar, sentí una conexión con todos los que habían usado esa misma herramienta: una línea que empieza en las cuevas y sigue por los siglos hasta los artistas de hoy que cuestionan la naturaleza del espacio donde intervienen. Quitar las persianas del estudio y salir fuera era eso: salir de uno mismo para acceder a los demás. A ver qué pasaba.',
+    pliegue:'Francis Alÿs metió un zorro a pasar la noche en la National Portrait Gallery de Londres. Monica Bonvicini instaló en plena calle un baño de cristal, espejo por fuera y transparente por dentro. Thomas Hirschhorn levantó un «museo precario» con sus vecinos en las afueras de París. Elmgreen & Dragset construyeron una tienda Prada en pleno desierto de Texas. Obras sobre el lugar y sobre la frontera entre interior y exterior. Todas comparten algo: o se da esa comunicación activa entre el artista y la sociedad, o el proyecto no tiene capacidad de ser.'
+  },
+  fin:'2018 — en curso.'
 };
 const WORKS=[
-  {id:'w1',title:'Kai sumergido con las crocs de pintar',year:'2018',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false,desc:`<p>El agua estaba tan fría y resbalosa que le pareció buena idea calzarse.</p><p>Las dos manos sobre una pierna, para remangarse. Y en ese plegado aparece un recorrido de signos y enigmas.</p><p>Se forma una columna de luz, donde el pelo sería el capitel, sustentando una estructura robusta en la figura de un joven que oculta su identidad, como rasgo de identidad compartida.</p><p>El fondo superior es un plano oscuro, contiene cierta vegetación, y está pintado con pinceladas unidas entre sí como catenarias de óleo. Utilizando la gravedad para dejar caer un material que suma fluidez y densidad sobre un cuadro situado en posición vertical.</p><p>Esas catenarias confieren una personalidad propia a ese grupo de pinceladas, haciéndose sentir especiales, como ellas mismas, y quebrando la luz exterior que reciben, con sus distintos planos en su materialidad orgánica.</p><p>Fue el primer cuadro en convertirse en mural al instalarse en la calle, puso a prueba la reacción social, y salió victorioso en la complicidad.</p>`},
-  {id:'w2',title:'Kai flotando en poca agua',year:'2019',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128,desc:`<p>Subiéndome a una roca alta, capturé esta imagen donde la figura de un joven flota suspendida.</p><p>El pecho de la figura y la esquina superior derecha, están pintadas con color muy denso, seco y agrisado. Su luminosidad contrasta con ese gran fondo de agua, que une perceptivamente lo que está en sombra con lo que está mojado.</p><p>Flotar en poca profundidad es un ejercicio de equilibrio que involucra a todo el cuerpo. Tensión y relajación simultáneamente, para alcanzar una concentración en el hecho de hacerse flotar.</p>`},
-  {id:'w3',title:'Kai paseando entre los hechos y los helechos',year:'2020',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false,desc:`<p>Al girar un libro con grabados de Goya, donde había un joven saltando con una pértiga por encima de un toro, pude entender que Goya para hacer esa imagen había puesto a un joven de pie sujetando una pértiga en horizontal, paralela al suelo. Después él se había subido a una altura y había dibujado la escena. Para finalizar con un cuarto de giro a esa hoja de papel y tener al joven volando.</p><p>Le propuse a Kai hacer esa reconstrucción para ver si era así. Después le situé saltando con su pértiga entre dos lados de un río con pintorescos helechos. Un joven clava su pértiga en el barro para saltar entre dos márgenes, librando la presencia de los helechos.</p><p>Al final, la imagen elegida, de las muchas que tomamos, no partía con la pértiga en paralelo al suelo, sino de un aparente error. Debido a su peso, no era fácil mantenerla en horizontal, y en esa desviación no intencionada, al girar el papel, apareció una imagen con una torsión extra en la figura.</p><p>La peculiaridad del instante, los momentos especiales se ven como realidad en el arte. Y esa apertura a lo inesperado ha prevalecido durante la búsqueda de estas imágenes, antes de ser cuadros.</p><p>La Pintura necesita verse después de imaginada, en ese hacer para ver y comprender, el pintor vive.</p>`},
-  {id:'w4',title:'Las vacaciones del faquir en Arlés',year:'2021',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-05.jpg',hasAudio:false,desc:`<p>Un faquir de vacaciones echa de menos un poco de acción. Aprovecha para descansar sobre un fardo de paja bien seca. Pero aun siendo faquir, necesita arrascar el picor de una pierna.</p><p>Cada extremidad de la figura entra con perpendicularidad en la forma que la contiene.</p><p>La pierna que cuelga sobre el fardo parece que puede oscilar como péndulo, la otra pierna apunta al cielo, mientras el brazo plantea una diagonal relajada. Todas las extremidades actúan como manecillas de un reloj que nos marcan un tiempo distinto según las dos que elijamos para componer la hora.</p><p>Se percibe una gran distancia entre el pie colgante y el pueblo que aparece a lo lejos. También hay un recorrido espacial en forma de distancia entre ese mismo pie y la mano relajada. Son distancias que recorren un espacio cargado de pintura en densidad a través de pinceladas separadas.</p>`},
-  {id:'w5',title:'Nagore',year:'2022',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-04.jpg',hasAudio:true,audioDur:152,desc:`<p>Cuando entré en la panadería Labeko del Casco Viejo, vi a una trabajadora que sentí que podía representar a todas las mujeres.</p><p>Igual que la figura de mi hijo representaba a todos los jóvenes que transitaban por esas edades, teniendo características comunes que los unen como grupo, Nagore proyectaba una serenidad como de sabiduría ancestral.</p><p>Basada la imagen en el último cuadro de Manet, donde los reflejos y brillos de espejos y botellas de ese fondo de la camarera del Folies Bergère, han sido cambiados por pan.</p><p>Pan representado con pinceladas densas y concretas, que adquieren una materialidad seca como el propio pan.</p><p>Es un cuadro donde el proceso de construcción es visible al estar algunos elementos más finalizados que otros. Los brazos, por ejemplo, se mantuvieron con la primera intervención, mostrando la estructura de construcción de ese elemento. Los cantos de las estanterías mantienen el color de la imprimación. Es en el rostro de Nagore donde se acumulan varias sesiones, hasta sentir su presencia.</p>`},
-  {id:'w6',title:'Cierra la ventana que hay corriente. De Mondrian a Van Doesburg en un soplo',year:'2023',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-06.jpg',hasAudio:false,desc:`<p>Ha llegado un golpe de viento y las figuras dignas, verticales y separadas del bodegón de Zurbarán han sido derribadas.</p><p>Pero en su caída, han encontrado que en el hecho de mantener un punto de contacto reside su capacidad para poder mantenerse en ese equilibrio precario.</p><p>Al tumbarse las vasijas desaparece esa identificación de las vasijas con personas, propia del cuadro de Zurbarán, al perder esa prestancia y dignidad de lo vertical.</p><p>Pero al tumbarlas aparecen posibilidades nuevas en forma de huecos, óvalos, diagonales y recursos espaciales mucho más abstraídos de la realidad.</p><p>La forma se hace más difícilmente reconocible, y la geometría se hace más sentimental.</p><p>Pero al derribar todas las figuras, se da una circunstancia muy negativa en un cuadro. No hay verticales, y además no se generan diferencias de altura. El espacio se llena solo de manera horizontal y eso no es lo que mejor construye un espacio, le falta lo vertical.</p><p>En consecuencia, no hay bodegones con todas sus formas tumbadas, porque tener todos los elementos del cuadro tumbados supone una propuesta en sí misma. Supone también una actitud que no sufre demasiado por perder esencias de la Pintura, si construye una posibilidad de significado.</p>`},
-  {id:'w7',title:'Retrato de familia',year:'2024',technique:'Óleo sobre tabla greenpanel',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-07.jpg',hasAudio:false,desc:`<p>Hay vajillas que, aunque están con nosotros, no pertenecen a nuestro tiempo. Nos han llegado inesperadas y no son aptas para el microondas.</p><p>Eran las vajillas para los días de celebración en familia y están colocadas en una agrupación vista desde niño, puestas a secar después de la celebración.</p><p>El punto de vista elegido es muy bajo para poder entrar con la mirada dentro de esos huecos ovalados.</p><p>Óvalos que giran como planetas. Formas redondeadas que llenan ese espacio de color negro plano, y en consecuencia sin capacidad espacial.</p><p>Sentía necesaria una sorpresa narrativa que incorporara ese fondo plano al cuadro. Y la sorpresa fue para mí cuando recortando la forma de las vasijas con negro, quedó ese espacio por llenar en el plano del fondo. Del mismo tono lumínico que el elemento opuesto, la sopera que simboliza a mi padre.</p><p>Este elemento cuadrado, con verticales necesarias para compensar tanta curva, y luminoso respecto del fondo, esta luz cuadrada, es en realidad el mismo color negro que el resto del fondo. Solamente no ha sido humedecido con aceite, y se ve seco y mate.</p><p>Ese elemento inesperado, expande el cuadro haciéndolo más ancho y plantea otra realidad en el cuadro, otra posibilidad de actuar como pintor.</p><p>También coquetea con eso tan pictórico de no acabar todo en el cuadro completamente, con los «campos de color» no completados y con esos cuadros de esquinas inacabadas, que nos muestran el proceso de cómo empezó el cuadro por ser testimonio del principio. Esas esquinas inacabadas, ahora se hacen un hueco en el centro de la imagen.</p><p>Surgiendo un fondo de color negro plano que se hace más espacial por contener un elemento que le da profundidad a ese plano, al estar situado en él.</p><p>La jarra de agua representa a mi madre, y así hasta completar la escena completa en una irónica y frágil asociación, donde una estructura triangular envuelve esas formas para concretarlas en un triángulo de energía actual, que sí recoge los tres lados de mi geometría familiar.</p>`}
+  {id:'w1',title:'Kai sumergido con las crocs de pintar',year:'2018',technique:'Óleo sobre tabla',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false,desc:`<p>El agua estaba tan fría y resbalosa que le pareció buena idea calzarse.</p><p>Las dos manos sobre una pierna, para remangarse. Y en ese plegado aparece un recorrido de signos y enigmas.</p><p>Se forma una columna de luz, donde el pelo sería el capitel, sustentando una estructura robusta en la figura de un joven que oculta su identidad, como rasgo de identidad compartida.</p><p>El fondo superior es un plano oscuro, contiene cierta vegetación, y está pintado con pinceladas unidas entre sí como catenarias de óleo. Utilizando la gravedad para dejar caer un material que suma fluidez y densidad sobre un cuadro situado en posición vertical.</p><p>Esas catenarias confieren una personalidad propia a ese grupo de pinceladas, haciéndose sentir especiales, como ellas mismas, y quebrando la luz exterior que reciben, con sus distintos planos en su materialidad orgánica.</p><p>Fue el primer cuadro en convertirse en mural al instalarse en la calle, puso a prueba la reacción social, y salió victorioso en la complicidad.</p>`},
+  {id:'w2',title:'Kai flotando en poca agua',year:'2019',technique:'Óleo sobre tabla',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128,desc:`<p>Subiéndome a una roca alta, capturé esta imagen donde la figura de un joven flota suspendida.</p><p>El pecho de la figura y la esquina superior derecha, están pintadas con color muy denso, seco y agrisado. Su luminosidad contrasta con ese gran fondo de agua, que une perceptivamente lo que está en sombra con lo que está mojado.</p><p>Flotar en poca profundidad es un ejercicio de equilibrio que involucra a todo el cuerpo. Tensión y relajación simultáneamente, para alcanzar una concentración en el hecho de hacerse flotar.</p>`},
+  {id:'w3',title:'Kai paseando entre los hechos y los helechos',year:'2020',technique:'Óleo sobre tabla',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false,desc:`<p>Al girar un libro con grabados de Goya, donde había un joven saltando con una pértiga por encima de un toro, pude entender que Goya para hacer esa imagen había puesto a un joven de pie sujetando una pértiga en horizontal, paralela al suelo. Después él se había subido a una altura y había dibujado la escena. Para finalizar con un cuarto de giro a esa hoja de papel y tener al joven volando.</p><p>Le propuse a Kai hacer esa reconstrucción para ver si era así. Después le situé saltando con su pértiga entre dos lados de un río con pintorescos helechos. Un joven clava su pértiga en el barro para saltar entre dos márgenes, librando la presencia de los helechos.</p><p>Al final, la imagen elegida, de las muchas que tomamos, no partía con la pértiga en paralelo al suelo, sino de un aparente error. Debido a su peso, no era fácil mantenerla en horizontal, y en esa desviación no intencionada, al girar el papel, apareció una imagen con una torsión extra en la figura.</p><p>La peculiaridad del instante, los momentos especiales se ven como realidad en el arte. Y esa apertura a lo inesperado ha prevalecido durante la búsqueda de estas imágenes, antes de ser cuadros.</p><p>La Pintura necesita verse después de imaginada, en ese hacer para ver y comprender, el pintor vive.</p>`},
+  {id:'w4',title:'Las vacaciones del faquir en Arlés',year:'2021',technique:'Óleo sobre tabla',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-05.jpg',hasAudio:false,desc:`<p>Un faquir de vacaciones echa de menos un poco de acción. Aprovecha para descansar sobre un fardo de paja bien seca. Pero aun siendo faquir, necesita arrascar el picor de una pierna.</p><p>Cada extremidad de la figura entra con perpendicularidad en la forma que la contiene.</p><p>La pierna que cuelga sobre el fardo parece que puede oscilar como péndulo, la otra pierna apunta al cielo, mientras el brazo plantea una diagonal relajada. Todas las extremidades actúan como manecillas de un reloj que nos marcan un tiempo distinto según las dos que elijamos para componer la hora.</p><p>Se percibe una gran distancia entre el pie colgante y el pueblo que aparece a lo lejos. También hay un recorrido espacial en forma de distancia entre ese mismo pie y la mano relajada. Son distancias que recorren un espacio cargado de pintura en densidad a través de pinceladas separadas.</p>`},
+  {id:'w5',title:'Nagore',year:'2022',technique:'Óleo sobre tabla',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-04.jpg',hasAudio:true,audioDur:152,desc:`<p>Cuando entré en la panadería Labeko del Casco Viejo, vi a una trabajadora que sentí que podía representar a todas las mujeres.</p><p>Igual que la figura de mi hijo representaba a todos los jóvenes que transitaban por esas edades, teniendo características comunes que los unen como grupo, Nagore proyectaba una serenidad como de sabiduría ancestral.</p><p>Basada la imagen en el último cuadro de Manet, donde los reflejos y brillos de espejos y botellas de ese fondo de la camarera del Folies Bergère, han sido cambiados por pan.</p><p>Pan representado con pinceladas densas y concretas, que adquieren una materialidad seca como el propio pan.</p><p>Es un cuadro donde el proceso de construcción es visible al estar algunos elementos más finalizados que otros. Los brazos, por ejemplo, se mantuvieron con la primera intervención, mostrando la estructura de construcción de ese elemento. Los cantos de las estanterías mantienen el color de la imprimación. Es en el rostro de Nagore donde se acumulan varias sesiones, hasta sentir su presencia.</p>`},
+  {id:'w6',title:'Cierra la ventana que hay corriente. De Mondrian a Van Doesburg en un soplo',year:'2023',technique:'Óleo sobre tabla',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-06.jpg',hasAudio:false,desc:`<p>Ha llegado un golpe de viento y las figuras dignas, verticales y separadas del bodegón de Zurbarán han sido derribadas.</p><p>Pero en su caída, han encontrado que en el hecho de mantener un punto de contacto reside su capacidad para poder mantenerse en ese equilibrio precario.</p><p>Al tumbarse las vasijas desaparece esa identificación de las vasijas con personas, propia del cuadro de Zurbarán, al perder esa prestancia y dignidad de lo vertical.</p><p>Pero al tumbarlas aparecen posibilidades nuevas en forma de huecos, óvalos, diagonales y recursos espaciales mucho más abstraídos de la realidad.</p><p>La forma se hace más difícilmente reconocible, y la geometría se hace más sentimental.</p><p>Pero al derribar todas las figuras, se da una circunstancia muy negativa en un cuadro. No hay verticales, y además no se generan diferencias de altura. El espacio se llena solo de manera horizontal y eso no es lo que mejor construye un espacio, le falta lo vertical.</p><p>En consecuencia, no hay bodegones con todas sus formas tumbadas, porque tener todos los elementos del cuadro tumbados supone una propuesta en sí misma. Supone también una actitud que no sufre demasiado por perder esencias de la Pintura, si construye una posibilidad de significado.</p>`},
+  {id:'w7',title:'Retrato de familia',year:'2024',technique:'Óleo sobre tabla',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-07.jpg',hasAudio:false,desc:`<p>Hay vajillas que, aunque están con nosotros, no pertenecen a nuestro tiempo. Nos han llegado inesperadas y no son aptas para el microondas.</p><p>Eran las vajillas para los días de celebración en familia y están colocadas en una agrupación vista desde niño, puestas a secar después de la celebración.</p><p>El punto de vista elegido es muy bajo para poder entrar con la mirada dentro de esos huecos ovalados.</p><p>Óvalos que giran como planetas. Formas redondeadas que llenan ese espacio de color negro plano, y en consecuencia sin capacidad espacial.</p><p>Sentía necesaria una sorpresa narrativa que incorporara ese fondo plano al cuadro. Y la sorpresa fue para mí cuando recortando la forma de las vasijas con negro, quedó ese espacio por llenar en el plano del fondo. Del mismo tono lumínico que el elemento opuesto, la sopera que simboliza a mi padre.</p><p>Este elemento cuadrado, con verticales necesarias para compensar tanta curva, y luminoso respecto del fondo, esta luz cuadrada, es en realidad el mismo color negro que el resto del fondo. Solamente no ha sido humedecido con aceite, y se ve seco y mate.</p><p>Ese elemento inesperado, expande el cuadro haciéndolo más ancho y plantea otra realidad en el cuadro, otra posibilidad de actuar como pintor.</p><p>También coquetea con eso tan pictórico de no acabar todo en el cuadro completamente, con los «campos de color» no completados y con esos cuadros de esquinas inacabadas, que nos muestran el proceso de cómo empezó el cuadro por ser testimonio del principio. Esas esquinas inacabadas, ahora se hacen un hueco en el centro de la imagen.</p><p>Surgiendo un fondo de color negro plano que se hace más espacial por contener un elemento que le da profundidad a ese plano, al estar situado en él.</p><p>La jarra de agua representa a mi madre, y así hasta completar la escena completa en una irónica y frágil asociación, donde una estructura triangular envuelve esas formas para concretarlas en un triángulo de energía actual, que sí recoge los tres lados de mi geometría familiar.</p>`}
 ];
 const PH_DESC="Texto de sala pendiente. Aquí irá el comentario sobre esta obra —su lugar dentro del proyecto, la técnica o el contexto— que aporte el artista o la galería.";
 const workById=id=>WORKS.find(w=>w.id===id);
@@ -574,29 +582,45 @@ function tplObra(){
   </div>`;
 }
 function tplProyecto(){
-  const b=PROYECTO.blocks;
+  const img=(o,slot)=>`<div class="proy-img-wrap" data-slot="${slot}"><img src="${o.src}" alt="${o.alt}" onerror="this.parentElement.classList.add('no-img')"></div>`;
+  const fold=(label,html)=>`<details class="proy-fold"><summary class="proy-fold-btn">${label}</summary><div class="proy-fold-body">${html}</div></details>`;
+  const txt=s=>`<div class="proy-text"><p>${s}</p></div>`;
+  const p=PROYECTO.paredes, c=PROYECTO.cierre;
   return `<div class="view">
-    <div class="proy-hero fu"><img src="${PROYECTO.hero}" alt="El Proyecto"></div>
+    <div class="fu">${img(PROYECTO.hero,'proyecto-hero')}</div>
     <div class="proy-head fu">
-      <div class="proy-eyebrow">Proyecto · 2018 — en curso</div>
+      <div class="proy-eyebrow">${PROYECTO.eyebrow}</div>
       <h1 class="proy-title">Una calle<br>como estudio</h1>
     </div>
     <div class="proy-block fu">
-      <div class="proy-block-label">${b[0].label}</div>
-      <div class="proy-text">${b[0].text.map(p=>`<p>${p}</p>`).join('')}</div>
+      ${txt(PROYECTO.intro)}
+      ${txt(PROYECTO.marco)}
     </div>
     <div class="proy-block fu">
-      <div class="proy-block-label">${b[1].label}</div>
-      <div class="proy-img"><img src="${PROYECTO.img2}" alt=""></div>
-      <div class="proy-quote"><div class="proy-quote-text">«${b[1].quote}»</div></div>
-      <div class="proy-text">${b[1].text.map(p=>`<p>${p}</p>`).join('')}</div>
+      <div class="proy-block-label">${p[0].titulo}</div>
+      <div class="proy-img-inner">${img(p[0].img,'pared-1-nombre')}</div>
+      <div style="margin-top:16px">${txt(p[0].espina)}</div>
+      ${fold('Ir más hondo',txt(p[0].pliegue))}
     </div>
     <div class="proy-block fu">
-      <div class="proy-block-label">${b[2].label}</div>
-      <div class="proy-subtitle">${b[2].subtitle}</div>
-      <div class="proy-text">${b[2].text.map(p=>`<p>${p}</p>`).join('')}</div>
+      <div class="proy-block-label">${p[1].titulo}</div>
+      <div class="proy-img-inner">${img(p[1].img,'pared-2-mural')}</div>
+      <div style="margin-top:16px">${txt(p[1].espina)}</div>
+      ${fold('Ir más hondo',img(p[1].pliegueImg,'pared-2-proceso')+`<div style="margin-top:16px">${txt(p[1].pliegue)}</div>`)}
     </div>
-    <div class="proy-close fu">${PROYECTO.close}</div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${p[2].titulo}</div>
+      <div class="proy-img-inner">${img(p[2].img,'pared-3-escala')}</div>
+      <div style="margin-top:16px">${txt(p[2].espina)}</div>
+      ${fold('Ir más hondo',txt(p[2].pliegue))}
+    </div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${c.titulo}</div>
+      <div class="proy-img-inner">${img(c.img,'cierre-proceso')}</div>
+      <div style="margin-top:16px">${txt(c.espina)}</div>
+      ${fold('Referencias',txt(c.pliegue))}
+    </div>
+    <div class="proy-close fu">${PROYECTO.fin}</div>
     <div style="height:40px"></div>
   </div>`;
 }
