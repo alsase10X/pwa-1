@@ -81,6 +81,9 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 /* ===== Page head ===== */
 .page-head{padding:14px 24px 22px;}
 .page-head h1{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:34px;letter-spacing:-.02em;margin-top:10px;}
+.obras-head{padding:52px 24px 28px;}
+.obras-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:48px;line-height:.97;letter-spacing:-.03em;margin-bottom:18px;}
+.obras-kicker{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:16px;line-height:1.65;color:var(--text-mut);letter-spacing:-.01em;}
 
 /* ===== Grid de obras ===== */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 16px;padding:0 24px;}
@@ -233,6 +236,26 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .bio-plain{padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mut);line-height:1.55;}
 .bio-plain:last-child{border-bottom:none;}
 
+/* ===== PROYECTO ===== */
+.proy-hero{width:100%;overflow:hidden;}
+.proy-hero img{display:block;width:100%;height:56vh;object-fit:cover;object-position:center;}
+@media(min-width:480px){.proy-hero img{height:420px;}}
+.proy-head{padding:30px 24px 0;}
+.proy-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
+.proy-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:40px;line-height:1.02;letter-spacing:-.025em;margin-top:10px;}
+.proy-block{padding:32px 24px 0;}
+.proy-block-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;margin-bottom:14px;}
+.proy-block-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:24px;letter-spacing:-.02em;color:var(--text-mut);margin-bottom:16px;}
+.proy-text{font-size:15.5px;line-height:1.72;color:var(--text-mut);}
+.proy-text p+p{margin-top:14px;}
+.proy-img{margin:28px 0 0;position:relative;}
+.proy-img img{display:block;width:100%;height:auto;}
+.proy-img-cap{font-size:11px;color:var(--text-dim);margin-top:8px;font-style:italic;padding:0 24px;}
+.proy-quote{padding:36px 24px;}
+.proy-quote-text{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:30px;line-height:1.1;letter-spacing:-.02em;color:var(--text);border-left:1.5px solid var(--text-dim);padding-left:20px;}
+.proy-subtitle{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:28px;letter-spacing:-.02em;margin-bottom:16px;}
+.proy-close{padding:44px 24px 12px;text-align:center;font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-dim);}
+
 /* Toast */
 .toast{position:absolute;left:50%;bottom:84px;transform:translate(-50%,80px);background:var(--surface-2);color:var(--text);
   border:1px solid var(--border);padding:13px 18px;font-size:14px;z-index:60;opacity:0;
@@ -262,9 +285,10 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
   </div>
 
   <nav class="nav" id="nav">
-    <button data-nav="home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>Portada</button>
-    <button data-nav="obras"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Obras</button>
-    <button data-nav="sobre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="8" r=".6" fill="currentColor"/></svg>Bio</button>
+    <button data-nav="home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>Portada</button>
+    <button data-nav="obras"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Obras</button>
+    <button data-nav="proyecto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l5-2v14l-5 2V7z M8 5l8 2v14l-8-2V5z M16 7l5-2v14l-5 2V7z"/></svg>Proyecto</button>
+    <button data-nav="sobre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="12" cy="7" r="3.2"/><path d="M4.5 21c0-4.2 3.4-7.5 7.5-7.5s7.5 3.3 7.5 7.5"/></svg>Bio</button>
   </nav>
 
   <div class="toast" id="toast"></div>
@@ -398,6 +422,36 @@ const BIO={
     "Colección del Gobierno Vasco."
   ]
 };
+const PROYECTO={
+  hero:'images/ANDONI-EUBA-06.jpg',
+  img2:'images/ANDONI-EUBA-03.jpg',
+  blocks:[
+    {
+      label:'Bloque 1 — El origen',
+      text:[
+        'Un día, al salir del estudio, el asfalto estaba siendo convertido en zona peatonal. Surgió el impulso de actuar: convertir el exterior en el contexto del siguiente trabajo. Era 2018.',
+        'El cruce de las calles Aretxaga y Miribilla no tenía nombre reconocible. Para dárselo, hubo que convencer a Úbeda, el dueño del bar contiguo, de ceder su fachada para pintar el título del proyecto en lugar del nombre de su local. Resultaba paradójico: para abrirse al exterior, el primer paso fue construir muros. Un tríptico de quince metros nacía en la calle.'
+      ]
+    },
+    {
+      label:'Bloque 2 — El mecanismo',
+      quote:'Los cuadros actuaron de uno en uno. Ahora son su consecuencia.',
+      text:[
+        'La estructura exigía un cuadro nuevo cada seis meses, instalado a la intemperie. Pintados en el interior, maduraban al aire de la calle, convirtiéndose en testigos de la vida del barrio —como la aparición de una terraza que antes no existía—.',
+        'El sol y el clima ponían a prueba la materia. La calle revelaba la naturaleza de la pintura: el color seco y agrisado se volvía asombrosamente luminoso al repeler la luz, mientras que las sombras, para sentirse profundas, exigían ser húmedas, brillantes y fluidas. La intemperie no solo exponía la obra; la curaba.'
+      ]
+    },
+    {
+      label:'Bloque 3 — El desenlace',
+      subtitle:'Siete de doce',
+      text:[
+        'El proyecto supone un cambio de contexto radical. Las obras nacieron en la intimidad del estudio, se curtieron en el asfalto y, finalmente, se agrupan en este espacio privado con apertura pública.',
+        'Esta exposición reúne siete de los doce cuadros creados hasta el momento. En ellos conviven la investigación rigurosa de los límites físicos de la pintura y una apertura total a conectar con las realidades e imprevistos del siglo XXI.'
+      ]
+    }
+  ],
+  close:'2018 — en curso.'
+};
 const WORKS=[
   {id:'w1',title:'Kai sumergido con las crocs de pintar',year:'2018',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false,desc:`<p>El agua estaba tan fría y resbalosa que le pareció buena idea calzarse.</p><p>Las dos manos sobre una pierna, para remangarse. Y en ese plegado aparece un recorrido de signos y enigmas.</p><p>Se forma una columna de luz, donde el pelo sería el capitel, sustentando una estructura robusta en la figura de un joven que oculta su identidad, como rasgo de identidad compartida.</p><p>El fondo superior es un plano oscuro, contiene cierta vegetación, y está pintado con pinceladas unidas entre sí como catenarias de óleo. Utilizando la gravedad para dejar caer un material que suma fluidez y densidad sobre un cuadro situado en posición vertical.</p><p>Esas catenarias confieren una personalidad propia a ese grupo de pinceladas, haciéndose sentir especiales, como ellas mismas, y quebrando la luz exterior que reciben, con sus distintos planos en su materialidad orgánica.</p><p>Fue el primer cuadro en convertirse en mural al instalarse en la calle, puso a prueba la reacción social, y salió victorioso en la complicidad.</p>`},
   {id:'w2',title:'Kai flotando en poca agua',year:'2019',technique:'Óleo sobre tabla greenpanel',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128,desc:`<p>Subiéndome a una roca alta, capturé esta imagen donde la figura de un joven flota suspendida.</p><p>El pecho de la figura y la esquina superior derecha, están pintadas con color muy denso, seco y agrisado. Su luminosidad contrasta con ese gran fondo de agua, que une perceptivamente lo que está en sombra con lo que está mojado.</p><p>Flotar en poca profundidad es un ejercicio de equilibrio que involucra a todo el cuerpo. Tensión y relajación simultáneamente, para alcanzar una concentración en el hecho de hacerse flotar.</p>`},
@@ -424,6 +478,7 @@ function render(){
   if(view==='home')html=tplHome();
   else if(view==='obras')html=tplObras();
   else if(view==='obra')html=tplObra();
+  else if(view==='proyecto')html=tplProyecto();
   else if(view==='sobre')html=tplSobre();
   $('view').innerHTML=html;
 
@@ -433,7 +488,7 @@ function render(){
   $('topbar').style.display=onHome?'none':'';
   $('scroll').style.paddingBottom=onHome?'0':'';
   $('back').classList.toggle('hidden',histStack.length===0);
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===view||(view==='obra'&&b.dataset.nav==='obras')));
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===view||(view==='obra'&&b.dataset.nav==='obras')||(view==='proyecto'&&b.dataset.nav==='proyecto')));
   bindView(); updateInline(); initAmbient();
 }
 
@@ -463,12 +518,10 @@ function tplHome(){
 }
 function tplObras(){
   return `<div class="view">
-    <div class="page-head fu" style="padding-bottom:0"><div class="kicker">${EXPO.artist} · ${EXPO.dates}</div></div>
-    <div class="sec fu" style="margin-top:32px">
-      <h2 style="font-size:34px">Texto de sala</h2>
-      <div class="story-wrap ph" id="statementWrap" style="padding:0"><div class="story-body">${EXPO.statement.map(p=>`<p>${p}</p>`).join('')}</div></div>
+    <div class="obras-head fu">
+      <h1 class="obras-title">La Selección</h1>
+      <p class="obras-kicker">Siete cuadros que no se parecen entre sí pero comparten el mismo pulso: la materia observada hasta que revela algo que no estaba en el plan. Objetos volcados, cuerpos en reposo, pan que se apila en la oscuridad. Pintura que no explica: muestra, y espera.</p>
     </div>
-    <div class="page-head fu" style="padding-top:36px"><h1>Obras</h1></div>
     <div class="grid">${WORKS.map((w,i)=>`
       <div class="card fu d${(i%3)+1}" data-work="${w.id}">
         <div class="ph"><img src="${w.img}" alt="${w.title}"></div>
@@ -518,6 +571,33 @@ function tplObra(){
     </div>
     <div class="next" data-work="${nx.id}"><div><div class="lab">Siguiente obra</div><div class="nm">${nx.title}</div></div>
       <span class="cv"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></div>
+  </div>`;
+}
+function tplProyecto(){
+  const b=PROYECTO.blocks;
+  return `<div class="view">
+    <div class="proy-hero fu"><img src="${PROYECTO.hero}" alt="El Proyecto"></div>
+    <div class="proy-head fu">
+      <div class="proy-eyebrow">Proyecto · 2018 — en curso</div>
+      <h1 class="proy-title">Una calle<br>como estudio</h1>
+    </div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${b[0].label}</div>
+      <div class="proy-text">${b[0].text.map(p=>`<p>${p}</p>`).join('')}</div>
+    </div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${b[1].label}</div>
+      <div class="proy-img"><img src="${PROYECTO.img2}" alt=""></div>
+      <div class="proy-quote"><div class="proy-quote-text">«${b[1].quote}»</div></div>
+      <div class="proy-text">${b[1].text.map(p=>`<p>${p}</p>`).join('')}</div>
+    </div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${b[2].label}</div>
+      <div class="proy-subtitle">${b[2].subtitle}</div>
+      <div class="proy-text">${b[2].text.map(p=>`<p>${p}</p>`).join('')}</div>
+    </div>
+    <div class="proy-close fu">${PROYECTO.close}</div>
+    <div style="height:40px"></div>
   </div>`;
 }
 function tplSobre(){
@@ -797,7 +877,6 @@ function bindView(){
   document.querySelectorAll('[data-act]').forEach(el=>{const a=el.dataset.act;if(acts[a])el.onclick=acts[a];});
   if(view==='home')initCarousel();
   setupStoryExpand($('storyWrap'));
-  setupStoryExpand($('statementWrap'), 8);
   const pb=$('playBtn'); if(pb) pb.onclick=()=>playWork(currentWork);
   const tr=$('track'); if(tr) tr.onclick=e=>{const r=tr.getBoundingClientRect();seek((e.clientX-r.left)/r.width);};
   const sc=$('scroll');
