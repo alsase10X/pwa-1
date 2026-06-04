@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andoni Euba — Aretxaga · Miribilla</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,7 +83,7 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .page-head h1{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:34px;letter-spacing:-.02em;margin-top:10px;}
 .obras-head{padding:52px 24px 28px;}
 .obras-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:48px;line-height:.97;letter-spacing:-.03em;margin-bottom:18px;}
-.obras-kicker{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:16px;line-height:1.65;color:var(--text-mut);letter-spacing:-.01em;}
+.obras-kicker{font-family:var(--font-sans);font-size:14.5px;line-height:1.65;color:var(--text-mut);}
 
 /* ===== Grid de obras ===== */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 16px;padding:0 24px;}
@@ -124,6 +124,10 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .story-more{display:inline;background:none;border:none;color:var(--text);font:inherit;font-weight:600;font-size:inherit;line-height:inherit;cursor:pointer;padding:0;margin:0 0 0 .2em;border-bottom:1.5px solid var(--text-dim);white-space:nowrap;}
 .sec p,.cartela,.react p,.contact p{font-family:var(--font-sans);}
 
+
+
+
+
 /* Audio */
 .voice{margin:36px 24px 0;padding:20px 18px 22px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .voice-main{display:flex;align-items:center;gap:16px;}
@@ -155,10 +159,13 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .contact .btn{width:100%;justify-content:center;background:var(--accent);color:var(--accent-ink);border:none;padding:16px;margin-top:18px;}
 
 /* Recorrido */
-.next{margin:32px 0 0;padding:24px 24px 44px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
-.next .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);}
-.next .nm{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:18px;margin-top:4px;}
-.next .cv{color:var(--text-dim);}
+.next{margin:32px 0 0;padding:20px 24px 44px;border-top:1px solid var(--border);display:flex;align-items:center;gap:14px;cursor:pointer;}
+.next .th{width:52px;height:66px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);}
+.next .th img{width:100%;height:100%;object-fit:cover;display:block;}
+.next .info{flex:1;min-width:0;}
+.next .lab{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);}
+.next .nm{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:17px;margin-top:4px;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;}
+.next .cv{color:var(--text-dim);flex-shrink:0;}
 
 /* ===== SOBRE ===== */
 .sec{padding:0 24px;}
@@ -313,25 +320,16 @@ const app=document.querySelector('.app');
 
 /* ===================== DATOS ===================== */
 const EXPO={
-  kicker:"Galería Juan Manuel Lumbreras · Bilbao",
   title:"Aretxaga · Miribilla",
   artist:"Andoni Euba",
   dates:"29 abr — 12 jun 2026",
   sala:"Galería Juan Manuel Lumbreras",
   city:"Bilbao",
   more:"https://galerialumbreras.com/artistas/andoni-euba-2/",
-  cover:"images/ANDONI-EUBA-07.jpg",
   slides:[
     {img:'images/ANDONI-EUBA-02.jpg',work:'w2'},
     {img:'images/ANDONI-EUBA-03.jpg',work:'w3'},
     {img:'images/ANDONI-EUBA-01.jpg',work:'w1'}
-  ],
-  intro:"Un proyecto de lugar, desde 2018. Una selección de siete cuadros de los doce realizados hasta ahora.",
-  statement:[
-    "Un día, al salir del estudio, pude ver que la calle estaba siendo convertida en peatonal. Sentí un impulso para actuar y convertir ese espacio exterior en el contexto de mi siguiente trabajo como pintor. La idea era crear un proyecto para hacer un lugar y darle un nombre.",
-    "Con financiación del Ayuntamiento de Bilbao, a través de su oficina de barrio, se empezó cambiando las persianas por paredes, para completar un tríptico de 15 m de lado. En la pared central, un mural permanente pintado al óleo sobre esa pared. En la pared de la izquierda, un texto descriptivo del proyecto. En la otra pared se instala un cuadro nuevo cada seis meses.",
-    "Los cuadros que fueron generadores del proyecto, actuando de uno en uno, ahora son su consecuencia. Se han agrupado y cambiado el contexto de su presencia: de pintados en el interior del estudio, a instalados en el exterior para curarse al aire de la calle, y ahora presentados en un espacio privado con apertura pública.",
-    "Una selección de 7 cuadros, de los 12 hechos hasta el momento, componen la exposición. En ella conviven distintas sensibilidades a la hora de afrontar el trabajo como artista: desde la investigación en el comportamiento de los recursos físicos y lingüísticos de la pintura, hasta una apertura para conectar con otras realidades características del siglo XXI en el arte."
   ]
 };
 const ARTIST={
@@ -520,7 +518,7 @@ function tplObras(){
   return `<div class="view">
     <div class="obras-head fu">
       <h1 class="obras-title">La Selección</h1>
-      <p class="obras-kicker">Siete cuadros que no se parecen entre sí pero comparten el mismo pulso: la materia observada hasta que revela algo que no estaba en el plan. Objetos volcados, cuerpos en reposo, pan que se apila en la oscuridad. Pintura que no explica: muestra, y espera.</p>
+      <p class="obras-kicker">Siete cuadros, el mismo pulso. Materia observada hasta que revela algo que no estaba en el plan. Pintura que no explica: muestra, y espera.</p>
     </div>
     <div class="grid">${WORKS.map((w,i)=>`
       <div class="card fu d${(i%3)+1}" data-work="${w.id}">
@@ -550,15 +548,14 @@ function tplObra(){
     <div class="head fu">
       <h1 class="title">${w.title}</h1>
       <div class="cartela">
-        <span class="cartela-tech">${w.technique}</span>
+        <span class="cartela-tech">${w.year} — ${w.technique}</span>
         <span class="cartela-meta">${w.dim}</span>
       </div>
-      <button class="author" data-act="goSobre"><span class="av"><img src="${ARTIST.avatar}" alt=""></span><span class="nm">${ARTIST.name}</span><span class="cv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></button>
     </div>
+    ${audio}
     <div class="story-wrap ph fu" id="storyWrap">
       <div class="story-body">${w.desc || `<p>${PH_DESC}</p>`}</div>
     </div>
-    ${audio}
     <div class="react fu">
       <h3>¿Qué te ha dejado esta obra?</h3>
       <p>Puedes dejarle unas palabras a Andoni. Las recibe él, sin más: una nota, no una conversación.</p>
@@ -569,8 +566,11 @@ function tplObra(){
       <p>La Galería Juan Manuel Lumbreras gestiona el contacto sobre las obras de la exposición.</p>
       <button class="btn" data-act="contact">Contactar con la galería</button>
     </div>
-    <div class="next" data-work="${nx.id}"><div><div class="lab">Siguiente obra</div><div class="nm">${nx.title}</div></div>
-      <span class="cv"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span></div>
+    <div class="next" data-work="${nx.id}">
+      <div class="th"><img src="${nx.img}" alt="${nx.title}"></div>
+      <div class="info"><div class="lab">Siguiente obra</div><div class="nm">${nx.title}</div></div>
+      <span class="cv"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+    </div>
   </div>`;
 }
 function tplProyecto(){
