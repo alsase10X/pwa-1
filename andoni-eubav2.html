@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andoni Euba — Aretxaga · Miribilla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== FUENTES (Ivy local · Inter vía Google Fonts) ===== */
+@font-face{font-family:'IvyPresto Display';src:url('fonts/subset-IvyPrestoDisplay-LightItalic.woff2') format('woff2');font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:'IvyPresto Display';src:url('fonts/subset-IvyPrestoDisplay-ThinItalic.woff2') format('woff2');font-weight:100;font-style:italic;font-display:swap}
+
+/* ===== TOKENS ===== */
+:root{
+  --bg:#0c0c0d;--surface:#161618;--surface-2:#202023;
+  --text:#f1f1ef;--text-mut:#9a9a97;--text-dim:#5f5f5e;
+  --border:#242427;--accent:#f1f1ef;--accent-ink:#0c0c0d;--live:#8d9b89;
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-display:'IvyPresto Display',Georgia,serif;
+  --font-body:var(--font-sans);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--text);font-synthesis:none;
+  display:flex;justify-content:center;align-items:flex-start;}
+.app{width:100%;max-width:412px;height:100vh;height:100dvh;background:var(--bg);
+  position:relative;overflow:hidden;display:flex;flex-direction:column;}
+/* Fondo ambiental (color de la obra, estilo Spotify) */
+.ambient{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .65s ease;}
+.app.ambient-on .ambient{opacity:1;}
+.ambient-mesh{position:absolute;inset:-25% -35% 30%;background:
+  radial-gradient(ellipse 90% 70% at 22% 18%,var(--ambient-a) 0%,transparent 68%),
+  radial-gradient(ellipse 75% 55% at 82% 12%,var(--ambient-b) 0%,transparent 62%),
+  radial-gradient(ellipse 100% 45% at 50% 38%,color-mix(in srgb,var(--ambient-a) 45%,var(--ambient-b)) 0%,transparent 58%);
+  filter:blur(42px) saturate(1.4);transform:scale(1.08);transition:filter .5s ease;}
+.ambient-fade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,color-mix(in srgb,var(--bg) 50%,transparent) 34%,var(--bg) 56%,var(--bg) 100%);}
+@media(min-width:480px){
+  body{padding:26px 0;align-items:center;background:#070707;}
+  .app{height:884px;border-radius:40px;box-shadow:0 50px 100px -30px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.04);}
+}
+
+/* Top bar */
+.topbar{position:absolute;top:0;left:0;right:0;z-index:30;height:56px;display:flex;align-items:center;gap:4px;
+  padding:0 10px;background:transparent;}
+.topbar .sp{flex:1;}
+.ico{width:42px;height:42px;border-radius:50%;border:none;background:transparent;color:var(--text);cursor:pointer;
+  display:grid;place-items:center;transition:opacity .2s,transform .15s;}
+.ico:active{transform:scale(.9);}.ico:hover{opacity:.7;}
+.ico.hidden{display:none;}
+
+/* Scroll + views */
+.scroll{position:relative;z-index:1;flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:74px;background:transparent;}
+.scroll.has-mini{padding-bottom:140px;}
+.scroll::-webkit-scrollbar{width:0;}
+.view{animation:fade .4s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.fu{opacity:0;transform:translateY(12px);animation:fade .6s cubic-bezier(.16,.84,.44,1) forwards;}
+.fu.d1{animation-delay:.05s;}.fu.d2{animation-delay:.12s;}.fu.d3{animation-delay:.19s;}
+
+/* ===== PORTADA editorial ===== */
+.kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
+/* ===== HOME editorial ===== */
+.home-view{height:100dvh;overflow:hidden;display:flex;flex-direction:column;}
+.home-eyebrow{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;padding:18px 22px 0;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
+.home-headline{flex-shrink:0;padding:10px 20px 0;}
+.home-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:clamp(76px,23vw,106px);line-height:.88;letter-spacing:-.03em;color:var(--text);}
+.home-img{flex:1;min-height:0;overflow:hidden;margin:14px 20px 0;position:relative;cursor:pointer;}
+.home-img img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;transition:transform .6s ease;}
+.home-img:active img{transform:scale(1.02);}
+.home-img-caption{position:absolute;bottom:0;left:0;right:0;padding:32px 14px 12px;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.55));font-family:var(--font-display);font-weight:100;font-style:italic;font-size:13px;color:rgba(255,255,255,.7);pointer-events:none;}
+.home-meta{flex-shrink:0;padding:14px 22px 0;display:flex;align-items:baseline;justify-content:space-between;gap:12px;}
+.home-artist{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:22px;color:var(--text);letter-spacing:-.02em;line-height:1;}
+.home-dates{font-size:11px;color:var(--text-dim);letter-spacing:.04em;text-align:right;line-height:1.5;}
+.home-actions{display:flex;margin-top:clamp(12px,2.5vh,28px);border-top:1px solid var(--border);flex-shrink:0;}
+.home-action{flex:1;background:none;border:none;cursor:pointer;color:var(--text-mut);font:inherit;font-size:11.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:17px 0;text-align:center;transition:color .2s;}
+.home-action:first-child{border-right:1px solid var(--border);}
+.home-action:last-child{color:var(--text);font-weight:600;}
+.home-action:hover{color:var(--text);}
+
+/* ===== Page head ===== */
+.page-head{padding:14px 24px 22px;}
+.page-head h1{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:34px;letter-spacing:-.02em;margin-top:10px;}
+.obras-head{padding:52px 24px 28px;}
+.obras-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:48px;line-height:.97;letter-spacing:-.03em;margin-bottom:18px;}
+.obras-kicker{font-family:var(--font-sans);font-size:14.5px;line-height:1.65;color:var(--text-mut);}
+
+/* ===== Lista de obras ===== */
+.obras-list{display:flex;flex-direction:column;padding:0 24px;}
+.card{cursor:pointer;display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);}
+.card:last-child{border-bottom:none;}
+.card .ph{position:relative;width:64px;height:80px;flex-shrink:0;overflow:hidden;background:var(--surface-2);border:1px solid var(--border);transition:transform .25s;}
+.card .ph::before{content:'';position:absolute;inset:-18%;background:var(--card-glow,transparent);filter:blur(18px);opacity:.55;z-index:0;transition:background .5s ease;}
+.card .ph img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;display:block;}
+.card:active .ph{transform:scale(.95);}
+.card .info{flex:1;min-width:0;}
+.card .ct{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:17px;line-height:1.25;letter-spacing:-.02em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;}
+.card .cy{color:var(--text-mut);font-size:12.5px;margin-top:4px;}
+.card .cv{color:var(--text-dim);flex-shrink:0;}
+
+/* ===== OBRA ===== */
+.hero{position:relative;padding:56px 0 0;}
+.art{position:relative;width:100%;display:flex;justify-content:center;cursor:zoom-in;padding:0 32px;}
+.art::before{content:'';position:absolute;inset:-12% -8%;border-radius:12px;background:var(--glow-color, var(--ambient-a));filter:blur(72px);opacity:.55;z-index:0;}
+.art img{position:relative;z-index:1;}
+.art img{display:block;width:100%;height:auto;max-height:64vh;object-fit:contain;z-index:1;}
+@media(min-width:480px){.art img{max-height:540px;}}
+.cue{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);font-size:11px;letter-spacing:.06em;
+  color:rgba(255,255,255,.85);background:rgba(0,0,0,.32);backdrop-filter:blur(6px);padding:6px 12px;border-radius:99px;
+  display:flex;align-items:center;gap:6px;transition:opacity .4s;pointer-events:none;}
+.cue.gone{opacity:0;}
+.head{padding:30px 24px 0;display:flex;flex-direction:column;align-items:center;}
+.title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:44px;line-height:1.06;letter-spacing:-.02em;text-align:center;padding:0 16px;}
+.cartela{margin-top:22px;text-align:center;color:var(--text-mut);font-size:15px;line-height:1.5;}
+.cartela-tech{display:block;}
+.cartela-meta{display:block;margin-top:6px;font-size:14px;color:var(--text-dim);}
+.author{display:inline-flex;align-items:center;gap:12px;margin-top:22px;cursor:pointer;background:none;border:none;padding:0;font:inherit;color:var(--text);}
+.author .av{width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid var(--border);filter:grayscale(1) contrast(1.03);}
+.author .av img{width:100%;height:100%;object-fit:cover;}
+.author .nm{font-weight:600;font-size:17px;border-bottom:1.5px solid transparent;transition:border-color .2s;}
+.author:hover .nm{border-color:var(--text-dim);}
+.author .cv{color:var(--text-dim);display:grid;place-items:center;}
+.story-wrap{padding:30px 24px 0;}
+.story-wrap .story-body{font-family:var(--font-sans);font-size:16px;line-height:1.66;color:var(--text);}
+.story-wrap .story-body p+p{margin-top:14px;}
+.story-wrap.ph .story-body{color:var(--text-mut);}
+.story-more{display:inline;background:none;border:none;color:var(--text);font:inherit;font-weight:600;font-size:inherit;line-height:inherit;cursor:pointer;padding:0;margin:0 0 0 .2em;border-bottom:1.5px solid var(--text-dim);white-space:nowrap;}
+.sec p,.cartela,.react p,.contact p{font-family:var(--font-sans);}
+
+
+
+
+
+/* Audio */
+.voice{margin:36px 24px 0;padding:20px 18px 22px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.voice-main{display:flex;align-items:center;gap:16px;}
+.voice .play{width:52px;height:52px;border-radius:50%;border:1px solid var(--border);flex-shrink:0;cursor:pointer;background:var(--surface-2);color:var(--text);display:grid;place-items:center;transition:transform .15s;}
+.voice .play:active{transform:scale(.9);}
+.voice .b{flex:1;min-width:0;}
+.voice .lab{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px;}
+.voice .sub{font-size:12.5px;color:var(--text-mut);margin-top:2px;}
+.voice .dur{font-size:13px;color:var(--text-mut);font-variant-numeric:tabular-nums;}
+.voice-prog{display:none;margin-top:10px;}
+.voice-prog.show{display:block;}
+.voice-prog .track{height:2px;background:var(--surface-2);position:relative;cursor:pointer;border-radius:2px;}
+.voice-prog .fill{position:absolute;inset:0 auto 0 0;width:0;background:var(--accent);border-radius:2px;}
+.eq{display:inline-flex;align-items:flex-end;gap:2px;height:10px;}
+.eq i{width:2.5px;background:var(--live);border-radius:2px;height:30%;}
+.eq.on i{animation:eq .9s ease-in-out infinite;}
+.eq i:nth-child(2){animation-delay:.2s;}.eq i:nth-child(3){animation-delay:.4s;}
+@keyframes eq{0%,100%{height:30%;}50%{height:100%;}}
+
+/* Reaccionar + contacto */
+.react{margin:44px 24px 0;padding:36px 0 26px;border-top:1px solid var(--border);text-align:center;}
+.react h3,.contact h3{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:22px;letter-spacing:-.02em;text-align:center;}
+.react p{color:var(--text-mut);font-size:14.5px;line-height:1.55;margin-top:10px;text-align:center;}
+.react .btn,.contact .btn{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:9px;background:none;border:1px solid var(--border);color:var(--text);cursor:pointer;font:inherit;font-weight:600;font-size:14.5px;padding:13px 20px;transition:border-color .2s;width:100%;}
+.react .btn:hover,.contact .btn:hover{border-color:var(--text-dim);}
+.contact{margin:32px 24px 0;padding:26px 0;border-top:1px solid var(--border);text-align:center;}
+.contact p{color:var(--text-mut);font-size:13.5px;line-height:1.55;margin-top:8px;text-align:center;}
+.contact .btn{width:100%;justify-content:center;background:var(--accent);color:var(--accent-ink);border:none;padding:16px;margin-top:18px;}
+
+/* Recorrido */
+.next{margin:32px 0 0;padding:20px 24px 44px;border-top:1px solid var(--border);display:flex;align-items:center;gap:14px;cursor:pointer;}
+.next .th{width:52px;height:66px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);}
+.next .th img{width:100%;height:100%;object-fit:cover;display:block;}
+.next .info{flex:1;min-width:0;}
+.next .lab{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);}
+.next .nm{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:17px;margin-top:4px;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;}
+.next .cv{color:var(--text-dim);flex-shrink:0;}
+
+/* ===== SOBRE ===== */
+.sec{padding:0 24px;}
+.sec+.sec{margin-top:34px;padding-top:30px;border-top:1px solid var(--border);}
+.sec h2{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:24px;letter-spacing:-.02em;margin-bottom:16px;}
+.sec p{color:var(--text);font-size:15.5px;line-height:1.7;}
+.sec p+p{margin-top:14px;}
+.extlink{display:inline-flex;align-items:center;gap:8px;margin-top:8px;color:var(--text);font:inherit;font-weight:600;font-size:14px;background:none;border:none;cursor:pointer;border-bottom:1.5px solid var(--text-dim);padding:0 0 2px;}
+
+/* ===== NAV ===== */
+.nav{position:absolute;bottom:0;left:0;right:0;height:64px;z-index:40;display:flex;
+  background:var(--bg);border-top:1px solid var(--border);}
+.nav button{flex:1;background:none;border:none;cursor:pointer;color:var(--text-dim);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:inherit;font-size:10px;letter-spacing:.04em;}
+.nav button.on{color:var(--text);}
+.nav svg{width:21px;height:21px;}
+
+/* ===== Mini-player ===== */
+.mini{position:absolute;left:0;right:0;bottom:64px;z-index:39;background:var(--surface);border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;padding:10px 14px;transform:translateY(140%);transition:transform .35s cubic-bezier(.16,.84,.44,1);}
+.mini.show{transform:none;}
+.mini .th{width:42px;height:42px;overflow:hidden;flex-shrink:0;background:var(--surface-2);cursor:pointer;}
+.mini .th img{width:100%;height:100%;object-fit:cover;}
+.mini .mb{flex:1;min-width:0;cursor:pointer;}
+.mini .mt{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mini .ma{font-size:11.5px;color:var(--text-mut);}
+.mini .mp{width:40px;height:40px;border-radius:50%;border:none;background:var(--accent);color:var(--accent-ink);cursor:pointer;display:grid;place-items:center;flex-shrink:0;}
+.mini .mx{width:34px;height:34px;border:none;background:none;color:var(--text-dim);cursor:pointer;display:grid;place-items:center;flex-shrink:0;}
+.mini .mfill{position:absolute;top:0;left:0;height:2px;background:var(--accent);width:0;}
+
+/* ===== Lightbox ===== */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(8,8,9,.97);display:none;place-items:center;opacity:0;transition:opacity .3s;}
+.lb.show{display:grid;opacity:1;}
+.lb img{max-width:100%;max-height:100%;transform-origin:center;transition:transform .25s;touch-action:none;}
+.lb.zoomed img{transition:none;cursor:grab;}
+.lb .x{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(8px);}
+
+/* ===== Nota (pantalla completa) ===== */
+.compose{position:fixed;inset:0;z-index:110;background:var(--bg);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .4s cubic-bezier(.16,.84,.44,1);}
+.compose.show{transform:none;}
+@media(min-width:480px){.compose{max-width:412px;height:884px;left:50%;top:50%;transform:translate(-50%,-50%) translateY(110%);border-radius:40px;}.compose.show{transform:translate(-50%,-50%);}}
+.compose-bar{height:56px;display:flex;align-items:center;padding:0 10px;flex-shrink:0;}
+.compose-body{flex:1;overflow-y:auto;padding:8px 24px 24px;}
+.compose-body h2{font-family:var(--font-display);font-weight:100;font-size:28px;letter-spacing:-.02em;}
+.compose .note{color:var(--text-mut);font-size:14px;line-height:1.55;margin-top:12px;}
+.compose textarea{width:100%;margin-top:22px;background:transparent;border:none;border-bottom:1.5px solid var(--text-dim);outline:none;color:var(--text);font:inherit;font-size:18px;line-height:1.55;min-height:150px;resize:none;padding-bottom:10px;transition:border-color .2s;}
+.compose textarea:focus{border-bottom-color:var(--text);}
+.compose .name{margin-top:8px;padding-top:18px;border-top:1px solid var(--border);}
+.compose input{width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--text-dim);outline:none;color:var(--text);font:inherit;font-size:15px;padding-bottom:8px;transition:border-color .2s;}
+.compose input:focus{border-bottom-color:var(--text);}
+.compose-foot{flex-shrink:0;padding:16px 24px;border-top:1px solid var(--border);}
+.compose .send{width:100%;border:none;cursor:pointer;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;font-size:15px;padding:16px;}
+.compose .done{padding:40px 24px;text-align:center;margin:auto 0;}
+.compose .done .ok{font-family:var(--font-display);font-weight:100;font-size:28px;}
+.compose .done .msg{color:var(--text-mut);font-size:15px;line-height:1.6;margin-top:14px;}
+
+/* ===== BIO editorial ===== */
+.bio-hero{width:100%;padding:20px 20px 0;position:relative;}
+.bio-hero img{display:block;width:100%;height:auto;max-height:38vh;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.06);}
+@media(min-width:480px){.bio-hero img{max-height:280px;}}
+.bio-hero-grad{position:absolute;left:20px;right:20px;bottom:0;height:130px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;}
+.bio-name-block{padding:26px 24px 0;text-align:center;}
+.bio-name{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:46px;letter-spacing:-.02em;line-height:1.05;margin-top:8px;}
+.bio-born{color:var(--text-mut);font-size:14px;margin-top:6px;font-style:italic;}
+.bio-intro{padding:26px 24px 0;font-size:15.5px;line-height:1.7;color:var(--text-mut);}
+.bio-intro p+p{margin-top:14px;}
+.bio-intro p:first-child{overflow:hidden;}
+.bio-intro p:first-child::first-letter{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:64px;line-height:.76;float:left;margin:3px 7px 0 -2px;}
+.bio-block{padding:28px 24px 0;}
+.bio-block+.bio-block{margin-top:26px;padding-top:26px;border-top:1px solid var(--border);}
+.bio-block h3{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:22px;letter-spacing:-.02em;margin-bottom:14px;}
+.bio-item{display:grid;grid-template-columns:66px 1fr;gap:0 10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.55;}
+.bio-item:last-child{border-bottom:none;}
+.bio-item .yr{color:var(--text-dim);font-variant-numeric:tabular-nums;}
+.bio-item .tx{color:var(--text-mut);}
+.bio-plain{padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mut);line-height:1.55;}
+.bio-plain:last-child{border-bottom:none;}
+
+/* ===== PROYECTO ===== */
+.proy-img-wrap{width:100%;position:relative;}
+.proy-img-wrap img{display:block;width:100%;height:auto;}
+.proy-img-wrap.no-img{background:var(--surface-2);aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;}
+.proy-img-wrap.no-img img{display:none;}
+.proy-img-wrap.no-img::after{content:attr(data-slot);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);}
+.proy-head{padding:30px 24px 0;}
+.proy-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);font-weight:600;}
+.proy-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:40px;line-height:1.02;letter-spacing:-.025em;margin-top:10px;}
+.proy-block{padding:32px 24px 0;}
+.proy-block-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:600;margin-bottom:16px;}
+.proy-text{font-size:15.5px;line-height:1.72;color:var(--text-mut);}
+.proy-text p+p{margin-top:14px;}
+.proy-img-inner{margin:20px 0 0;}
+.proy-fold{border-top:1px solid var(--border);margin-top:24px;}
+.proy-fold summary{list-style:none;cursor:pointer;padding:14px 0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);display:flex;align-items:center;gap:8px;transition:color .2s;}
+.proy-fold summary::-webkit-details-marker{display:none;}
+.proy-fold summary::after{content:'↓';font-size:10px;transition:transform .25s;}
+.proy-fold[open] summary{color:var(--text-mut);}
+.proy-fold[open] summary::after{transform:rotate(180deg);}
+.proy-fold-body{padding-bottom:24px;}
+.proy-close{padding:44px 24px 12px;text-align:center;font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--text-dim);}
+.bio-fold{border-top:1px solid var(--border);margin-top:0;}
+.bio-fold:first-child{border-top:none;}
+.bio-fold .proy-fold-body{padding-bottom:8px;}
+
+/* Toast */
+.toast{position:absolute;left:50%;bottom:84px;transform:translate(-50%,80px);background:var(--surface-2);color:var(--text);
+  border:1px solid var(--border);padding:13px 18px;font-size:14px;z-index:60;opacity:0;
+  transition:transform .4s cubic-bezier(.16,.84,.44,1),opacity .3s;max-width:84%;text-align:center;}
+.toast.show{transform:translate(-50%,0);opacity:1;}
+
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="ambient" id="ambient" aria-hidden="true"><div class="ambient-mesh"></div><div class="ambient-fade"></div></div>
+
+  <header class="topbar" id="topbar">
+    <button class="ico hidden" id="back" aria-label="Atrás"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></button>
+    <div class="sp"></div>
+    <button class="ico" id="share" aria-label="Compartir"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><polyline points="8 7 12 3 16 7"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg></button>
+  </header>
+
+  <div class="scroll" id="scroll"><div id="view"></div></div>
+
+  <div class="mini" id="mini">
+    <div class="mfill" id="mfill"></div>
+    <div class="th" id="miniThumb"><img id="miniImg" src="" alt=""></div>
+    <div class="mb" id="miniMeta"><div class="mt" id="miniTitle"></div><div class="ma">Andoni Euba · notas del autor</div></div>
+    <button class="mp" id="miniPlay"><svg id="miniIco" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+    <button class="mx" id="miniClose"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+
+  <nav class="nav" id="nav">
+    <button data-nav="home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>Portada</button>
+    <button data-nav="obras"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Obras</button>
+    <button data-nav="proyecto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l5-2v14l-5 2V7z M8 5l8 2v14l-8-2V5z M16 7l5-2v14l-5 2V7z"/></svg>Proyecto</button>
+    <button data-nav="sobre"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="12" cy="7" r="3.2"/><path d="M4.5 21c0-4.2 3.4-7.5 7.5-7.5s7.5 3.3 7.5 7.5"/></svg>Bio</button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<div class="lb" id="lb"><button class="x" id="lbClose"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><img id="lbImg" src="" alt=""></div>
+
+<div class="compose" id="compose">
+  <div class="compose-bar"><button class="ico" id="compClose"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="compose-body" id="composeBody">
+    <h2 id="compTitle">Una nota para Andoni</h2>
+    <div class="note" id="compNote"></div>
+    <textarea id="ta" placeholder="Comparte una reflexión, o algo que te haya pasado al ver esta obra…"></textarea>
+    <div class="name"><input id="nm" type="text" placeholder="Tu nombre (opcional)"></div>
+  </div>
+  <div class="compose-foot" id="composeFoot"><button class="send" id="send">Enviárselo a Andoni</button></div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const app=document.querySelector('.app');
+
+/* ===================== DATOS ===================== */
+const EXPO={
+  title:"Aretxaga · Miribilla",
+  artist:"Andoni Euba",
+  dates:"29 abr — 12 jun 2026",
+  sala:"Galería Juan Manuel Lumbreras",
+  city:"Bilbao",
+  more:"https://galerialumbreras.com/artistas/andoni-euba-2/",
+  slides:[
+    {img:'images/ANDONI-EUBA-02.jpg',work:'w2'},
+    {img:'images/ANDONI-EUBA-03.jpg',work:'w3'},
+    {img:'images/ANDONI-EUBA-01.jpg',work:'w1'}
+  ]
+};
+const ARTIST={
+  name:"Andoni Euba",
+  avatar:"images/descarga.webp"
+};
+const BIO={
+  intro:[
+    "Andoni Euba nació en Bilbao en 1962 y se formó en la Facultad de Bellas Artes de la Universidad del País Vasco, donde se especializó en pintura. Desde el inicio de su carrera, en los años 80, su obra ha transitado entre lo abstracto y lo figurativo, entre lo orgánico y lo inorgánico, generando una tensión visual que mantiene al espectador en un estado de intriga permanente. Su pintura no ofrece certezas: las distancias se confunden, lo descomunal se confunde con lo imperceptible, y lo artificial compite con lo natural con la misma intensidad que la luz compite con la sombra.",
+    "En 1994 tomó una decisión que marcaría profundamente su trayectoria: trasladarse a San Francisco, donde vivió y trabajó durante una década. Ese período de inmersión en la escena artística norteamericana amplió su mirada y consolidó una voz pictórica singular, reconocida en galerías de Nueva York, París, México y Frankfurt. Al regresar a Bilbao en 2005, Euba continuó explorando las posibilidades del medio pictórico, incorporando proyectos murales de carácter itinerante y efímero que sitúan el arte en el espacio urbano."
+  ],
+  timeline:[
+    {year:"1962",text:"Bilbao."},
+    {year:"1980–85",text:"Licenciado en Bellas Artes, Universidad del País Vasco, Bilbao."},
+    {year:"1994–04",text:"Vive y trabaja en San Francisco."},
+    {year:"2005",text:"Vive y trabaja en Bilbao."},
+    {year:"2007",text:"Imparte seminario en Bilbao Arte."}
+  ],
+  individual:[
+    {year:"2018–20",text:"Aretxaga-Miribilla."},
+    {year:"2016",text:"Rho Easel Machine."},
+    {year:"2014",text:"«In Perpetuum Mobile». Pabellón 6, Bilbao."},
+    {year:"2010",text:"«Perpendicular». Galería Metta, Madrid. — «Conversación de ellos». Galería Kur, San Sebastián."},
+    {year:"2007",text:"«Paisajes con heridas». Galería Metta, Madrid. — Galería Carreras-Múgica, Bilbao. — «Parcour 1987–2007». Museo de Guethary, Francia."},
+    {year:"2006",text:"Galería Bacelos, Vigo."},
+    {year:"2004",text:"Parque Tecnológico de Álava, Vitoria."},
+    {year:"2003",text:"«Spine». Catharine Clark Gallery, San Francisco. — Galería Almirante, Madrid."},
+    {year:"2002",text:"«La Espina Dorsal». Galería Altxerri, San Sebastián."},
+    {year:"2001",text:"«Guadalupanas y Coleccionables». Jay Grimm Gallery, Nueva York. — Galería Carreras Múgica, Bilbao. — Galería Bacelos, Vigo."},
+    {year:"2000",text:"«Screen». Catharine Clark Gallery, San Francisco. — Galería Almirante, Madrid."},
+    {year:"1998",text:"«Internegativo». Galería Carreras Múgica, Bilbao. — Galería AD HOC, Vigo."},
+    {year:"1997",text:"«Protecciones». Rekalde Area 2, Bilbao."},
+    {year:"1994",text:"«Lifting». Museo de San Telmo, San Sebastián."},
+    {year:"1993",text:"Galería AD Hoc, Vigo. — Galería Almirante, Madrid."},
+    {year:"1990",text:"«Cabaret de Invierno». Galería Almirante, Madrid."},
+    {year:"1989",text:"«Cartografías». Fundación BBK, Bilbao."},
+    {year:"1988",text:"«Murallas». Galería Vanguardia, Bilbao. — Museo de Guethary, Francia."},
+    {year:"1987",text:"«Molinos». Fundación BBK, Bilbao. — Casa de Cultura, Basauri. — Museo de Arte e Historia, Durango."},
+    {year:"1986",text:"Sala de Cultura, Barakaldo."}
+  ],
+  collective:[
+    {year:"2014",text:"Memoria de la diversidad. Sala Rekalde, Bilbao."},
+    {year:"2013",text:"Bienal de Cerveira, Portugal."},
+    {year:"2011",text:"Art Contemporain Basque. Saint Jean de Luz. — Ibilarte 2011, Bilbao. — Colección Ipiña Bidaurrazaga, Museo Artium, Vitoria-Gasteiz. — Silent Running. Galería Metta, Madrid."},
+    {year:"2008",text:"ArteBa, Buenos Aires. Galería Metta. — ArteSantander. Galería Metta. — Ibilarte, Bilbao."},
+    {year:"2007",text:"ARCO '07. Galería Bacelos, Madrid. — ArteLisboa. Galería Metta, Madrid. — El Quijote, Bilbao. — Ibilarte, Bilbao."},
+    {year:"2006",text:"ARCO '06. Galería Carreras Múgica, Madrid."},
+    {year:"2005",text:"ARCO '05. Galería Bacelos, Madrid."},
+    {year:"2004",text:"ARCO '04. Galería Carreras Múgica, Madrid."},
+    {year:"2003",text:"«Grisaille». JG Gallery, Nueva York. — ARCO '03. Galería Almirante, Madrid. — ART Frankfurt. Galería Colón XVI."},
+    {year:"2002",text:"Museo de Bellas Artes, Bilbao. — Jay Grimm Gallery, Nueva York. — «Cien X Cien». Galería Almirante, Madrid. — ARCO 2002."},
+    {year:"2001",text:"Museo de las Encartaciones, Bizkaia. — ARCO 2001. Galería Colón XVI, Madrid."},
+    {year:"2000",text:"San Francisco Art Fair. Catharine Clark Gallery. — ARCO 2000. Galería AD HOC y Galería Carreras Múgica, Madrid."},
+    {year:"1999",text:"Miami Art Fair. Galería Almirante. — ARCO 99. Galería AD HOC, Madrid. — Jay Grimm Gallery, Nueva York."},
+    {year:"1998",text:"ARCO 98. Galería AD HOC. — EXPO ARTE. Galería Almirante, Guadalajara, México. — FIAC. Galería Carreras Múgica, París. — «Surface». Catharine Clark Gallery, San Francisco."},
+    {year:"1997",text:"EXPO ARTE. Galería AD HOC, Guadalajara, México. — Becarios de la Diputación, Sala Rekalde, Bilbao."},
+    {year:"1996",text:"«Gabinete de un coleccionista». Galería AD HOC, Vigo. — Foro Atlántico, Galería AD HOC, Oporto. — Pintores Vascos, Colección BBK. — TRITON Art Fair. David Raymond Fine Art, San Francisco."},
+    {year:"1993",text:"ARCO 93. Galería AD HOC, Madrid. — Certamen «Endesa», La Coruña. — Colección de Arte Contemporáneo del Museo de Navarra."},
+    {year:"1992",text:"«Un Placer» / «Cualquiera, Todos, Ninguno». Arteleku, San Sebastián. — Certamen de Pintura, Banco Central Hispano."},
+    {year:"1991",text:"IX Premio Internacional «Festivales de Navarra». — ARTE 80, Museo de San Telmo. — «Ibérico 2 MIL». Galería Maeght, Barcelona. — VII Premio L'Oréal, Casa de Velázquez, Madrid."},
+    {year:"1990",text:"Glasgow Art Center, Gran Bretaña. — VI Premio de Pintura L'Oréal, Madrid. — «Batera». BBK, Bilbao."},
+    {year:"1989",text:"Exposición Internacional de Pintura, Osaka. — Joven Pintura Española. Bruselas, Niza, Münster, Salzburgo, Estocolmo, Helsinki."},
+    {year:"1988",text:"Bizkaiko Artea, Bilbao. — ARCO 88. Galería Vanguardia. — III Certamen de Artes Plásticas de Euskadi. — «Gure Artea». — III Bienal de Arte Vasco, Amorebieta."},
+    {year:"1987",text:"«Artea Gernikan», Gernika 1937–1987. — «Arte Bizkaia». Sala Rekalde. — «La Generación de los 80». Fondos de Arte Contemporáneo. — «Gure Artea»."},
+    {year:"1986",text:"«Nervión». Fundación BBK, Bilbao. — «Arte Joven 85», itinerante. — «Muestra de Arte Joven», Círculo de Bellas Artes, Madrid. — Bienal de Artes Plásticas de Vitoria."},
+    {year:"1985",text:"«Una Corbata para el domingo». Fundación BBK, Bilbao. — «Gure Artea». — I Certamen de Artes Plásticas de Euskadi."},
+    {year:"1984",text:"Galería Windsor, Bilbao. — I Bienal de Arte Vasco, Amorebieta."}
+  ],
+  awards:[
+    {year:"1991",text:"Premio-adquisición, IX Premio Internacional de Pintura «Festivales de Navarra», Pamplona."},
+    {year:"1989",text:"Segundo Premio, Villa de Bilbao."},
+    {year:"1988",text:"Tercer premio, Bizkaiko Artea, Diputación de Vizcaya. — Accésit Gure Artea 88, Gobierno Vasco. — Mención del Jurado, Bienal de Artes Plásticas de Vitoria."},
+    {year:"1987",text:"Beca de creación artística, Gobierno Vasco. — Primer Premio de Dibujo, III Certamen de Artes Plásticas de Euskadi. — Accésit Gure Artea."},
+    {year:"1986",text:"Beca de creación artística, Diputación de Vizcaya."},
+    {year:"1985",text:"Tercer premio «Gure Artea», Gobierno Vasco. — Primer Premio, I Certamen de Artes Plásticas de Euskadi."}
+  ],
+  museums:[
+    "Artium. Museo Vasco de Arte Contemporáneo, Vitoria-Gasteiz.",
+    "Museo de Bellas Artes, Bilbao.",
+    "Museo de San Telmo, Donostia-San Sebastián.",
+    "Museo de Navarra, Pamplona.",
+    "Museo de Arte e Historia, Durango.",
+    "Museo de Guethary, Francia.",
+    "Colección de la Diputación de Vizcaya.",
+    "Fundación BBK.",
+    "Juntas Generales de Bizkaia.",
+    "Colección del Ayuntamiento de Bilbao.",
+    "Colección del Gobierno Vasco."
+  ]
+};
+const PROYECTO={
+  hero:{src:'images/proyecto/proyecto-hero.jpg',alt:'Pared con el título del proyecto rotulado en la calle'},
+  eyebrow:'Proyecto · 2018 — en curso',
+  titulo:'Una calle como estudio',
+  intro:'Un día, al salir del estudio, vi que la calle estaba siendo convertida en peatonal. Sentí el impulso de actuar: convertir ese espacio exterior en el contexto de mi siguiente trabajo. La idea era hacer un lugar y darle un nombre.',
+  marco:'El proyecto es un tríptico de quince metros de fachada en la calle Miribilla. Tres paredes —donde antes solo había dos persianas sin propósito—. Resultaba paradójico: para abrirme al exterior, lo primero que tuve que hacer fue construir unos muros.',
+  paredes:[
+    {
+      titulo:'Pared 1 — El nombre',
+      img:{src:'images/proyecto/pared-1-nombre.jpg',alt:'El cruce de Aretxaga y Miribilla con gente en la calle'},
+      espina:'Aretxaga y Miribilla es un cruce de dos calles pequeñas que no tenía un nombre reconocible. Para dárselo, la primera pared lleva el título del proyecto rotulado al óleo, crema sobre negro brillante, en lugar del nombre del bar de al lado. Tuve que convencer a Úbeda, su dueño, para que cediera su fachada; tras meditarlo, lleno de generosidad, aceptó. Ahora hasta los taxistas se han aprendido el nombre de la calle. Está escrito en la pared.',
+      pliegue:'Aretxaga conecta el estudio con la ría y tiene mucha vida; Miribilla era una calle desconocida que dio nombre al barrio nuevo pero mantuvo su anonimato. Aspira a concretarse en la memoria como un lugar, un pequeño reflejo de cruces como el legendario Haight-Ashbury de San Francisco. El proyecto necesitaba financiación —según mi añorado amigo Javier San Martín, el artista tiene que buscarla, no hay excusas— y la presenté en la oficina de barrio del Ayuntamiento de Bilbao, que respondió con entusiasmo.'
+    },
+    {
+      titulo:'Pared 2 — El mural permanente',
+      img:{src:'images/proyecto/pared-2-mural.jpg',alt:'Mural permanente con cuatro águilas y cuatro drones'},
+      espina:'La pared central lleva un mural permanente. Necesitaba una imagen que concretara su tiempo. Oí que en las minas a cielo abierto de América, donde comparten espacio las águilas y los drones de vigilancia, las águilas atacan y derriban a esos huéspedes mecánicos. Era 2017 y apenas se empezaba a oír hablar de drones: una imagen posible solo a partir de su tiempo. Pinté cuatro águilas y cuatro drones compartiendo un espacio. Naturalezas distintas en un espacio común.',
+      pliegueImg:{src:'images/proyecto/pared-2-proceso.jpg',alt:'El mural siendo pintado sobre la pared'},
+      pliegue:'No hay una sola lectura: los drones aparecen simpáticos, retro; las águilas, como la madre sabia que reflexiona ante la escena. Banksy hizo una serigrafía de una sopa de marca blanca, eco inevitable de las Campbell\'s de Warhol en un tiempo sin marcas blancas. Como ellos, fijar en una imagen el tiempo que uno respira.'
+    },
+    {
+      titulo:'Pared 3 — Los cuadros-murales',
+      img:{src:'images/proyecto/pared-3-escala.jpg',alt:'Un cuadro-mural instalado en la calle, con una persona al lado'},
+      espina:'La tercera pared acoge un cuadro pintado en el estudio que se instala en el exterior. Cada seis meses se cambia, y al salir a la calle se convierte por un tiempo en cuadro-mural. Esa salida le permite empaparse de ella, ser testigo de la vida a su alrededor —como el nacimiento de una terraza que hace ocho años no hacía falta y ahora es imprescindible—. Y el sol pone a prueba la materia: el color seco y agrisado se vuelve asombrosamente luminoso al repeler la luz; las sombras, para sentirse profundas, exigen ser húmedas y fluidas. La intemperie no solo exponía la obra: la curaba.',
+      pliegue:'Contenido pendiente — reparto con las descripciones de obra.'
+    }
+  ],
+  cierre:{
+    img:{src:'images/proyecto/cierre-proceso.jpg',alt:'Andoni Euba pintando la parte alta de un cuadro'},
+    titulo:'El porqué',
+    espina:'Cuando empecé el primero de los doce cuadros no llegaba a la parte alta. Até un carbón a un palo largo y, al dibujar, sentí una conexión con todos los que habían usado esa misma herramienta: una línea que empieza en las cuevas y sigue por los siglos hasta los artistas de hoy que cuestionan la naturaleza del espacio donde intervienen. Quitar las persianas del estudio y salir fuera era eso: salir de uno mismo para acceder a los demás. A ver qué pasaba.',
+    pliegue:'Francis Alÿs metió un zorro a pasar la noche en la National Portrait Gallery de Londres. Monica Bonvicini instaló en plena calle un baño de cristal, espejo por fuera y transparente por dentro. Thomas Hirschhorn levantó un «museo precario» con sus vecinos en las afueras de París. Elmgreen & Dragset construyeron una tienda Prada en pleno desierto de Texas. Obras sobre el lugar y sobre la frontera entre interior y exterior. Todas comparten algo: o se da esa comunicación activa entre el artista y la sociedad, o el proyecto no tiene capacidad de ser.'
+  },
+  fin:'2018 — en curso.'
+};
+const WORKS=[
+  {id:'w1',title:'Kai sumergido con las crocs de pintar',year:'2018',technique:'Óleo sobre tabla',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-01.jpg',hasAudio:false,desc:`<p>El agua estaba tan fría y resbalosa que le pareció buena idea calzarse.</p><p>Las dos manos sobre una pierna, para remangarse. Y en ese plegado aparece un recorrido de signos y enigmas.</p><p>Se forma una columna de luz, donde el pelo sería el capitel, sustentando una estructura robusta en la figura de un joven que oculta su identidad, como rasgo de identidad compartida.</p><p>El fondo superior es un plano oscuro, contiene cierta vegetación, y está pintado con pinceladas unidas entre sí como catenarias de óleo. Utilizando la gravedad para dejar caer un material que suma fluidez y densidad sobre un cuadro situado en posición vertical.</p><p>Esas catenarias confieren una personalidad propia a ese grupo de pinceladas, haciéndose sentir especiales, como ellas mismas, y quebrando la luz exterior que reciben, con sus distintos planos en su materialidad orgánica.</p><p>Fue el primer cuadro en convertirse en mural al instalarse en la calle, puso a prueba la reacción social, y salió victorioso en la complicidad.</p>`},
+  {id:'w2',title:'Kai flotando en poca agua',year:'2019',technique:'Óleo sobre tabla',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-02.jpg',hasAudio:true,audioDur:128,desc:`<p>Subiéndome a una roca alta, capturé esta imagen donde la figura de un joven flota suspendida.</p><p>El pecho de la figura y la esquina superior derecha, están pintadas con color muy denso, seco y agrisado. Su luminosidad contrasta con ese gran fondo de agua, que une perceptivamente lo que está en sombra con lo que está mojado.</p><p>Flotar en poca profundidad es un ejercicio de equilibrio que involucra a todo el cuerpo. Tensión y relajación simultáneamente, para alcanzar una concentración en el hecho de hacerse flotar.</p>`},
+  {id:'w3',title:'Kai paseando entre los hechos y los helechos',year:'2020',technique:'Óleo sobre tabla',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-03.jpg',hasAudio:false,desc:`<p>Al girar un libro con grabados de Goya, donde había un joven saltando con una pértiga por encima de un toro, pude entender que Goya para hacer esa imagen había puesto a un joven de pie sujetando una pértiga en horizontal, paralela al suelo. Después él se había subido a una altura y había dibujado la escena. Para finalizar con un cuarto de giro a esa hoja de papel y tener al joven volando.</p><p>Le propuse a Kai hacer esa reconstrucción para ver si era así. Después le situé saltando con su pértiga entre dos lados de un río con pintorescos helechos. Un joven clava su pértiga en el barro para saltar entre dos márgenes, librando la presencia de los helechos.</p><p>Al final, la imagen elegida, de las muchas que tomamos, no partía con la pértiga en paralelo al suelo, sino de un aparente error. Debido a su peso, no era fácil mantenerla en horizontal, y en esa desviación no intencionada, al girar el papel, apareció una imagen con una torsión extra en la figura.</p><p>La peculiaridad del instante, los momentos especiales se ven como realidad en el arte. Y esa apertura a lo inesperado ha prevalecido durante la búsqueda de estas imágenes, antes de ser cuadros.</p><p>La Pintura necesita verse después de imaginada, en ese hacer para ver y comprender, el pintor vive.</p>`},
+  {id:'w4',title:'Las vacaciones del faquir en Arlés',year:'2021',technique:'Óleo sobre tabla',dim:'285 × 210 cm',img:'images/ANDONI-EUBA-05.jpg',hasAudio:false,desc:`<p>Un faquir de vacaciones echa de menos un poco de acción. Aprovecha para descansar sobre un fardo de paja bien seca. Pero aun siendo faquir, necesita arrascar el picor de una pierna.</p><p>Cada extremidad de la figura entra con perpendicularidad en la forma que la contiene.</p><p>La pierna que cuelga sobre el fardo parece que puede oscilar como péndulo, la otra pierna apunta al cielo, mientras el brazo plantea una diagonal relajada. Todas las extremidades actúan como manecillas de un reloj que nos marcan un tiempo distinto según las dos que elijamos para componer la hora.</p><p>Se percibe una gran distancia entre el pie colgante y el pueblo que aparece a lo lejos. También hay un recorrido espacial en forma de distancia entre ese mismo pie y la mano relajada. Son distancias que recorren un espacio cargado de pintura en densidad a través de pinceladas separadas.</p>`},
+  {id:'w5',title:'Nagore',year:'2022',technique:'Óleo sobre tabla',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-04.jpg',hasAudio:true,audioDur:152,desc:`<p>Cuando entré en la panadería Labeko del Casco Viejo, vi a una trabajadora que sentí que podía representar a todas las mujeres.</p><p>Igual que la figura de mi hijo representaba a todos los jóvenes que transitaban por esas edades, teniendo características comunes que los unen como grupo, Nagore proyectaba una serenidad como de sabiduría ancestral.</p><p>Basada la imagen en el último cuadro de Manet, donde los reflejos y brillos de espejos y botellas de ese fondo de la camarera del Folies Bergère, han sido cambiados por pan.</p><p>Pan representado con pinceladas densas y concretas, que adquieren una materialidad seca como el propio pan.</p><p>Es un cuadro donde el proceso de construcción es visible al estar algunos elementos más finalizados que otros. Los brazos, por ejemplo, se mantuvieron con la primera intervención, mostrando la estructura de construcción de ese elemento. Los cantos de las estanterías mantienen el color de la imprimación. Es en el rostro de Nagore donde se acumulan varias sesiones, hasta sentir su presencia.</p>`},
+  {id:'w6',title:'Cierra la ventana que hay corriente. De Mondrian a Van Doesburg en un soplo',year:'2023',technique:'Óleo sobre tabla',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-06.jpg',hasAudio:false,desc:`<p>Ha llegado un golpe de viento y las figuras dignas, verticales y separadas del bodegón de Zurbarán han sido derribadas.</p><p>Pero en su caída, han encontrado que en el hecho de mantener un punto de contacto reside su capacidad para poder mantenerse en ese equilibrio precario.</p><p>Al tumbarse las vasijas desaparece esa identificación de las vasijas con personas, propia del cuadro de Zurbarán, al perder esa prestancia y dignidad de lo vertical.</p><p>Pero al tumbarlas aparecen posibilidades nuevas en forma de huecos, óvalos, diagonales y recursos espaciales mucho más abstraídos de la realidad.</p><p>La forma se hace más difícilmente reconocible, y la geometría se hace más sentimental.</p><p>Pero al derribar todas las figuras, se da una circunstancia muy negativa en un cuadro. No hay verticales, y además no se generan diferencias de altura. El espacio se llena solo de manera horizontal y eso no es lo que mejor construye un espacio, le falta lo vertical.</p><p>En consecuencia, no hay bodegones con todas sus formas tumbadas, porque tener todos los elementos del cuadro tumbados supone una propuesta en sí misma. Supone también una actitud que no sufre demasiado por perder esencias de la Pintura, si construye una posibilidad de significado.</p>`},
+  {id:'w7',title:'Retrato de familia',year:'2024',technique:'Óleo sobre tabla',dim:'210 × 285 cm',img:'images/ANDONI-EUBA-07.jpg',hasAudio:false,desc:`<p>Hay vajillas que, aunque están con nosotros, no pertenecen a nuestro tiempo. Nos han llegado inesperadas y no son aptas para el microondas.</p><p>Eran las vajillas para los días de celebración en familia y están colocadas en una agrupación vista desde niño, puestas a secar después de la celebración.</p><p>El punto de vista elegido es muy bajo para poder entrar con la mirada dentro de esos huecos ovalados.</p><p>Óvalos que giran como planetas. Formas redondeadas que llenan ese espacio de color negro plano, y en consecuencia sin capacidad espacial.</p><p>Sentía necesaria una sorpresa narrativa que incorporara ese fondo plano al cuadro. Y la sorpresa fue para mí cuando recortando la forma de las vasijas con negro, quedó ese espacio por llenar en el plano del fondo. Del mismo tono lumínico que el elemento opuesto, la sopera que simboliza a mi padre.</p><p>Este elemento cuadrado, con verticales necesarias para compensar tanta curva, y luminoso respecto del fondo, esta luz cuadrada, es en realidad el mismo color negro que el resto del fondo. Solamente no ha sido humedecido con aceite, y se ve seco y mate.</p><p>Ese elemento inesperado, expande el cuadro haciéndolo más ancho y plantea otra realidad en el cuadro, otra posibilidad de actuar como pintor.</p><p>También coquetea con eso tan pictórico de no acabar todo en el cuadro completamente, con los «campos de color» no completados y con esos cuadros de esquinas inacabadas, que nos muestran el proceso de cómo empezó el cuadro por ser testimonio del principio. Esas esquinas inacabadas, ahora se hacen un hueco en el centro de la imagen.</p><p>Surgiendo un fondo de color negro plano que se hace más espacial por contener un elemento que le da profundidad a ese plano, al estar situado en él.</p><p>La jarra de agua representa a mi madre, y así hasta completar la escena completa en una irónica y frágil asociación, donde una estructura triangular envuelve esas formas para concretarlas en un triángulo de energía actual, que sí recoge los tres lados de mi geometría familiar.</p>`}
+];
+const PH_DESC="Texto de sala pendiente. Aquí irá el comentario sobre esta obra —su lugar dentro del proyecto, la técnica o el contexto— que aporte el artista o la galería.";
+const workById=id=>WORKS.find(w=>w.id===id);
+
+/* ===================== ROUTER ===================== */
+let view='home',currentWork=null,histStack=[];
+function go(v,p={},push=true){
+  if(push&&view) histStack.push({view,currentWork});
+  view=v; if(p.work)currentWork=p.work;
+  render(); $('scroll').scrollTop=0;
+}
+function back(){const s=histStack.pop(); if(s){view=s.view;currentWork=s.currentWork;render();}else go('home',{},false);}
+
+function render(){
+  let html='';
+  if(view==='home')html=tplHome();
+  else if(view==='obras')html=tplObras();
+  else if(view==='obra')html=tplObra();
+  else if(view==='proyecto')html=tplProyecto();
+  else if(view==='sobre')html=tplSobre();
+  $('view').innerHTML=html;
+
+  const onHome=view==='home';
+  $('nav').style.display=onHome?'none':'';
+  $('mini').style.bottom=onHome?'0':'';
+  $('topbar').style.display=onHome?'none':'';
+  $('scroll').style.paddingBottom=onHome?'0':'';
+  $('back').classList.toggle('hidden',histStack.length===0);
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===view||(view==='obra'&&b.dataset.nav==='obras')||(view==='proyecto'&&b.dataset.nav==='proyecto')));
+  bindView(); updateInline(); initAmbient();
+}
+
+/* ===================== TEMPLATES ===================== */
+function tplHome(){
+  const feat=EXPO.slides[1]||EXPO.slides[0];
+  return `<div class="view home-view">
+    <div class="home-eyebrow fu">
+      <span>${EXPO.sala}</span><span>${EXPO.city}</span>
+    </div>
+    <div class="home-headline fu d1">
+      <h1 class="home-title">Aretxaga<br>Miribilla</h1>
+    </div>
+    <div class="home-img fu d2" data-work="${feat.work}">
+      <img src="${feat.img}" alt="${EXPO.title}">
+      <div class="home-img-caption">Exposición · 2026</div>
+    </div>
+    <div class="home-meta fu d3">
+      <div class="home-artist">${EXPO.artist}</div>
+      <div class="home-dates">${EXPO.dates.replace(' — ','<br>')}</div>
+    </div>
+    <div class="home-actions fu d3">
+      <button class="home-action" data-act="share">Compartir</button>
+      <button class="home-action" data-act="goObras">Acceder</button>
+    </div>
+  </div>`;
+}
+function tplObras(){
+  return `<div class="view">
+    <div class="obras-head fu">
+      <h1 class="obras-title">La Selección</h1>
+      <p class="obras-kicker">Siete cuadros, el mismo pulso. Materia observada hasta que revela algo que no estaba en el plan. Pintura que no explica: muestra, y espera.</p>
+    </div>
+    <div class="obras-list">${WORKS.map((w,i)=>`
+      <div class="card fu d${(i%3)+1}" data-work="${w.id}">
+        <div class="ph"><img src="${w.img}" alt="${w.title}"></div>
+        <div class="info">
+          <div class="ct">${w.title}</div>
+          <div class="cy">${w.year}${w.hasAudio?' · audio':''}</div>
+        </div>
+        <span class="cv"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+      </div>`).join('')}</div><div style="height:30px"></div></div>`;
+}
+function tplObra(){
+  const w=workById(currentWork);
+  const idx=WORKS.findIndex(x=>x.id===w.id), nx=WORKS[(idx+1)%WORKS.length];
+  const audio = w.hasAudio ? `
+    <div class="voice fu" id="voice">
+      <div class="voice-main">
+        <button class="play" id="playBtn" aria-label="Reproducir"><svg id="playIco" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+        <div class="b">
+          <div class="lab">Notas del autor <span class="eq" id="inlineEq"><i></i><i></i><i></i></span></div>
+          <div class="sub">Andoni Euba</div>
+          <div class="voice-prog" id="vprog"><div class="track" id="track"><div class="fill" id="fill"></div></div></div>
+        </div>
+        <span class="dur" id="voiceDur">${fmt(w.audioDur)}</span>
+      </div>
+    </div>` : '';
+  return `<div class="view">
+    <div class="hero">
+      <div class="art" id="art" data-act="zoom"><img src="${w.img}" alt="${w.title}">
+        <div class="cue" id="cue"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>Toca para acercarte</div>
+      </div>
+    </div>
+    <div class="head fu">
+      <h1 class="title">${w.title}</h1>
+      <div class="cartela">
+        <span class="cartela-tech">${w.year} — ${w.technique}</span>
+        <span class="cartela-meta">${w.dim}</span>
+      </div>
+    </div>
+    ${audio}
+    <div class="story-wrap ph fu" id="storyWrap">
+      <div class="story-body">${w.desc || `<p>${PH_DESC}</p>`}</div>
+    </div>
+    <div class="react fu">
+      <h3>¿Qué te ha dejado esta obra?</h3>
+      <p>Puedes dejarle unas palabras a Andoni. Las recibe él, sin más: una nota, no una conversación.</p>
+      <button class="btn" data-act="note"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4Z"/></svg>Dejar una nota</button>
+    </div>
+    <div class="contact">
+      <h3>Adquirir esta obra</h3>
+      <p>La Galería Juan Manuel Lumbreras gestiona el contacto sobre las obras de la exposición.</p>
+      <button class="btn" data-act="contact">Contactar con la galería</button>
+    </div>
+    <div class="next" data-work="${nx.id}">
+      <div class="th"><img src="${nx.img}" alt="${nx.title}"></div>
+      <div class="info"><div class="lab">Siguiente obra</div><div class="nm">${nx.title}</div></div>
+      <span class="cv"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+    </div>
+  </div>`;
+}
+function tplProyecto(){
+  const img=(o,slot)=>`<div class="proy-img-wrap" data-slot="${slot}"><img src="${o.src}" alt="${o.alt}" onerror="this.parentElement.classList.add('no-img')"></div>`;
+  const fold=(label,html)=>`<details class="proy-fold"><summary class="proy-fold-btn">${label}</summary><div class="proy-fold-body">${html}</div></details>`;
+  const txt=s=>`<div class="proy-text"><p>${s}</p></div>`;
+  const p=PROYECTO.paredes, c=PROYECTO.cierre;
+  return `<div class="view">
+    <div class="fu">${img(PROYECTO.hero,'proyecto-hero')}</div>
+    <div class="proy-head fu">
+      <div class="proy-eyebrow">${PROYECTO.eyebrow}</div>
+      <h1 class="proy-title">Una calle<br>como estudio</h1>
+    </div>
+    <div class="proy-block fu">
+      ${txt(PROYECTO.intro)}
+      ${txt(PROYECTO.marco)}
+    </div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${p[0].titulo}</div>
+      <div class="proy-img-inner">${img(p[0].img,'pared-1-nombre')}</div>
+      <div style="margin-top:16px">${txt(p[0].espina)}</div>
+      ${fold('Ir más hondo',txt(p[0].pliegue))}
+    </div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${p[1].titulo}</div>
+      <div class="proy-img-inner">${img(p[1].img,'pared-2-mural')}</div>
+      <div style="margin-top:16px">${txt(p[1].espina)}</div>
+      ${fold('Ir más hondo',img(p[1].pliegueImg,'pared-2-proceso')+`<div style="margin-top:16px">${txt(p[1].pliegue)}</div>`)}
+    </div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${p[2].titulo}</div>
+      <div class="proy-img-inner">${img(p[2].img,'pared-3-escala')}</div>
+      <div style="margin-top:16px">${txt(p[2].espina)}</div>
+      ${fold('Ir más hondo',txt(p[2].pliegue))}
+    </div>
+    <div class="proy-block fu">
+      <div class="proy-block-label">${c.titulo}</div>
+      <div class="proy-img-inner">${img(c.img,'cierre-proceso')}</div>
+      <div style="margin-top:16px">${txt(c.espina)}</div>
+      ${fold('Referencias',txt(c.pliegue))}
+    </div>
+    <div class="proy-close fu">${PROYECTO.fin}</div>
+    <div style="height:40px"></div>
+  </div>`;
+}
+function tplSobre(){
+  const row=a=>a.map(i=>`<div class="bio-item"><span class="yr">${i.year}</span><span class="tx">${i.text}</span></div>`).join('');
+  const fold=(label,content)=>`<details class="proy-fold bio-fold"><summary class="proy-fold-btn">${label}</summary><div class="proy-fold-body">${content}</div></details>`;
+  return `<div class="view">
+    <div class="bio-hero fu"><img src="${ARTIST.avatar}" alt="${ARTIST.name}"><div class="bio-hero-grad"></div></div>
+    <div class="bio-name-block fu">
+      <div class="kicker">El artista</div>
+      <h1 class="bio-name">${ARTIST.name}</h1>
+      <div class="bio-born">Bilbao, 1962</div>
+    </div>
+    <div class="bio-intro fu">${BIO.intro.map(p=>`<p>${p}</p>`).join('')}</div>
+    <div class="bio-block fu">${row(BIO.timeline)}</div>
+    <div class="bio-block fu">
+      ${fold('Exposiciones individuales',row(BIO.individual))}
+      ${fold('Exposiciones colectivas',row(BIO.collective))}
+      ${fold('Premios y becas',row(BIO.awards))}
+      ${fold('Museos y colecciones',BIO.museums.map(m=>`<div class="bio-plain">${m}</div>`).join(''))}
+    </div>
+    <div style="padding:24px 24px 0"><button class="extlink" data-act="more"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Más info en la galería</button></div>
+    <div style="height:40px"></div>
+  </div>`;
+}
+const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+
+/* ===================== COLOR AMBIENTAL (Spotify) ===================== */
+const colorCache=new Map();
+const colorCanvas=document.createElement('canvas');
+const colorCtx=colorCanvas.getContext('2d',{willReadFrequently:true});
+colorCanvas.width=64;colorCanvas.height=64;
+const DEFAULT_PALETTE={a:'#5b6b78',b:'#2a3540'};
+
+function rgbHex(r,g,b){return'#'+[r,g,b].map(v=>Math.max(0,Math.min(255,v|0)).toString(16).padStart(2,'0')).join('');}
+function mixRgb(r,g,b,f){return rgbHex(r*f,g*f,b*f);}
+
+function extractPalette(img,fallback=DEFAULT_PALETTE){
+  try{
+    colorCtx.drawImage(img,0,0,64,64);
+    const d=colorCtx.getImageData(0,0,64,64).data;
+    const buckets=new Map();
+    for(let i=0;i<d.length;i+=4){
+      const r=d[i],g=d[i+1],b=d[i+2],a=d[i+3];
+      if(a<100)continue;
+      const max=Math.max(r,g,b),min=Math.min(r,g,b),l=(max+min)/510;
+      if(l<.07||l>.93)continue;
+      const sat=max===min?0:(max-min)/(1-Math.abs(max/255+min/255-1));
+      if(sat<.1)continue;
+      const q=((r>>4)<<8)|((g>>4)<<4)|(b>>4);
+      const w=1+sat*2.2;
+      const e=buckets.get(q)||{r:0,g:0,b:0,w:0};
+      e.r+=r*w;e.g+=g*w;e.b+=b*w;e.w+=w;
+      buckets.set(q,e);
+    }
+    const sorted=[...buckets.values()].sort((x,y)=>y.w-x.w);
+    if(!sorted.length)return fallback;
+    const t=sorted[0],r=Math.round(t.r/t.w),g=Math.round(t.g/t.w),b=Math.round(t.b/t.w);
+    const a=rgbHex(r,g,b);
+    const c=sorted[1]||t;
+    const r2=Math.round(c.r/c.w),g2=Math.round(c.g/c.w),b2=Math.round(c.b/c.w);
+    return{a,b:mixRgb(r2,g2,b2,.42)};
+  }catch{return fallback;}
+}
+
+function paletteFromSrc(src,img,fallback){
+  if(colorCache.has(src))return colorCache.get(src);
+  const pal=extractPalette(img,fallback);
+  colorCache.set(src,pal);
+  return pal;
+}
+
+function applyAmbient(pal){
+  const root=document.documentElement;
+  root.style.setProperty('--ambient-a',pal.a);
+  root.style.setProperty('--ambient-b',pal.b);
+  root.style.setProperty('--glow-color',pal.a);
+  app.classList.add('ambient-on');
+}
+
+function clearAmbient(){
+  app.classList.remove('ambient-on');
+}
+
+function sampleImg(img,cb,fallback){
+  const src=img.currentSrc||img.src;
+  const run=()=>cb(paletteFromSrc(src,img,fallback));
+  if(img.complete&&img.naturalWidth)run();
+  else{img.addEventListener('load',run,{once:true});img.addEventListener('error',()=>cb(fallback),{once:true});}
+}
+
+function initAmbient(){
+  clearAmbient();
+  if(view==='obra'){
+    const img=$('view')?.querySelector('.art img');
+    if(!img)return;
+    sampleImg(img,pal=>{if(view==='obra')applyAmbient(pal);},DEFAULT_PALETTE);
+    return;
+  }
+  if(view==='obras'){
+    document.querySelectorAll('.card .ph img').forEach(img=>{
+      const ph=img.closest('.ph');
+      sampleImg(img,pal=>{if(ph)ph.style.setProperty('--card-glow',pal.a);},DEFAULT_PALETTE);
+    });
+  }
+}
+
+/* ===================== DESCRIPCIÓN (leer más inline) ===================== */
+const STORY_PREVIEW_LINES=7;
+
+function storyLineHeight(el){
+  const st=getComputedStyle(el);
+  const fs=parseFloat(st.fontSize)||16;
+  const lh=st.lineHeight;
+  if(lh.endsWith('px'))return parseFloat(lh);
+  const n=parseFloat(lh);
+  return n>3?n:fs*(isNaN(n)?1.66:n);
+}
+
+function splitStoryBlocks(html){
+  const box=document.createElement('div');
+  box.innerHTML=html.trim();
+  const blocks=[];
+  box.childNodes.forEach(n=>{
+    if(n.nodeType===1)blocks.push(n.outerHTML);
+    else if(n.textContent?.trim())blocks.push(`<p>${n.textContent.trim()}</p>`);
+  });
+  return blocks.length?blocks:[`<p>${html}</p>`];
+}
+
+function splitSentences(text){
+  const parts=text.trim().split(/(?<=[.!?…])\s+/u).filter(Boolean);
+  return parts.length?parts:[text.trim()];
+}
+
+function createStoryMeasurer(width){
+  const shell=document.createElement('div');
+  shell.className='story-wrap ph';
+  shell.style.cssText=`position:absolute;left:-9999px;top:0;width:${width}px;visibility:hidden;pointer-events:none;`;
+  const m=document.createElement('div');
+  m.className='story-body';
+  shell.appendChild(m);
+  document.body.appendChild(shell);
+  m._shell=shell;
+  return m;
+}
+
+function fitsStory(meas,prefix,maxH){meas.innerHTML=prefix;return meas.scrollHeight<=maxH+2;}
+
+function truncateBlockSentences(blockHtml,meas,prefix,maxH){
+  const box=document.createElement('div');
+  box.innerHTML=blockHtml;
+  const text=(box.textContent||'').trim();
+  const sentences=splitSentences(text);
+  let used='';
+  for(const s of sentences){
+    const next=used?(used+' '+s):s;
+    const trial=`${prefix}<p>${next}…</p>`;
+    if(!fitsStory(meas,trial,maxH)){
+      if(used)break;
+      const words=s.split(/\s+/);
+      let chunk='';
+      for(const w of words){
+        const tryChunk=chunk?(chunk+' '+w):w;
+        if(!fitsStory(meas,`${prefix}<p>${tryChunk}…</p>`,maxH)&&chunk)break;
+        chunk=tryChunk;
+      }
+      used=chunk||words[0]||s;
+      break;
+    }
+    used=next;
+  }
+  return `<p>${used.replace(/\s+$/,'')}…</p>`;
+}
+
+function buildStoryPreview(body,fullHtml,maxH){
+  const width=body.getBoundingClientRect().width||300;
+  const meas=createStoryMeasurer(width);
+  const blocks=splitStoryBlocks(fullHtml);
+  let prefix='';
+  try{
+    for(let i=0;i<blocks.length;i++){
+      const next=prefix+blocks[i];
+      if(fitsStory(meas,next,maxH)){prefix=next;continue;}
+      const cut=truncateBlockSentences(blocks[i],meas,prefix,maxH);
+      return{truncated:true,html:prefix+cut};
+    }
+    return{truncated:false,html:fullHtml};
+  }finally{(meas._shell||meas).remove();}
+}
+
+function setupStoryExpand(wrap, previewLines=STORY_PREVIEW_LINES){
+  const body=wrap?.querySelector('.story-body');
+  if(!wrap||!body)return;
+  const fullHtml=wrap.dataset.fullHtml||body.innerHTML.trim();
+  wrap.dataset.fullHtml=fullHtml;
+  const maxH=storyLineHeight(body)*previewLines;
+
+  if(wrap.dataset.expanded==='1'){
+    body.innerHTML=fullHtml;
+    const last=body.querySelector('p:last-of-type')||body;
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='story-more story-less';btn.textContent=' Leer menos';
+    btn.onclick=e=>{e.stopPropagation();wrap.dataset.expanded='0';setupStoryExpand(wrap,previewLines);};
+    last.appendChild(btn);
+    return;
+  }
+
+  const run=()=>{
+    const {truncated,html}=buildStoryPreview(body,fullHtml,maxH);
+    if(!truncated){body.innerHTML=fullHtml;wrap.classList.remove('has-more');return;}
+    body.innerHTML=html;
+    wrap.classList.add('has-more');
+    const last=body.querySelector('p:last-of-type');
+    if(!last)return;
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='story-more';btn.textContent='Leer más';
+    btn.onclick=e=>{e.stopPropagation();wrap.dataset.expanded='1';setupStoryExpand(wrap,previewLines);};
+    last.appendChild(document.createTextNode(' '));
+    last.appendChild(btn);
+  };
+  requestAnimationFrame(run);
+  if(document.fonts?.ready)document.fonts.ready.then(run);
+}
+
+/* ===================== CAROUSEL ===================== */
+function initCarousel(){
+  const car=document.querySelector('.carousel');
+  if(!car)return;
+  const slides=[...car.querySelectorAll('.carousel-slide')];
+  if(!slides.length)return;
+
+  function slideCenter(s){return s.offsetLeft+s.offsetWidth/2;}
+  function scrollToSlide(s,smooth){
+    const left=s.offsetLeft-(car.offsetWidth-s.offsetWidth)/2;
+    car.scrollTo({left,behavior:smooth?'smooth':'instant'});
+  }
+  function update(){
+    const cx=car.scrollLeft+car.offsetWidth/2;
+    let closest=slides[0],minD=Infinity;
+    slides.forEach(s=>{const d=Math.abs(slideCenter(s)-cx);if(d<minD){minD=d;closest=s;}});
+    slides.forEach(s=>s.classList.toggle('active',s===closest));
+  }
+
+  // Arrancar en el segundo slide sin animación
+  requestAnimationFrame(()=>{
+    scrollToSlide(slides[1]||slides[0],false);
+    update();
+  });
+
+  car.addEventListener('scroll',update,{passive:true});
+
+  // Autoplay: avanza cada 4s, para al tocar, reanuda 2s después
+  let ap=null;
+  function startAp(){
+    clearInterval(ap);
+    ap=setInterval(()=>{
+      const cx=car.scrollLeft+car.offsetWidth/2;
+      let ci=0,minD=Infinity;
+      slides.forEach((s,i)=>{const d=Math.abs(slideCenter(s)-cx);if(d<minD){minD=d;ci=i;}});
+      scrollToSlide(slides[(ci+1)%slides.length],true);
+    },4000);
+  }
+  car.addEventListener('touchstart',()=>clearInterval(ap),{passive:true});
+  car.addEventListener('touchend',()=>setTimeout(startAp,2500),{passive:true});
+  startAp();
+}
+
+/* ===================== BIND ===================== */
+function bindView(){
+  const acts={
+    goObras:()=>go('obras'),
+    goSobre:()=>go('sobre'),
+    zoom:openLb,
+    note:openCompose,
+    contact:()=>showToast('Solicitud enviada. La galería te contactará.'),
+    share:sharePage,
+    more:()=>showToast('Enlace externo: '+EXPO.more)
+  };
+  document.querySelectorAll('[data-work]').forEach(el=>el.onclick=()=>go('obra',{work:el.dataset.work}));
+  document.querySelectorAll('[data-act]').forEach(el=>{const a=el.dataset.act;if(acts[a])el.onclick=acts[a];});
+  if(view==='home')initCarousel();
+  setupStoryExpand($('storyWrap'));
+  const pb=$('playBtn'); if(pb) pb.onclick=()=>playWork(currentWork);
+  const tr=$('track'); if(tr) tr.onclick=e=>{const r=tr.getBoundingClientRect();seek((e.clientX-r.left)/r.width);};
+  const sc=$('scroll');
+  sc.onscroll=()=>{const c=$('cue');if(c)c.classList.add('gone');};
+}
+
+/* ===================== AUDIO ===================== */
+let nowPlaying=null,timer=null;
+const PLAY='<path d="M8 5v14l11-7z"/>',PAUSE='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+function playWork(id){if(nowPlaying&&nowPlaying.workId===id){togglePlay();return;}nowPlaying={workId:id,t:0,playing:true};startTimer();refreshAudio();}
+function togglePlay(){if(!nowPlaying)return;nowPlaying.playing=!nowPlaying.playing;nowPlaying.playing?startTimer():stopTimer();refreshAudio();}
+function seek(f){if(!nowPlaying)return;const w=workById(nowPlaying.workId);nowPlaying.t=Math.max(0,Math.min(1,f))*w.audioDur;refreshAudio();}
+function startTimer(){stopTimer();timer=setInterval(()=>{const w=workById(nowPlaying.workId);nowPlaying.t++;if(nowPlaying.t>=w.audioDur){nowPlaying.t=w.audioDur;togglePlay();}refreshAudio();},1000);}
+function stopTimer(){if(timer){clearInterval(timer);timer=null;}}
+function closeAudio(){stopTimer();nowPlaying=null;refreshAudio();}
+function refreshAudio(){updateMini();updateInline();}
+function updateMini(){
+  const mini=$('mini'),sc=$('scroll');
+  if(!nowPlaying){mini.classList.remove('show');sc.classList.remove('has-mini');return;}
+  const w=workById(nowPlaying.workId);
+  mini.classList.add('show');sc.classList.add('has-mini');
+  $('miniImg').src=w.img;$('miniTitle').textContent=w.title;$('miniIco').innerHTML=nowPlaying.playing?PAUSE:PLAY;
+  $('mfill').style.width=(nowPlaying.t/w.audioDur*100)+'%';
+}
+function updateInline(){
+  if(view!=='obra')return;const v=$('voice');if(!v)return;
+  const active=nowPlaying&&nowPlaying.workId===currentWork;
+  const eq=$('inlineEq');if(eq)eq.classList.toggle('on',!!(active&&nowPlaying.playing));
+  const ico=$('playIco');if(ico)ico.innerHTML=(active&&nowPlaying.playing)?PAUSE:PLAY;
+  const prog=$('vprog');if(prog)prog.classList.toggle('show',!!active);
+  const ww=workById(currentWork);
+  const dur=$('voiceDur');
+  if(active){$('fill').style.width=(nowPlaying.t/ww.audioDur*100)+'%';if(dur)dur.textContent=fmt(nowPlaying.t);}
+  else{if(dur)dur.textContent=fmt(ww.audioDur);}
+}
+$('miniPlay').onclick=togglePlay;
+$('miniClose').onclick=closeAudio;
+$('miniThumb').onclick=()=>go('obra',{work:nowPlaying.workId});
+$('miniMeta').onclick=()=>go('obra',{work:nowPlaying.workId});
+
+/* ===================== NAV / BACK / TOP ===================== */
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{const n=b.dataset.nav;histStack.length=0;go(n,{},false);});
+$('back').onclick=back;
+
+async function sharePage(){
+  const url=location.href;
+  let title=EXPO.title+' — '+EXPO.artist;
+  let text=EXPO.dates+' · '+EXPO.sala+', '+EXPO.city;
+  if(view==='obra'&&currentWork){
+    const w=workById(currentWork);
+    title=w.title+' — '+EXPO.title;
+    text=w.technique+(w.dim?'\n'+w.dim:'');
+  }
+  try{
+    if(navigator.share){
+      await navigator.share({title,text,url});
+    }else if(navigator.clipboard?.writeText){
+      await navigator.clipboard.writeText(url);
+      showToast('Enlace copiado');
+    }else{
+      showToast(url);
+    }
+  }catch(e){
+    if(e?.name!=='AbortError')showToast('No se pudo compartir');
+  }
+}
+$('share').onclick=sharePage;
+
+/* ===================== LIGHTBOX ===================== */
+const lb=$('lb'),lbImg=$('lbImg');let z=1,px=0,py=0,drag=false,sx=0,sy=0;
+function applyT(){lbImg.style.transform=`translate(${px}px,${py}px) scale(${z})`;}
+function openLb(){const w=workById(currentWork);lbImg.src=w.img;lb.classList.add('show');z=1;px=0;py=0;applyT();lb.classList.remove('zoomed');}
+$('lbClose').onclick=()=>lb.classList.remove('show','zoomed');
+lb.onclick=e=>{if(e.target===lb)lb.classList.remove('show','zoomed');};
+lbImg.onclick=e=>{e.stopPropagation();if(z===1){z=2.4;lb.classList.add('zoomed');}else{z=1;px=0;py=0;lb.classList.remove('zoomed');}applyT();};
+lbImg.addEventListener('pointerdown',e=>{if(z===1)return;drag=true;sx=e.clientX-px;sy=e.clientY-py;lbImg.setPointerCapture(e.pointerId);});
+lbImg.addEventListener('pointermove',e=>{if(!drag)return;px=e.clientX-sx;py=e.clientY-sy;applyT();});
+lbImg.addEventListener('pointerup',()=>drag=false);
+
+/* ===================== NOTA ===================== */
+function openCompose(){const w=workById(currentWork);
+  $('compNote').textContent=`Va directo a Andoni Euba, sobre «${w.title}». Puede que no te conteste, y está bien: es para él.`;
+  $('compose').classList.add('show');setTimeout(()=>$('ta').focus(),440);}
+function closeCompose(){$('compose').classList.remove('show');$('ta').blur();
+  setTimeout(()=>{$('composeBody').innerHTML=`<h2 id="compTitle">Una nota para Andoni</h2><div class="note" id="compNote"></div><textarea id="ta" placeholder="Comparte una reflexión, o algo que te haya pasado al ver esta obra…"></textarea><div class="name"><input id="nm" type="text" placeholder="Tu nombre (opcional)"></div>`;$('composeFoot').style.display='';},420);}
+$('compClose').onclick=closeCompose;
+$('send').onclick=()=>{$('composeBody').innerHTML='<div class="done"><div class="ok">Enviado</div><div class="msg">Andoni lo recibirá en su móvil. Gracias por dejárselo.</div></div>';$('composeFoot').style.display='none';setTimeout(closeCompose,2000);};
+
+/* ===================== MISC ===================== */
+let toastT=null;
+function showToast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){lb.classList.remove('show','zoomed');closeCompose();}});
+
+render();
+</script>
+</body>
+</html>
