@@ -137,11 +137,10 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .voice .lab{font-size:15px;font-weight:600;display:flex;align-items:center;gap:9px;}
 .voice .sub{font-size:12.5px;color:var(--text-mut);margin-top:2px;}
 .voice .dur{font-size:13px;color:var(--text-mut);font-variant-numeric:tabular-nums;}
-.voice-prog{display:none;align-items:center;gap:11px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
-.voice-prog.show{display:flex;}
-.voice-prog .track{flex:1;height:3px;background:var(--surface-2);position:relative;cursor:pointer;border-radius:2px;}
+.voice-prog{display:none;margin-top:10px;}
+.voice-prog.show{display:block;}
+.voice-prog .track{height:2px;background:var(--surface-2);position:relative;cursor:pointer;border-radius:2px;}
 .voice-prog .fill{position:absolute;inset:0 auto 0 0;width:0;background:var(--accent);border-radius:2px;}
-.voice-prog .t{font-size:12px;color:var(--text-mut);font-variant-numeric:tabular-nums;min-width:34px;}
 .eq{display:inline-flex;align-items:flex-end;gap:2px;height:10px;}
 .eq i{width:2.5px;background:var(--live);border-radius:2px;height:30%;}
 .eq.on i{animation:eq .9s ease-in-out infinite;}
@@ -542,10 +541,13 @@ function tplObra(){
     <div class="voice fu" id="voice">
       <div class="voice-main">
         <button class="play" id="playBtn" aria-label="Reproducir"><svg id="playIco" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
-        <div class="b"><div class="lab">Notas del autor <span class="eq" id="inlineEq"><i></i><i></i><i></i></span></div><div class="sub">Andoni Euba</div></div>
-        <span class="dur">${fmt(w.audioDur)}</span>
+        <div class="b">
+          <div class="lab">Notas del autor <span class="eq" id="inlineEq"><i></i><i></i><i></i></span></div>
+          <div class="sub">Andoni Euba</div>
+          <div class="voice-prog" id="vprog"><div class="track" id="track"><div class="fill" id="fill"></div></div></div>
+        </div>
+        <span class="dur" id="voiceDur">${fmt(w.audioDur)}</span>
       </div>
-      <div class="voice-prog" id="vprog"><span class="t" id="cur">0:00</span><div class="track" id="track"><div class="fill" id="fill"></div></div><span class="t">${fmt(w.audioDur)}</span></div>
     </div>` : '';
   return `<div class="view">
     <div class="hero">
@@ -930,9 +932,11 @@ function updateInline(){
   const active=nowPlaying&&nowPlaying.workId===currentWork;
   const eq=$('inlineEq');if(eq)eq.classList.toggle('on',!!(active&&nowPlaying.playing));
   const ico=$('playIco');if(ico)ico.innerHTML=(active&&nowPlaying.playing)?PAUSE:PLAY;
-  const prog=$('vprog');
-  if(prog)prog.classList.toggle('show',!!active);
-  if(active){const w=workById(currentWork);$('fill').style.width=(nowPlaying.t/w.audioDur*100)+'%';$('cur').textContent=fmt(nowPlaying.t);}
+  const prog=$('vprog');if(prog)prog.classList.toggle('show',!!active);
+  const ww=workById(currentWork);
+  const dur=$('voiceDur');
+  if(active){$('fill').style.width=(nowPlaying.t/ww.audioDur*100)+'%';if(dur)dur.textContent=fmt(nowPlaying.t);}
+  else{if(dur)dur.textContent=fmt(ww.audioDur);}
 }
 $('miniPlay').onclick=togglePlay;
 $('miniClose').onclick=closeAudio;
