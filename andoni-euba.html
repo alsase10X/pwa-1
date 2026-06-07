@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ===== FUENTES (FeatureDisplay local · Inter vía Google Fonts) ===== */
+/* ===== FUENTES (SohneBreit local · FeatureDisplay local) ===== */
+@font-face{font-family:'SohneBreit';src:url('fonts/SohneBreit-Leicht.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
 @font-face{font-family:'FeatureDisplay';src:url('fonts/FeatureDisplay-ExtraLight.woff2') format('woff2');font-weight:200;font-style:normal;font-display:swap}
 @font-face{font-family:'FeatureDisplay';src:url('fonts/FeatureDisplay-ExtraLightItalic.woff2') format('woff2');font-weight:200;font-style:italic;font-display:swap}
 
@@ -17,7 +18,7 @@
   --bg:#0c0c0d;--surface:#161618;--surface-2:#202023;
   --text:#f1f1ef;--text-mut:#9a9a97;--text-dim:#5f5f5e;
   --border:#242427;--accent:#f1f1ef;--accent-ink:#0c0c0d;--live:#8d9b89;
-  --font-sans:'Inter',system-ui,sans-serif;
+  --font-sans:'SohneBreit',system-ui,sans-serif;
   --font-display:'FeatureDisplay',Georgia,serif;
   --font-body:var(--font-sans);
 }
@@ -73,6 +74,7 @@ body{background:#000;font-family:var(--font-body);font-weight:400;color:var(--te
 .home-content{flex:1;min-height:0;display:flex;flex-direction:column;padding:10px 16px 0;}
 .home-label{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:28px;color:var(--text);position:absolute;bottom:4px;left:calc(13% + 6px);line-height:1;pointer-events:none;z-index:2;}
 .home-title{font-family:var(--font-display);font-weight:100;font-style:italic;font-size:clamp(88px,26vw,116px);line-height:.89;letter-spacing:-.035em;color:var(--text);flex-shrink:0;}
+.home-title-normal{font-style:normal;font-weight:200;}
 .home-sub{color:var(--text-mut);font-size:15px;line-height:1.6;margin-top:14px;flex-shrink:0;}
 .home-actions{display:flex;margin-top:auto;padding-bottom:24px;}
 .home-action{flex:1;background:none;border:none;cursor:pointer;color:var(--text-mut);font:inherit;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:16px 0;text-align:center;transition:color .2s;}
@@ -512,7 +514,7 @@ function tplHome(){
       <div class="home-label">Exposición</div>
     </div>
     <div class="home-content">
-      <h1 class="home-title fu d1">Aretxaga<br>Miribilla</h1>
+      <h1 class="home-title fu d1">Aretxaga<br><span class="home-title-normal">Miribilla</span></h1>
       <p class="home-sub fu d2">${EXPO.artist} — ${EXPO.dates}<br>${EXPO.sala}</p>
       <div class="home-actions fu d3">
         <button class="home-action" data-act="share">Compartir</button>
